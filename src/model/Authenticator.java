@@ -34,23 +34,22 @@ public class Authenticator {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?user=root&password=thetarun");
-			String query = "select salt from users where username = '" + username + "'";
+			String query = "select pwdsalt from users where username = '" + username + "'";
 			String salt = null;
 			
 			// Get hash salt
 			stmt = conn.createStatement();
 			result = stmt.executeQuery(query);
 			if (result.next()) {
-					salt = result.getString("salt");
+					salt = result.getString("pwdsalt");
 			}
 			else {
-				throw new Exception();
+				return false;
 			}
 			result.close();
 			
 			// Hash generation
 			String hash = generateHash(password, salt);
-			
 			
 			query = "select * from users where username = '" + username + "'";
 			
