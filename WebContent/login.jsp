@@ -4,9 +4,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Dominion - login</title>
 </head>
 <body>
-<p>Welcome ${ requestScope['username'] }!</p>
+<h1>Dominion login</h1>
+<form action="LoginController" method="post">
+<input type="text" id="username" name="username" placeholder="Username" required />
+<input type="password" id="password" name="password" placeholder="Password" required />
+<input type="submit" value="Submit" />
+</form>
 </body>
 </html>
