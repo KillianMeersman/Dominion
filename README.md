@@ -1,4 +1,4 @@
-# Dominion
+# Dominion server
 
 Target runtime: Apache Tomcat 8.0
 
