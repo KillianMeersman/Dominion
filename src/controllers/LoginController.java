@@ -32,7 +32,7 @@ public class LoginController extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
-
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -44,9 +44,8 @@ public class LoginController extends HttpServlet {
 				request.setAttribute("username", username);
 				request.getRequestDispatcher("/welcome.jsp").forward(request, response);
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			System.out.println("Could not connect to user db: " + e);
 		}
 
 	}
