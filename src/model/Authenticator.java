@@ -18,6 +18,14 @@ public class Authenticator {
 		return builder.toString();
 	}
 	
+	private static String generateHash(String password, String salt) throws NoSuchAlgorithmException{
+		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+		messageDigest.update((password + salt).getBytes());
+		String encryptedString = byteToHex(messageDigest.digest());
+		
+		return encryptedString;
+	}
+	
 	public static boolean authenticate(String username, String password) throws Exception {
 		Connection conn = null;
 		Statement stmt = null;
@@ -38,19 +46,18 @@ public class Authenticator {
 			else {
 				throw new Exception();
 			}
+			result.close();
 			
 			// Hash generation
-			MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-			messageDigest.update((password + salt).getBytes());
-			String encryptedString = byteToHex(messageDigest.digest());
+			String hash = generateHash(password, salt);
 			
-			result.close();
+			
 			query = "select * from users where username = '" + username + "'";
 			
 			stmt = conn.createStatement();
 			result = stmt.executeQuery(query);
 			if (result.next()) {
-				if (result.getString("pwdhash").equals(encryptedString)) {
+				if (result.getString("pwdhash").equals(hash)) {
 					return true;
 				}
 			}
