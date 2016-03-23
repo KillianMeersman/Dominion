@@ -48,28 +48,28 @@ public class LoginController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		try {
-			if (Authenticator.authenticate(username, password)) {
-				request.setAttribute("username", username);
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			try {
+				if (Authenticator.authenticate(username, password)) {
+					request.setAttribute("username", username);
 				
-				String sessionCode = generateSessionCode();
-				sessionCodes.add(sessionCode);
-				sessionCodes.add(request.getRequestedSessionId());
-				Cookie sessionCookie = new Cookie("sessionCode", sessionCode);
-				sessionCookie.setMaxAge(60*60*24);
-				response.addCookie(sessionCookie);
-				response.getWriter().print("200_good_login");
-				//request.getRequestDispatcher("/welcome.jsp").forward(request, response);
-			}
-			else {
-				response.getWriter().print("403_bad_login");
-			}
+					String sessionCode = generateSessionCode();
+					sessionCodes.add(sessionCode);
+					sessionCodes.add(request.getRequestedSessionId());
+					Cookie sessionCookie = new Cookie("sessionCode", sessionCode);
+					sessionCookie.setMaxAge(60*60*24);
+					response.addCookie(sessionCookie);
+					response.getWriter().print("200_good_login");
+					//request.getRequestDispatcher("/welcome.jsp").forward(request, response);
+				}
+				else {
+					//response.getWriter().print("403_bad_login");
+					Authenticator.register(username, password);
+				}
+			
 		} catch (Exception e) {
 			System.out.println("Could not connect to user db: " + e);
 		}
-
 	}
-
 }

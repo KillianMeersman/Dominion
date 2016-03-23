@@ -1,5 +1,7 @@
 // Login processing
 $("#loginForm input[type=button]").click(processLogin);
+//$("#loginForm input[type=button] #register").click(processRegister);
+
 function processLogin(e) {
 	//e.preventDefault();
 	var username = $("#username").val();

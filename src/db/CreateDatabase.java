@@ -20,7 +20,7 @@ public class CreateDatabase {
 			System.out.println("Creating database...");
 			stmt = conn.createStatement();
 
-			String sql = "CREATE DATABASE DOMINION";
+			String sql = "CREATE DATABASE users";
 			stmt.executeUpdate(sql);
 			System.out.println("Database created successfully...");
 		} catch (SQLException se) {

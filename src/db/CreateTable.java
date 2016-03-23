@@ -3,7 +3,7 @@ import java.sql.*;
 
 public class CreateTable {
    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-   static final String DB_URL = "jdbc:mysql://localhost/DOMINION";
+   static final String DB_URL = "jdbc:mysql://localhost/users";
 
    static final String USER = "root";
    static final String PASS = "toor";
@@ -22,9 +22,9 @@ public class CreateTable {
       stmt = conn.createStatement();
       
       String sql = "CREATE TABLE USERS " +
-                   "(name VARCHAR(255), " + 
+                   "(username VARCHAR(255), " + 
                    " password VARCHAR(255), " + 
-                   " PRIMARY KEY ( name ))"; 
+                   " PRIMARY KEY ( username ))"; 
 
       stmt.executeUpdate(sql);
       System.out.println("Created table in given database...");

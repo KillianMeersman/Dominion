@@ -8,10 +8,12 @@
 </head>
 <body>
 <h1>Dominion login</h1>
-<form id="loginForm">
+<form id="loginForm" name="login" action="LoginController" method="post">
+<input type="hidden" name="pagename" value="login"/>
 <input type="text" id="username" name="username" placeholder="Username" required />
 <input type="password" id="password" name="password" placeholder="Password" required />
-<input type="button" value="Submit" />
+<button type="submit" id="login">Login</button>
+<button type="submit" id="register">Register</button>
 </form>
 <p id="message"></p>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>

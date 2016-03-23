@@ -33,7 +33,7 @@ public class Authenticator {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?user=root&password=thetarun");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?user=root&password=toor");
 			String query = "select pwdsalt from users where username = '" + username + "'";
 			String salt = null;
 			
@@ -69,5 +69,30 @@ public class Authenticator {
 			result.close();
 			conn.close();
 		}
+	}
+	
+	public static boolean register(String username, String password) throws Exception {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet result = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/users?user=root&password=toor");
+			String query = "INSERT INTO USERS " + "VALUES ('" + username + "', '" + password + "')";
+			
+			query = "INSERT INTO USERS " + "VALUES ('" + username + "', '" + password + "')";
+			
+			stmt = conn.createStatement();
+			result = stmt.executeQuery(query);
+		}
+		catch (Exception e){
+				throw e;
+			}
+		finally {
+			result.close();
+			conn.close();
+		}	
+		return true;
 	}
 }
