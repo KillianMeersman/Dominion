@@ -1,7 +1,7 @@
 package model;
 
 import java.sql.*;
-
+import java.util.Random;
 import java.security.*;
 
 public class Authenticator {
@@ -26,6 +26,19 @@ public class Authenticator {
 		return encryptedString;
 	}
 	
+	private static String generateSalt() {
+		char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWQYZ0123456789".toCharArray();
+		StringBuilder builder = new StringBuilder();
+		Random random = new Random();
+		
+		for (int i = 0; i < 16; i++) {
+			char c = chars[random.nextInt(chars.length)];
+			builder.append(c);
+		}
+		
+		return builder.toString();
+	}
+	
 	public static boolean authenticate(String username, String password) throws Exception {
 		Connection conn = null;
 		Statement stmt = null;
@@ -33,7 +46,7 @@ public class Authenticator {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?user=root&password=toor");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?user=root&password=thetarun");
 			String query = "select pwdsalt from users where username = '" + username + "'";
 			String salt = null;
 			
@@ -44,7 +57,7 @@ public class Authenticator {
 					salt = result.getString("pwdsalt");
 			}
 			else {
-				return false;
+				throw new Exception("no_such_user");
 			}
 			result.close();
 			
@@ -59,8 +72,13 @@ public class Authenticator {
 				if (result.getString("pwdhash").equals(hash)) {
 					return true;
 				}
+				else {
+					return false;
+				}
 			}
-			return false;
+			else {
+				throw new Exception("No such user");
+			}
 		}
 		catch (Exception e){
 				throw e;
@@ -71,28 +89,31 @@ public class Authenticator {
 		}
 	}
 	
-	public static boolean register(String username, String password) throws Exception {
+	public static void register(String username, String password) throws Exception {
 		Connection conn = null;
 		Statement stmt = null;
-		ResultSet result = null;
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/users?user=root&password=toor");
-			String query = "INSERT INTO USERS " + "VALUES ('" + username + "', '" + password + "')";
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?user=root&password=thetarun");
 			
-			query = "INSERT INTO USERS " + "VALUES ('" + username + "', '" + password + "')";
-			
+			// Salt generation
+			String salt = generateSalt();
+			String hash = generateHash(password, salt);
+			String query = "insert into users(username, pwdhash, pwdsalt) values ('" + username + "', '" + hash + "', '" + salt + "')";
+		
 			stmt = conn.createStatement();
-			result = stmt.executeQuery(query);
+			try {
+			stmt.executeUpdate(query);
+			} catch (Exception e){
+				throw new Exception("no_such_user");
+			}
 		}
 		catch (Exception e){
 				throw e;
-			}
+		}
 		finally {
-			result.close();
 			conn.close();
-		}	
-		return true;
+		}
 	}
 }
