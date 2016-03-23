@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.security.SecureRandom;
 import java.util.*;
 import java.math.BigInteger;
@@ -20,7 +20,11 @@ import model.Authenticator;
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private static List<String> sessionCodes = new ArrayList<String>();
+	private static List<User> authorizedUsers = new ArrayList<User>();
+	
+	public static List<User> getAuthorizedUsers() {
+		return authorizedUsers;
+	}
 	
 	private String generateSessionCode() {
 		SecureRandom random = new SecureRandom();
@@ -48,28 +52,44 @@ public class LoginController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
+		HttpSession session = request.getSession();
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String sessionId = request.getRequestedSessionId();
+		if (request.getParameter("action").equals("login")) {
 			try {
-				if (Authenticator.authenticate(username, password)) {
-					request.setAttribute("username", username);
-				
-					String sessionCode = generateSessionCode();
-					sessionCodes.add(sessionCode);
-					sessionCodes.add(request.getRequestedSessionId());
-					Cookie sessionCookie = new Cookie("sessionCode", sessionCode);
-					sessionCookie.setMaxAge(60*60*24);
-					response.addCookie(sessionCookie);
-					response.getWriter().print("200_good_login");
-					//request.getRequestDispatcher("/welcome.jsp").forward(request, response);
+				if (Authenticator.authenticate(username, password)) { // Good password
+					
+					User user = new User(sessionId, username);
+					authorizedUsers.add(user);
+					session.setAttribute("username", username);
+					//response.getWriter().print("200_good_login");
+					request.getRequestDispatcher("/WEB-INF/welcome.jsp").forward(request, response);
 				}
-				else {
-					//response.getWriter().print("403_bad_login");
-					Authenticator.register(username, password);
+				else { // Wrong password
+					response.getWriter().print("bad_login");
+					//Authenticator.register(username, password);
 				}
 			
-		} catch (Exception e) {
-			System.out.println("Could not connect to user db: " + e);
+			} catch (Exception e) { // Error retrieving user from database
+				if (e.getMessage() == "no_such_user")
+				{
+					response.getWriter().print("user_not_found");
+				}
+				else {
+					System.out.print("Could not connect to user db: " + e);
+					response.getWriter().print("general_error");
+				}
+			}
+		}
+		else {
+			try {
+				Authenticator.register(username, password);
+			} catch (Exception e) {
+				if (e.getMessage() == "user_already_exists") {
+					response.getWriter().print("user_not_available");
+				}
+			}
 		}
 	}
 }
