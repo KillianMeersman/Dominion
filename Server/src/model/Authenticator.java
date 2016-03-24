@@ -9,7 +9,7 @@ public class Authenticator {
 		// No instancing
 	}
 	
-	private static String byteToHex(byte[] input) {
+	private static String byteToHex(byte[] input) { // convert byte to hexadecimal
 		StringBuilder builder = new StringBuilder();
 		
 		for (int i = 0; i < input.length; i++) {
@@ -18,7 +18,7 @@ public class Authenticator {
 		return builder.toString();
 	}
 	
-	private static String generateHash(String password, String salt) throws NoSuchAlgorithmException{
+	private static String generateHash(String password, String salt) throws NoSuchAlgorithmException{ // generate a hash from password and salt
 		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
 		messageDigest.update((password + salt).getBytes());
 		String encryptedString = byteToHex(messageDigest.digest());
@@ -26,7 +26,7 @@ public class Authenticator {
 		return encryptedString;
 	}
 	
-	private static String generateSalt() {
+	private static String generateSalt() {	// generate a random salt
 		char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWQYZ0123456789".toCharArray();
 		StringBuilder builder = new StringBuilder();
 		Random random = new Random();
@@ -39,7 +39,7 @@ public class Authenticator {
 		return builder.toString();
 	}
 	
-	public static boolean authenticate(String username, String password) throws Exception {
+	public static boolean authenticate(String username, String password) throws Exception { // check if user correctly logged in
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet result = null;
@@ -50,6 +50,7 @@ public class Authenticator {
 			String query = "select pwdsalt from users where username = '" + username + "'";
 			String salt = null;
 			
+			// SQL communication
 			// Get hash salt
 			stmt = conn.createStatement();
 			result = stmt.executeQuery(query);
@@ -57,31 +58,31 @@ public class Authenticator {
 					salt = result.getString("pwdsalt");
 			}
 			else {
-				throw new Exception("no_such_user");
+				throw new Exception("no_such_user"); // User does not exist
 			}
 			result.close();
 			
 			// Hash generation
 			String hash = generateHash(password, salt);
 			
+			// Get user password hash and compare it to our generated hash
 			query = "select * from users where username = '" + username + "'";
-			
 			stmt = conn.createStatement();
 			result = stmt.executeQuery(query);
 			if (result.next()) {
 				if (result.getString("pwdhash").equals(hash)) {
-					return true;
+					return true; // Correct password
 				}
 				else {
-					return false;
+					return false; // Wrong password
 				}
 			}
 			else {
-				throw new Exception("No such user");
+				throw new Exception("no_such_user"); // user does not exist
 			}
 		}
 		catch (Exception e){
-				throw e;
+				throw e; // General connection error
 		}
 		finally {
 			result.close();
@@ -89,7 +90,7 @@ public class Authenticator {
 		}
 	}
 	
-	public static void register(String username, String password) throws Exception {
+	public static void register(String username, String password) throws Exception { // Register a user
 		Connection conn = null;
 		Statement stmt = null;
 		
@@ -97,20 +98,21 @@ public class Authenticator {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/users?user=root&password=thetarun");
 			
-			// Salt generation
+			// Salt and password hash generation
 			String salt = generateSalt();
 			String hash = generateHash(password, salt);
 			String query = "insert into users(username, pwdhash, pwdsalt) values ('" + username + "', '" + hash + "', '" + salt + "')";
 		
+			// Insert user into database
 			stmt = conn.createStatement();
 			try {
 			stmt.executeUpdate(query);
 			} catch (Exception e){
-				throw new Exception("no_such_user");
+				throw new Exception("user_already_exists"); // User already exists
 			}
 		}
 		catch (Exception e){
-				throw e;
+				throw e; // General connection error
 		}
 		finally {
 			conn.close();
