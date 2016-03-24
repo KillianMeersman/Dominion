@@ -17,7 +17,7 @@ public class CardPileTester {
 	
 	@Test
 	public void addCard() {
-		CardStorage deck = new CardStorage();
+		CardStorage deck = CardStorage.getInstance();
 		TreasureCard goldCard = new TreasureCard();
 		goldCard.name = "Gold";
 		goldCard.cost = 6;

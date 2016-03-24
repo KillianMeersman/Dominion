@@ -6,7 +6,7 @@ import java.util.List;
 public class Game {
 	private GamePhase gamePhase = null;
 	private Player[] players;
-	private List<Card> supply = new ArrayList<Card>();
+	private List<Card> trashPile = new ArrayList<Card>();
 	
 	public Player[] getPlayers() {
 		return players;
