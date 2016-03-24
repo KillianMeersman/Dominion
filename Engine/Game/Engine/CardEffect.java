@@ -1,3 +1,4 @@
+package Engine;
 public class CardEffect {
 	public void doEffects(String script) {
 		String[] statements = script.split(";");

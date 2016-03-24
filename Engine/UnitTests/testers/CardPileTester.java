@@ -1,5 +1,11 @@
-/*
+
 package testers;
+
+import Engine.CardStorage;
+import Engine.TreasureCard;
+import Engine.VictoryCard;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class CardPileTester {
 	
@@ -11,7 +17,7 @@ public class CardPileTester {
 	
 	@Test
 	public void addCard() {
-		CardPile deck = new CardPile();
+		CardStorage deck = new CardStorage();
 		TreasureCard goldCard = new TreasureCard();
 		goldCard.name = "Gold";
 		goldCard.cost = 6;
@@ -27,11 +33,10 @@ public class CardPileTester {
 		deck.addCard(provinceCard);
 		
 		
-		assertEquals(deck.getDeck().get(0), goldCard);
-		assertTrue(deck.getDeck().contains(provinceCard));
-		assertEquals(deck.getDeck().size(),2);
-		assertEquals(deck.getDeck().get(1).name,"Province");
+		assertEquals(deck.getCards().get(0), goldCard);
+		assertTrue(deck.getCards().contains(provinceCard));
+		assertEquals(deck.getCards().size(),2);
+		assertEquals(deck.getCards().get(1).name,"Province");
 	}
 
 }
-*/
