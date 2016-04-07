@@ -1,12 +1,13 @@
 package Engine;
+
 import java.util.ArrayList;
 import java.util.List;
 
 // Represents an active game - base class
-public class Game {
+class Game {
 	private GamePhase gamePhase = null;
 	private Player[] players;
-	private List<Card> trashPile = new ArrayList<Card>();
+	public Supply supply = new Supply();
 	
 	public Player[] getPlayers() {
 		return players;
@@ -19,7 +20,7 @@ public class Game {
 }
 
 enum GamePhase {
-	BUY_PHASE,
 	ACTION_PHASE,
+	BUY_PHASE,
 	CLEANUP_PHASE
 }

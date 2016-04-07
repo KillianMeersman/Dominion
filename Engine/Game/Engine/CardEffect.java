@@ -2,8 +2,15 @@ package Engine;
 
 import java.util.List;
 import java.util.ArrayList;
+import Engine.*;
 
-public class CardEffect {
+class CardEffect {
+	
+	public Card[] drawCards(Player player, int amount) {
+		return player.
+	}
+	
+	/*
 	public static void doEffects(String script) {
 		String[] statements = script.split(";");
 		for (int i = 0; i < statements.length; i++) {
@@ -25,8 +32,6 @@ public class CardEffect {
 			statements.add(new Statement(words));
 		}
 	}
+	*/
 	
-	public static void main(String[] args) {
-		test();
-	}
 }

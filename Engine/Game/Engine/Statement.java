@@ -1,6 +1,6 @@
 package Engine;
 
-public class Statement {
+class Statement {
 	public String statement = null;
 	public String[] parameters = null;
 	

@@ -1,11 +1,12 @@
 
 package testers;
 
+import static org.junit.Assert.*;
+import org.junit.Test;
+
 import Engine.CardStorage;
 import Engine.TreasureCard;
 import Engine.VictoryCard;
-import static org.junit.Assert.*;
-import org.junit.Test;
 
 public class CardPileTester {
 	

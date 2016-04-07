@@ -1,0 +1,9 @@
+package Engine;
+
+public class EngineController {
+	private EngineController instance = new EngineController();
+	
+	public EngineController getInstance() {
+		return instance;
+	}
+}
