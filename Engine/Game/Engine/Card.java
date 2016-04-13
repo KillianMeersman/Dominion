@@ -1,5 +1,5 @@
 package Engine;
 public abstract class Card {
-	public byte cost = 0;
 	public String name = null;
+	public int cost = 0;
 }

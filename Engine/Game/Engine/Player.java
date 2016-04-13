@@ -5,24 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
-	private Game game = null;
-	private String name = null;
-	private byte actions = 0;
-	private byte buys = 0;
-	private int coins = 0;
-	private List<Card> deck = new ArrayList<Card>();
-	private List<Card> hand = new ArrayList<Card>();
-	private List<Card> discardPile = new ArrayList<Card>();
+	public Game game = null;
+	public String name = null;
+	public byte actions = 0;
+	public byte buys = 0;
+	public int coins = 0;
+	public List<Card> deck = new ArrayList<Card>();
+	public List<Card> hand = new ArrayList<Card>();
+	public List<Card> discardPile = new ArrayList<Card>();
 	
 	// Player card actions
-	private void discardToDeck(int amount) {
+	public void shuffleDiscardPile() {
 		Collections.shuffle(discardPile);
-		if (discardPile.size() >= amount) {
-			for (int i = 0; i < amount; i++) {
-				deck.add(discardPile.get(i));
-				discardPile.remove(i);
-			}
-		}
 	}
 	
 	public Card[] getDeckCards(int amount) {
@@ -40,31 +34,20 @@ public class Player {
 		return output;
 	}
 	
-	public void discard(Card[] cards) {
-		for (int i = 0; i < cards.length; i++) {
-			discardPile.add(cards[i]);
-			hand.remove(cards[i]);
+	public void transferCards(List<Card> source, List<Card> destination, int amount, boolean removeSource) throws Exception {
+		for (int i = 0; i < amount; i++) {
+			destination.add(source.get(i));
+			if (removeSource) { source.remove(i); }
 		}
 	}
 	
-	public void trash(Card[] cards) {
-		game.supply.trashCard(cards);
-	}
-	
-	public void gain(Card card) {
-		discardPile.add(card);
-	}
-	
-	public void addAction(byte amount) {
-		actions += amount;
-	}
-	
-	public void addBuy(byte amount) {
-		buys += amount;
-	}
-	
-	public void addCoins(int amount) {
-		coins += amount;
+	public void transferCards(List<Card> source, List<Card> destination, Card[] cards, boolean removeSource) throws Exception {
+		int sourceIndex = 0;
+		for (int i = 0; i < cards.length; i++) {
+			sourceIndex = source.indexOf(cards[i]);
+			destination.add(source.get(sourceIndex));
+			if (removeSource) { source.remove(sourceIndex); }
+		}
 	}
 	
 	public Player(String name) {

@@ -1,0 +1,41 @@
+package Engine;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class EngineController {
+	private EngineController() {};
+	private EngineController instance = new EngineController();
+	
+	private List<Game> games = new ArrayList<Game>();
+	private boolean running = true,
+	
+	private static void processInput(String input) {
+		switch(input) {
+		case "games":
+			System.out.print("listing games...");
+			break;
+		}
+	}
+	
+	public EngineController getInstance() {
+		return instance;
+	}
+	
+	public void newGame(String[] playerNames) {
+		Game game = new Game(playerNames);
+		games.add(game);
+	}
+	
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		System.out.println("Dominion Engine");
+		
+		System.out.print("> ");
+		while (running) {
+			processInput(in.nextLine());
+		}
+		in.close();
+	}
+}

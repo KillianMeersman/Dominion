@@ -1,0 +1,13 @@
+import java.util.Scanner;
+
+public class main {
+	private static int players = 2;
+	
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		System.out.println("Welcome to dominion");
+		System.out.print("Please choose the amount of players: ");
+		players = Integer.parseInt(in.nextLine());
+	}
+
+}

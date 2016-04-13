@@ -1,0 +1,16 @@
+package Engine;
+
+public class EngineController {
+	private EngineController() {};
+	private EngineController instance = new EngineController();
+	
+	private List<Game> games = new List<Game>();
+	
+	public EngineController getInstance() {
+		return instance;
+	}
+	
+	public void initGame(int players) {
+		
+	}
+}
