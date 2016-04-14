@@ -1,6 +1,7 @@
 
 package testers;
 
+import Engine.CardStorage;
 import static org.junit.Assert.*;
 import org.junit.Test;
 

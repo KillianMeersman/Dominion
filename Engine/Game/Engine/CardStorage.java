@@ -2,7 +2,7 @@ package Engine;
 import java.util.ArrayList;
 import java.util.List;
 
-class CardStorage {
+public class CardStorage {
 	private static CardStorage instance = new CardStorage();
 	private static List<Card> cards = new ArrayList<Card>();
 	

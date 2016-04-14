@@ -19,7 +19,7 @@ class CardEffect {
 	}
 	
 	public static void gain(Player player, Card card) {
-		player.transferCards(source, destination, cards, removeSource);
+//		player.transferCards(source, destination, cards, removeSource);
 	}
 	
 	public static void gain(Player player, int minimumCost, int maximumCost) {

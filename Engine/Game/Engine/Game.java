@@ -41,7 +41,7 @@ class Game {
 
 	public void init() {
 		for (int i = 0; i < players.size(); i++) {
-			players.get(i)
+			players.get(i);
 		}
 	}
 	
