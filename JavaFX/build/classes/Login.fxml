@@ -7,20 +7,19 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="1080.0" maxWidth="1920.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dominion.javafx.LoginController">
+<AnchorPane blendMode="SRC_ATOP" prefHeight="720.0" prefWidth="1280.0" snapToPixel="false" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.login">
    <children>
       <TextField fx:id="userName" layoutX="572.0" layoutY="329.0" promptText="Username" />
       <PasswordField fx:id="userPassword" layoutX="572.0" layoutY="366.0" promptText="Password" />
       <Button fx:id="loginButton" layoutX="624.0" layoutY="403.0" mnemonicParsing="false" onAction="#handleLogin" text="Login" />
-      <Text layoutX="447.0" layoutY="237.0" stroke="#c635ff" strokeType="OUTSIDE" strokeWidth="3.0" text="Dominion" textAlignment="CENTER" underline="true">
+      <Text layoutX="447.0" layoutY="237.0" text="Dominion" textAlignment="CENTER">
          <font>
             <Font name="Impact" size="96.0" />
          </font>
       </Text>
-      <ImageView fitHeight="376.0" fitWidth="454.0" layoutY="342.0" pickOnBounds="true" smooth="false">
+      <ImageView fitHeight="225.0" fitWidth="579.0" layoutX="357.0" layoutY="86.0" pickOnBounds="true">
          <image>
-            <Image url="http://i.imgur.com/NSL67nM.png" />
-         </image>
-      </ImageView>
+            <Image url="http://i.imgur.com/W3TGELm.png" />
+         </image></ImageView>
    </children>
 </AnchorPane>
