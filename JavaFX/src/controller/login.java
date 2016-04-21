@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
  * @author Sepp
  */
 public class login implements Initializable {
+    
 
     @FXML
     private TextField userName;
@@ -27,6 +28,8 @@ public class login implements Initializable {
     private PasswordField userPassword;
     @FXML
     private Button loginButton;
+    @FXML
+    private Button registerButton;
 
     /**
      * Initializes the controller class.
@@ -38,6 +41,10 @@ public class login implements Initializable {
 
     @FXML
     private void handleLogin(ActionEvent event) {
+        if (userName.textProperty().toString() == "Seppe" && userPassword.textProperty().toString() == "sep" ){
     }
+    }
+    
+    
     
 }
