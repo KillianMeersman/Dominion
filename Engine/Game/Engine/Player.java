@@ -1,10 +1,11 @@
 package Engine;
 
+import Engine.CardScript.Card;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+class Player {
 	public Game game = null;
 	public String name = null;
 	public byte actions = 0;
@@ -32,22 +33,6 @@ public class Player {
 			deck.toArray(output);
 		}
 		return output;
-	}
-	
-	public void transferCards(List<Card> source, List<Card> destination, int amount, boolean removeSource) throws Exception {
-		for (int i = 0; i < amount; i++) {
-			destination.add(source.get(i));
-			if (removeSource) { source.remove(i); }
-		}
-	}
-	
-	public void transferCards(List<Card> source, List<Card> destination, Card[] cards, boolean removeSource) throws Exception {
-		int sourceIndex = 0;
-		for (int i = 0; i < cards.length; i++) {
-			sourceIndex = source.indexOf(cards[i]);
-			destination.add(source.get(sourceIndex));
-			if (removeSource) { source.remove(sourceIndex); }
-		}
 	}
 	
 	public Player(String name) {

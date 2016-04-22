@@ -1,8 +1,9 @@
 package Engine;
+import Engine.CardScript.Card;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardStorage {
+class CardStorage {
 	private static CardStorage instance = new CardStorage();
 	private static List<Card> cards = new ArrayList<Card>();
 	

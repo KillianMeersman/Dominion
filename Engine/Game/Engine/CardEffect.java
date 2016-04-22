@@ -1,5 +1,7 @@
 package Engine;
 
+import Engine.CardScript.Card;
+import Engine.Player;
 import java.util.List;
 
 class CardEffect {
@@ -7,7 +9,7 @@ class CardEffect {
 	public static void discard(Player player, List<Card> source, Card[] cards) {
 		for (int i = 0; i < cards.length; i++) {
 			try {
-				player.transferCards(source, player.discardPile, cards, true);
+				transferCards(source, player.discardPile, cards, true);
 			} catch (Exception e) {
 				System.out.println("Debug: " + player.name + " did not have the cards for transfer (DISCARD)");
 			}
@@ -55,25 +57,16 @@ class CardEffect {
 		}
 	}
 	
-	public static void addAction(Player player, byte amount) {
+	public static void addAction(Player player, int amount) {
 		player.actions += amount;
 	}
 	
-	public static void addBuy(Player player, byte amount) {
+	public static void addBuy(Player player, int amount) {
 		player.buys += amount;
 	}
 	
 	public static void addCoins(Player player, int amount) {
 		player.coins += amount;
-	}
-	
-	public static void execute(String script) throws Exception {
-		
-	}
-	
-	public static void parse(String script) throws Exception {
-		String[] statements = script.split(" ");
-		
 	}
 	
 	/*

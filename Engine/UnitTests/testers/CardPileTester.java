@@ -6,8 +6,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import Engine.CardStorage;
-import Engine.TreasureCard;
-import Engine.VictoryCard;
+import Engine.CardScript.TreasureCard;
+import Engine.CardScript.VictoryCard;
 
 public class CardPileTester {
 	

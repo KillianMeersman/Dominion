@@ -1,5 +1,8 @@
 package Engine;
 
+import Engine.CardScript.TreasureCard;
+import Engine.CardScript.VictoryCard;
+import Engine.CardScript.Card;
 import java.util.ArrayList;
 import java.util.List;
 

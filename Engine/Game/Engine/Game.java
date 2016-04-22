@@ -44,7 +44,6 @@ class Game {
 			players.get(i);
 		}
 	}
-	
 }
 
 enum GamePhase {
