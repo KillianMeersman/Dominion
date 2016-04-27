@@ -5,7 +5,9 @@
         <group>
             <file>file:/D:/Development/GitHub/Dominion/JavaFX/test/controller/loginTest.java</file>
             <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/login.fxml</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/manifest.mf</file>
             <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/controller/main.java</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/build.xml</file>
             <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Default.java</file>
             <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/controller/login.java</file>
         </group>

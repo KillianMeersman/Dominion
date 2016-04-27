@@ -18,9 +18,9 @@ import static org.junit.Assert.*;
  *
  * @author Sepp
  */
-public class loginTest {
+public class startTest {
     
-    public loginTest() {
+    public startTest() {
     }
     
     @BeforeClass
@@ -40,14 +40,14 @@ public class loginTest {
     }
 
     /**
-     * Test of initialize method, of class login.
+     * Test of initialize method, of class start.
      */
     @Test
     public void testInitialize() {
         System.out.println("initialize");
         URL url = null;
         ResourceBundle rb = null;
-        login instance = new login();
+        start instance = new start();
         instance.initialize(url, rb);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
