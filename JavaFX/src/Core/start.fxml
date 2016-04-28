@@ -9,18 +9,23 @@
 
 <AnchorPane blendMode="SRC_ATOP" prefHeight="720.0" prefWidth="1280.0" snapToPixel="false" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.start">
    <children>
-      <TextField fx:id="userName" layoutX="572.0" layoutY="329.0" promptText="Username" />
-      <PasswordField fx:id="userPassword" layoutX="572.0" layoutY="366.0" promptText="Password" />
-      <Button fx:id="buttonRegister" layoutX="654.0" layoutY="403.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="66.0" text="Register" />
-      <Text layoutX="447.0" layoutY="237.0" text="Dominion" textAlignment="CENTER">
+      <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true">
+         <image>
+            <Image url="http://i.imgur.com/H2VtuIq.jpg" />
+         </image>
+      </ImageView>
+      <TextField fx:id="userName" layoutX="566.0" layoutY="330.0" promptText="Username" />
+      <PasswordField fx:id="userPassword" layoutX="566.0" layoutY="367.0" promptText="Password" />
+      <Button fx:id="buttonRegister" layoutX="648.0" layoutY="404.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="66.0" text="Register" />
+      <Text layoutX="441.0" layoutY="238.0" text="Dominion" textAlignment="CENTER">
          <font>
             <Font name="Impact" size="96.0" />
          </font>
       </Text>
-      <ImageView fitHeight="225.0" fitWidth="579.0" layoutX="357.0" layoutY="86.0" pickOnBounds="true">
+      <ImageView fitHeight="225.0" fitWidth="579.0" layoutX="351.0" layoutY="87.0" pickOnBounds="true">
          <image>
-            <Image url="http://i.imgur.com/W3TGELm.png" />
+            <Image url="http://i.imgur.com/2rDm0gj.gif" />
          </image></ImageView>
-      <Button fx:id="buttonLogin" layoutX="572.0" layoutY="403.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="66.0" text="Login" />
+      <Button fx:id="buttonLogin" layoutX="566.0" layoutY="404.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="66.0" text="Login" />
    </children>
 </AnchorPane>

@@ -11,22 +11,27 @@
 
 <AnchorPane id="AnchorPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.menu">
    <children>
-      <ImageView fitHeight="225.0" fitWidth="579.0" layoutX="351.0" layoutY="14.0" pickOnBounds="true">
+      <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true">
          <image>
-            <Image url="http://i.imgur.com/W3TGELm.png" />
+            <Image url="http://i.imgur.com/H2VtuIq.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="buttonPlay" layoutX="580.0" layoutY="252.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Play">
+      <ImageView fitHeight="225.0" fitWidth="579.0" layoutX="351.0" layoutY="83.0" pickOnBounds="true">
+         <image>
+            <Image url="http://i.imgur.com/2rDm0gj.gif" />
+         </image>
+      </ImageView>
+      <Button fx:id="buttonPlay" layoutX="580.0" layoutY="321.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="New Game">
          <font>
             <Font name="Impact" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="buttonSettings" layoutX="580.0" layoutY="286.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Settings">
+      <Button fx:id="buttonSettings" layoutX="580.0" layoutY="355.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Saved Game">
          <font>
             <Font name="Impact" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="buttonExit" layoutX="580.0" layoutY="320.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Exit">
+      <Button fx:id="buttonExit" layoutX="580.0" layoutY="389.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Quit">
          <font>
             <Font name="Impact" size="12.0" />
          </font>

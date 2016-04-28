@@ -32,6 +32,10 @@ public class Main extends Application {
         window.setHeight(720);
         window.setResizable(false);
         window.setScene(startScreen);
+        window.setOnCloseRequest(e -> {
+            e.consume();
+            closeProgram();
+        });
         window.show(); 
     } 
     
@@ -40,8 +44,8 @@ public class Main extends Application {
     }
     
     public static void closeProgram() {
-        System.out.println("Bye!");
-        alertBox.display("Exit?", "Are you leaving me?");
-        window.close();
+        System.out.println("Exit Requested");
+        Boolean answer = confirmBox.display("Exit?!", "ARE YOU REALLY LEAVING ME??");
+        if(answer) {window.close();}
     }
 }

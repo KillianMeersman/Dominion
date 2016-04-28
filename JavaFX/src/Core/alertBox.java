@@ -22,16 +22,11 @@ public class alertBox {
         
         Label alert = new Label();
         alert.setText(message);
-        Button confirm = new Button();
-        if (title.equals("Exit?")) {
-          confirm.setText("yes");  
-        } else {
-            confirm.setText("Close");
-        }
-        confirm.setOnAction(e -> alertBox.close());
+        Button button = new Button("Close");
+        button.setOnAction(e -> alertBox.close());
         
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(alert, confirm);
+        layout.getChildren().addAll(alert, button);
         layout.setAlignment(Pos.CENTER);
         
         Scene box = new Scene(layout);
