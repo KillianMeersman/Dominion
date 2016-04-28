@@ -1,7 +1,7 @@
-package controller;
+package Controller;
 
 import Core.Main;
-import Core.alertBox;
+import Core.AlertBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class start implements Initializable {
+public class Credentials implements Initializable {
     
     @FXML
     public TextField userName;
@@ -21,19 +21,19 @@ public class start implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         buttonLogin.setOnAction(e -> {
-            if (userPassword.getText().equals(db.login.getPassword(userName.getText()))) {
-                Main.switchScene(Main.mainMenu);
+            if (userPassword.getText().equals(db.Login.getPassword(userName.getText()))) {
+                Main.switchScene(Main.mainScreen);
             } else {
                 System.out.println("Wrong combination!");
                 System.out.println("Please try again or register.");
-                alertBox.display("Wrong combination", "Please try again or register.");
+                AlertBox.display("Wrong combination", "Please try again or register.");
             }
         });
         buttonRegister.setOnAction(e -> {
-            db.register.updateRecords(userName.getText(), userPassword.getText());
+            db.Register.updateRecords(userName.getText(), userPassword.getText());
             System.out.println("Game on!");
             System.out.println("You are now registered.");
-            alertBox.display("Game on!", "You are now registered.");
+            AlertBox.display("Game on!", "You are now registered.");
         });
     }  
 }

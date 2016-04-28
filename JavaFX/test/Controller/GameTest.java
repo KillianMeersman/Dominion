@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,9 +18,9 @@ import static org.junit.Assert.*;
  *
  * @author Sepp
  */
-public class startTest {
+public class GameTest {
     
-    public startTest() {
+    public GameTest() {
     }
     
     @BeforeClass
@@ -40,14 +40,14 @@ public class startTest {
     }
 
     /**
-     * Test of initialize method, of class start.
+     * Test of initialize method, of class Game.
      */
     @Test
     public void testInitialize() {
         System.out.println("initialize");
         URL url = null;
         ResourceBundle rb = null;
-        start instance = new start();
+        Game instance = new Game();
         instance.initialize(url, rb);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
