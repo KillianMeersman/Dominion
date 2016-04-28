@@ -38,4 +38,10 @@ public class Main extends Application {
     public static void switchScene(Scene scene) {
         window.setScene(scene);
     }
+    
+    public static void closeProgram() {
+        System.out.println("Bye!");
+        alertBox.display("Exit?", "Are you leaving me?");
+        window.close();
+    }
 }
