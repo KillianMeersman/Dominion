@@ -1,6 +1,5 @@
-package Engine;
+package Core;
 
-import Engine.CardScript.Card;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ class Player {
 	public List<Card> deck = new ArrayList<Card>();
 	public List<Card> hand = new ArrayList<Card>();
 	public List<Card> discardPile = new ArrayList<Card>();
-	
+        
 	// Player card actions
 	public void shuffleDiscardPile() {
 		Collections.shuffle(discardPile);
@@ -36,6 +35,10 @@ class Player {
 	}
 	
 	public Player(String name) {
-		this.name = name;
+            this.name = name;
+            hand.add(new Card("Cellar", "Discard any number of cards. +1 Card per card discarded."));
+            hand.add(new Card("Moneylender", "Trash a copper from your hand. If you do: +3 copper."));
+            hand.add(new Card("Chapel", "Trash up to 4 cards from you hand."));
+            hand.add(new Card("Copper", ""));
 	}
 }

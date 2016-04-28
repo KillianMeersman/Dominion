@@ -3,10 +3,9 @@
     <type>org.netbeans.modules.java.j2seproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
-            <name>Dominion-engine</name>
+            <name>DominionEngine</name>
             <source-roots>
-                <root id="src.dir" name="Game"/>
-                <root id="UnitTests.dir"/>
+                <root id="src.Engine.dir"/>
             </source-roots>
             <test-roots/>
         </data>

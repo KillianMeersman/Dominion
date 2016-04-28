@@ -1,4 +1,4 @@
-package Engine;
+package CardScript;
 
 import Engine.CardScript.TreasureCard;
 import Engine.CardScript.VictoryCard;

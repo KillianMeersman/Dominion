@@ -1,4 +1,4 @@
-package Engine;
+package Core;
 
 enum Place {
 	PLACE_HAND,

@@ -1,10 +1,15 @@
-package Engine;
+package Core;
 
 class Card {
     public String name;
     public String description;
-    public java.lang.reflect.Method method;
+    private java.lang.reflect.Method method;
     
+    @Override
+    public String toString() {
+        return this.name + " - " + this.description;
+    }
+            
     public void execute(String name) {
         try {
             method.invoke(this);
@@ -15,8 +20,10 @@ class Card {
        
     }
     
-    public void init() {
-        Card card = this;
+    public Card(String name, String description) {
+     Card card = this;
+     this.name = name;
+     this.description = description;
         try {
             method = card.getClass().getMethod(name);
         }
@@ -25,10 +32,10 @@ class Card {
         }
         catch (Exception e) {
             System.out.println("Failed to build card: " + name + " - general reflection error");
-        }
+        }       
     }
     
-    // Lots and lots of functions
+    // Specific card functions
     
     private static void cellar(String name, Player player) {
         boolean playerDone = false;

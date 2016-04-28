@@ -24,3 +24,8 @@ hs_err_pid*
 /Engine/build/
 =======
 >>>>>>> origin/initial-server
+/ConsoleClient/build/
+/Engine/dist/
+/Server/nbbuild/
+/Server/dist/
+/ConsoleClient/dist/

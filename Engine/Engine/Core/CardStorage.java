@@ -1,5 +1,5 @@
-package Engine;
-import Engine.CardScript.Card;
+package Core;
+
 import java.util.ArrayList;
 import java.util.List;
 
