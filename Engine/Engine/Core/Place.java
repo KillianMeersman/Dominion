@@ -1,0 +1,9 @@
+package Core;
+
+enum Place {
+	PLACE_HAND,
+	PLACE_DECK,
+	PLACE_DISCARD,
+	PLACE_TRASH,
+	PLACE_FIELD
+}

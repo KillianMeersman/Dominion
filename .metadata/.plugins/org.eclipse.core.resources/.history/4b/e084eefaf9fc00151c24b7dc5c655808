@@ -1,0 +1,25 @@
+package Engine;
+
+import java.util.ArrayList;
+import java.util.List;
+
+// Represents an active game - base class
+class Game {
+	private GamePhase gamePhase = null;
+	private Player[] players;
+	public Supply supply = new Supply();
+	
+	public Player[] getPlayers() {
+		return players;
+	}
+	
+	public Game(int players) {
+		for 
+	}
+}
+
+enum GamePhase {
+	ACTION_PHASE,
+	BUY_PHASE,
+	CLEANUP_PHASE
+}

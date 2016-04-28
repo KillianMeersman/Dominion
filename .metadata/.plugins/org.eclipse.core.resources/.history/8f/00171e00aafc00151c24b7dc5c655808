@@ -1,0 +1,5 @@
+package Engine;
+
+public class EngineController {
+	private instance = new EngineController();
+}
