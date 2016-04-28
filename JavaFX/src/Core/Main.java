@@ -45,7 +45,7 @@ public class Main extends Application {
     
     public static void closeProgram() {
         System.out.println("Exit Requested");
-        Boolean answer = confirmBox.display("Exit?!", "ARE YOU REALLY LEAVING ME??");
+        Boolean answer = confirmBox.display("Exit Requested", "Are you sure you want to quit?");
         if(answer) {window.close();}
     }
 }

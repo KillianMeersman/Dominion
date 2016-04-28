@@ -21,12 +21,7 @@
             <Image url="http://i.imgur.com/2rDm0gj.gif" />
          </image>
       </ImageView>
-      <Button fx:id="buttonPlay" layoutX="580.0" layoutY="321.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="New Game">
-         <font>
-            <Font name="Impact" size="12.0" />
-         </font>
-      </Button>
-      <Button fx:id="buttonSettings" layoutX="580.0" layoutY="355.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Saved Game">
+      <Button fx:id="buttonPlay" alignment="CENTER" contentDisplay="CENTER" layoutX="580.0" layoutY="321.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="New Game">
          <font>
             <Font name="Impact" size="12.0" />
          </font>
@@ -36,5 +31,73 @@
             <Font name="Impact" size="12.0" />
          </font>
       </Button>
+      <Button fx:id="buttonSavedGames" layoutX="580.0" layoutY="354.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Saved Games">
+         <font>
+            <Font name="Impact" size="12.0" />
+         </font>
+      </Button>
+      <VBox fx:id="vboxNewGame" layoutX="728.0" layoutY="321.0" prefHeight="141.0" prefWidth="122.0" visible="false">
+         <children>
+            <Button fx:id="buttonFirstGame" alignment="CENTER" contentDisplay="CENTER" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="First Game">
+               <font>
+                  <Font name="Impact" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonBigMoney" alignment="CENTER" contentDisplay="CENTER" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="BigMoney">
+               <font>
+                  <Font name="Impact" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonInteraction" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="34.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Interaction">
+               <font>
+                  <Font name="Impact" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonSizeDistortion" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="58.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Size Distortion">
+               <font>
+                  <Font name="Impact" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonVillageSquare" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="82.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Village Square">
+               <font>
+                  <Font name="Impact" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonCustomDeck" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="106.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Custom Deck">
+               <font>
+                  <Font name="Impact" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <VBox fx:id="vboxSavedGames" layoutX="728.0" layoutY="354.0" prefHeight="120.0" prefWidth="122.0">
+         <children>
+            <Button fx:id="buttonSaveGame1" alignment="CENTER" contentDisplay="CENTER" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="137.0" text="My first savegame">
+               <font>
+                  <Font name="Impact" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonSaveGame2" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="137.0" text="My second savegame">
+               <font>
+                  <Font name="Impact" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonSaveGame3" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="34.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="138.0" text="My third savegame">
+               <font>
+                  <Font name="Impact" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonSaveGame4" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="58.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="138.0" text="My forth savegame">
+               <font>
+                  <Font name="Impact" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonSaveGame41" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="82.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="138.0" text="My final savegame">
+               <font>
+                  <Font name="Impact" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

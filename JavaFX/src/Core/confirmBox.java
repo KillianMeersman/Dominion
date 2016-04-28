@@ -26,13 +26,8 @@ public class confirmBox {
 
         Button buttonYes = new Button();
         Button buttonNo = new Button();
-        if (title.equals("Exit?!")) {
-            buttonNo.setText("nnn no srry");  
-            buttonYes.setText("i think..");
-        } else {
-            buttonNo.setText("No");
-            buttonYes.setText("Yes");
-        }
+        buttonNo.setText("No");
+        buttonYes.setText("Yes");
 
         buttonYes.setOnAction(e -> {
             answer = true;
