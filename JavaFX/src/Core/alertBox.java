@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 import javafx.geometry.*;
 import javafx.scene.image.Image;
 
-public class alertBox {
+public class AlertBox {
     
     public static void display(String title, String message) {
      

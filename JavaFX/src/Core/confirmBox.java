@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 import javafx.geometry.*;
 import javafx.scene.image.Image;
 
-public class confirmBox {
+public class ConfirmBox {
 
     static boolean answer;
 

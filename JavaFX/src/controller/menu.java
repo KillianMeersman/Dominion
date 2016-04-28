@@ -1,6 +1,7 @@
-package controller;
+package Controller;
 
 import java.net.URL;
+import Core.Main;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 
-public class menu implements Initializable {
+public class Menu implements Initializable {
 
     @FXML
     public Button buttonPlay;
@@ -37,6 +38,7 @@ public class menu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         buttonExit.setOnAction(e -> Core.Main.closeProgram());
+        buttonPlay.setOnAction(e -> Core.Main.switchScene(Main.gameScreen));
         vboxNewGame.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> vboxNewGame.setVisible(false));
         vboxSavedGames.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> vboxSavedGames.setVisible(false));
         buttonPlay.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
@@ -47,7 +49,10 @@ public class menu implements Initializable {
             vboxNewGame.setVisible(false);
             vboxSavedGames.setVisible(true);
         });
-        
+        buttonExit.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+            vboxNewGame.setVisible(false);
+            vboxSavedGames.setVisible(false);
+        });
         
         
     }
