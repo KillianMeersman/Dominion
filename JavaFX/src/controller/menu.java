@@ -38,7 +38,7 @@ public class Menu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         buttonExit.setOnAction(e -> Core.Main.closeProgram());
-        buttonPlay.setOnAction(e -> Core.Main.switchScene(Main.gameScreen));
+        buttonPlay.setOnAction(e -> Core.Main.switchScene(Main.mainScreen));
         vboxNewGame.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> vboxNewGame.setVisible(false));
         vboxSavedGames.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> vboxSavedGames.setVisible(false));
         buttonPlay.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {

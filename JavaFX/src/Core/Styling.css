@@ -1,11 +1,21 @@
-.credentialsStyle {
+.button {
+    -fx-background-color: rgba(255, 255, 255, 0);
+    -fx-text-fill: white;
+    -fx-text-align: center;
+    -fx-text-decoration: none;
+    -fx-font: 28px "Enchanted Land";
 
 }
 
-.gameStyle {
-    
+.button:hover {
+    -fx-font-style: italic;
+    -fx-font-size: 30px;
 }
 
-.menuStyle {
-    
+.vbox {}
+
+.text-input {
+    -fx-opacity: 0.9;
+    -fx-text-fill: black;
+    -fx-border: 5px solid white;
 }

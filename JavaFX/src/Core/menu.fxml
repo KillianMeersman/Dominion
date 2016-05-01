@@ -21,7 +21,7 @@
             <Image url="http://i.imgur.com/2rDm0gj.gif" />
          </image>
       </ImageView>
-      <Button fx:id="buttonPlay" alignment="CENTER" blendMode="SRC_ATOP" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="580.0" layoutY="321.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="New Game" textOverrun="CLIP">
+      <Button id="Button" fx:id="buttonPlay" alignment="CENTER" blendMode="SRC_ATOP" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="567.0" layoutY="321.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="146.0" stylesheets="@Styling.css" text="New Game" textOverrun="CLIP">
          <font>
             <Font name="Enchanted Land" size="20.0" />
          </font>
@@ -31,68 +31,68 @@
             <Font name="Enchanted Land" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="buttonSavedGames" layoutX="580.0" layoutY="374.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Saved Games">
+      <Button fx:id="buttonSavedGames" layoutX="564.0" layoutY="374.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="153.0" text="Saved Games">
          <font>
             <Font name="Enchanted Land" size="20.0" />
          </font>
       </Button>
-      <VBox fx:id="vboxNewGame" layoutX="728.0" layoutY="321.0" prefHeight="234.0" prefWidth="122.0" visible="false">
+      <VBox fx:id="vboxNewGame" layoutX="728.0" layoutY="321.0" prefHeight="342.0" prefWidth="168.0" visible="false">
          <children>
-            <Button fx:id="buttonFirstGame" alignment="CENTER" contentDisplay="CENTER" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="First Game">
+            <Button fx:id="buttonFirstGame" alignment="CENTER" contentDisplay="CENTER" lineSpacing="1.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="206.0" text="First Game">
                <font>
                   <Font name="Enchanted Land" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="buttonBigMoney" alignment="CENTER" contentDisplay="CENTER" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="BigMoney">
+            <Button fx:id="buttonBigMoney" alignment="CENTER" contentDisplay="CENTER" lineSpacing="1.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="225.0" text="BigMoney">
                <font>
                   <Font name="Enchanted Land" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="buttonInteraction" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="34.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Interaction">
+            <Button fx:id="buttonInteraction" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="34.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="207.0" text="Interaction">
                <font>
                   <Font name="Enchanted Land" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="buttonSizeDistortion" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="58.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Size Distortion">
+            <Button fx:id="buttonSizeDistortion" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="58.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="225.0" text="Size Distortion">
                <font>
                   <Font name="Enchanted Land" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="buttonVillageSquare" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="82.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Village Square">
+            <Button fx:id="buttonVillageSquare" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="82.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="241.0" text="Village Square">
                <font>
                   <Font name="Enchanted Land" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="buttonCustomDeck" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="106.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="122.0" text="Custom Deck">
+            <Button fx:id="buttonCustomDeck" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="106.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="228.0" text="Custom Deck">
                <font>
                   <Font name="Enchanted Land" size="20.0" />
                </font>
             </Button>
          </children>
       </VBox>
-      <VBox fx:id="vboxSavedGames" layoutX="728.0" layoutY="374.0" prefHeight="195.0" prefWidth="137.0" visible="false">
+      <VBox fx:id="vboxSavedGames" layoutX="728.0" layoutY="378.0" prefHeight="285.0" prefWidth="208.0" visible="false">
          <children>
-            <Button fx:id="buttonSaveGame1" alignment="CENTER" contentDisplay="CENTER" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="137.0" text="My first savegame">
+            <Button fx:id="buttonSaveGame1" alignment="CENTER" contentDisplay="CENTER" lineSpacing="1.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="243.0" text="My first savegame">
                <font>
                   <Font name="Enchanted Land" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="buttonSaveGame2" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="137.0" text="My second savegame">
+            <Button fx:id="buttonSaveGame2" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="246.0" text="My second savegame">
                <font>
                   <Font name="Enchanted Land" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="buttonSaveGame3" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="34.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="138.0" text="My third savegame">
+            <Button fx:id="buttonSaveGame3" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="34.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="255.0" text="My third savegame">
                <font>
                   <Font name="Enchanted Land" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="buttonSaveGame4" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="58.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="138.0" text="My forth savegame">
+            <Button fx:id="buttonSaveGame4" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="58.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="262.0" text="My forth savegame">
                <font>
                   <Font name="Enchanted Land" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="buttonSaveGame41" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="82.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="138.0" text="My final savegame">
+            <Button fx:id="buttonSaveGame41" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="82.0" lineSpacing="1.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="287.0" text="My final savegame">
                <font>
                   <Font name="Enchanted Land" size="20.0" />
                </font>
