@@ -5,8 +5,13 @@ import Core.Card;
 public class EngineInstance {
     private Game game;
     
-    public void init(String[] playerNames) {
-        game = new Game(playerNames);
+    public void init(String[] playerNames, int[] actionDeck) {
+        
+        game = new Game(playerNames, CardRepository.getInstance().getCardsById(actionDeck));
+    }
+    
+    public String[] getActionCards() {
+        
     }
     
     public String[] getHandStrings(String playerName) {

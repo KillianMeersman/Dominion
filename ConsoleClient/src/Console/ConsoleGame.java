@@ -6,12 +6,13 @@ import java.util.Scanner;
 
 
 public class ConsoleGame {
-	private int playerAmount;                                       // amount of players
-	private String[] playerNames = null;                            // player names
-	private boolean gameRunning = true;                             // state variable
-        private EngineInstance engine;                                  // Instance of engine
+	private boolean gameRunning = true;
+        private EngineInstance engine;
+        private String[] playerNames = null;
 
         public void init() {
+            int playerAmount;
+            
             engine = new EngineInstance();
             Scanner in = new Scanner(System.in);
             System.out.println("Welcome to dominion");
@@ -34,12 +35,14 @@ public class ConsoleGame {
         }
         
 	private void gameLoop() {
+            int playerAmount = playerNames.length;
             Scanner in = new Scanner(System.in);
             while (gameRunning) {
                 for (int i = 0; i < playerAmount; i++) {
                     System.out.println("\n" + playerNames[i] + "'s turn");
                     System.out.println("------------------------");
                     System.out.println("Cards in hand");
+                    System.out.println("-------------");
                     for (String card: engine.getHandStrings(playerNames[i])) {
                         System.out.println(card);
                     }

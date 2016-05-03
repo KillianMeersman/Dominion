@@ -1,9 +1,14 @@
 package Core;
 
 class Card {
+    private int id;
     public String name;
     public String description;
     private java.lang.reflect.Method method;
+    
+    public int getId() {
+        return id;
+    }
     
     @Override
     public String toString() {

@@ -17,10 +17,6 @@ public class ConsoleController {
             case "help":
                     System.out.println("Commands: games, exit");
                     break;
-            case "newgame":
-                    String[] names = {"killian", "seppe", "robin"};
-                    newGame(names);
-                    break;
             case "exit":
                     running = false;
                     break;
@@ -36,11 +32,4 @@ public class ConsoleController {
                     System.out.println(i + " - " + games.get(i).toString());
             }
     }
-
-    private static void newGame(String[] playerNames) {
-            Game game = new Game(playerNames);
-            games.add(game);
-    }
-    
-  
 }
