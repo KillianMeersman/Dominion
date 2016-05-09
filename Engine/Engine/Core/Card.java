@@ -2,51 +2,42 @@ package Core;
 
 class Card {
     private int id;
-    public String name;
-    public String description;
-    private java.lang.reflect.Method method;
+    private final int amount;
+    private final int cost;
+    private final String name;
+    private final String description;
     
     public int getId() {
         return id;
+    }
+    
+    public int getAmount() {
+        return amount;
+    }
+    
+    public int getCost() {
+        return cost;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public String getDescription() {
+        return description;
     }
     
     @Override
     public String toString() {
         return this.name + " - " + this.description;
     }
-            
-    public void execute(String name) {
-        try {
-            method.invoke(this);
-        }
-        catch (Exception e) {
-            System.out.println("Failed to execute card method: " + name);
-        }
-       
-    }
     
-    public Card(String name, String description) {
+    public Card(int id, int amount, int cost, String name, String description) {
      Card card = this;
+     this.id = id;
+     this.amount = amount;
+     this.cost = cost;
      this.name = name;
-     this.description = description;
-        try {
-            method = card.getClass().getMethod(name);
-        }
-        catch (NoSuchMethodException e) {
-            System.out.println("Failed to build card: " + name + " - no such method");
-        }
-        catch (Exception e) {
-            System.out.println("Failed to build card: " + name + " - general reflection error");
-        }       
-    }
-    
-    // Specific card functions
-    
-    private static void cellar(String name, Player player) {
-        boolean playerDone = false;
-        CardEffect.addAction(player, 1);
-        while (!playerDone) {
-            
-        }
+     this.description = description;      
     }
 }

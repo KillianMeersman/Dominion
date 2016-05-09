@@ -39,12 +39,28 @@ class Game {
             return Duration.between(beginTime, Instant.now());
     }
 
-    public Game(String[] playerNames, List<Card> actionDeck) {
+    public Game(String[] playerNames) {
         for (String name : playerNames) {
                 Player player = new Player(name);
                 players.add(player);
         }
-        supply = new Supply(actionDeck);
+        supply = new Supply();
+        
+        this.beginTime = Instant.now();
+    }
+    
+    public Game(String[] playerNames, ActionCard[] actionDeck) {
+        for (String name : playerNames) {
+                Player player = new Player(name);
+                players.add(player);
+        }
+        try {
+            supply = new Supply(actionDeck);
+        }
+        catch (Exception e) {
+            System.out.println("FATAL ERROR: Deck too large");
+        }
+        
         
         this.beginTime = Instant.now();
     }

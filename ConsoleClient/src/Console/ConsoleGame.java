@@ -1,9 +1,8 @@
 package Console;
 
-
 import Core.EngineInstance;
+import Core.PlayerPlace;
 import java.util.Scanner;
-
 
 public class ConsoleGame {
 	private boolean gameRunning = true;
@@ -37,17 +36,23 @@ public class ConsoleGame {
 	private void gameLoop() {
             int playerAmount = playerNames.length;
             Scanner in = new Scanner(System.in);
+            
             while (gameRunning) {
-                for (int i = 0; i < playerAmount; i++) {
-                    System.out.println("\n" + playerNames[i] + "'s turn");
-                    System.out.println("------------------------");
-                    System.out.println("Cards in hand");
-                    System.out.println("-------------");
-                    for (String card: engine.getHandStrings(playerNames[i])) {
+                for (String playerName : playerNames) {
+                    underlineOut("Dominion");
+                    underlineOut("Player " + playerName + "'s turn");
+                    for (String card: engine.getCardStrings(playerName, PlayerPlace.PLACE_HAND)) {
                         System.out.println(card);
                     }
                     in.nextLine();
                 }
             }
 	}
+        
+        private void underlineOut(String message) {
+            System.out.println("\n" + message);
+            for (int i = 0; i < message.length(); i++) {
+                System.out.print("-");
+            }
+        }
 }

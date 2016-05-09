@@ -1,5 +1,6 @@
 package Core;
 
+import java.util.Collections;
 import java.util.List;
 
 class CardEffect {
@@ -26,9 +27,9 @@ class CardEffect {
     public static void discard(Player player, List<Card> source, Card[] cards) {
             for (int i = 0; i < cards.length; i++) {
                     try {
-                            transferCards(source, player.discardPile, cards, true);
+                            transferCards(source, player.discard, cards, true);
                     } catch (Exception e) {
-                            System.out.println("Debug: " + player.name + " did not have the cards for transfer (DISCARD)");
+                            System.out.println("Debug: " + player.getName() + " did not have the cards for transfer (DISCARD)");
                     }
             }
     }
@@ -58,32 +59,20 @@ class CardEffect {
                             //player.transferCards(player.deck, player.hand, amount, true);
                     }
                     catch (Exception e) {
-                            System.out.println("Debug: " + player.name + " did not have enough cards for transfer (DRAW) <- drawing from deck");
+                            System.out.println("Debug: " + player.getName() + " did not have enough cards for transfer (DRAW) <- drawing from deck");
                     }
             }
 
             if (drawFromDiscard) {
-                    player.shuffleDiscardPile();
+                    Collections.shuffle(player.discard);
                     for (int i = 0; i < rest; i++) {
                             try {
                                     //player.transferCards(player.discardPile, player.hand, amount, true);
                             } catch (Exception e) {
-                                    System.out.println("Debug: " + player.name + " did not have enough cards for transfer (DRAW) <- drawing from discardPile");
+                                    System.out.println("Debug: " + player.getName() + " did not have enough cards for transfer (DRAW) <- drawing from discardPile");
                             }
                     }
             }
-    }
-
-    public static void addAction(Player player, int amount) {
-            player.actions += amount;
-    }
-
-    public static void addBuy(Player player, int amount) {
-            player.buys += amount;
-    }
-
-    public static void addCoins(Player player, int amount) {
-            player.coins += amount;
     }
 
     /*
