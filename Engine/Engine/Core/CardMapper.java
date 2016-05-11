@@ -4,35 +4,81 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class CardMapper {
-    public ArrayList<TreasureCard> getTreasureCards() {
-        ResultSet rs = retrieve("treasurecards");
-        while(rs.next()) {
-            TreasureCard card = new TreasureCard(rs.getInt("id"), rs.get);
-            
-        }
-                
-    }
-    
-    private static ResultSet retrieve(String table) {
-    Connection con = null;
-    PreparedStatement pst = null;
-    ResultSet rs = null;
 
-    String url = "jdbc:mysql://localhost:3306/dominion";
-    String user = "root";
-    String password = "thetarun";
-        
+    public static ArrayList<TreasureCard> getTreasureCards() {
+        ResultSet rs = retrieve("treasurecards");
+        ArrayList<TreasureCard> out = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                try {
+                    TreasureCard card = new TreasureCard(rs.getInt("id"), rs.getInt("amount"),
+                            rs.getInt("cost"), rs.getString("name"), rs.getString("description"), rs.getInt("value"));
+                    out.add(card);
+                } catch (Exception e) {
+                    System.out.println("ERROR: card field could not be read -- " + e.getMessage());
+                }
+
+            }
+        } catch (Exception e) {
+            System.out.println("FATAL ERROR: no cards to read");
+        }
+        return out;
+    }
+
+    public static ArrayList<VictoryCard> getVictoryCards() {
+        ResultSet rs = retrieve("victorycards");
+        ArrayList<VictoryCard> out = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                try {
+                    VictoryCard card = new VictoryCard(rs.getInt("id"), rs.getInt("amount"),
+                            rs.getInt("cost"), rs.getString("name"), rs.getString("description"), rs.getInt("value"));
+                    out.add(card);
+                } catch (Exception e) {
+                    System.out.println("ERROR: card field could not be read -- " + e.getMessage());
+                }
+
+            }
+        } catch (Exception e) {
+            System.out.println("FATAL ERROR: no cards to read");
+        }
+        return out;
+    }
+
+    public static ArrayList<ActionCard> getActionCards() {
+        ResultSet rs = retrieve("actioncards");
+        ArrayList<ActionCard> out = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                try {
+                    ActionCard card = new ActionCard(rs.getInt("id"), rs.getInt("amount"),
+                            rs.getInt("cost"), rs.getString("name"), rs.getString("description"));
+                    out.add(card);
+                } catch (Exception e) {
+                    System.out.println("ERROR: card field could not be read -- " + e.getMessage());
+                }
+
+            }
+        } catch (Exception e) {
+            System.out.println("FATAL ERROR: no cards to read");
+        }
+        return out;
+    }
+
+    private static ResultSet retrieve(String table) {
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+
+        String url = "jdbc:mysql://localhost:3306/dominion";
+        String user = "root";
+        String password = "thetarun";
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/dominion?user=root&password=thetarun");
             pst = con.prepareStatement("SELECT * FROM " + table);
             rs = pst.executeQuery();
-            
-            while (rs.next()) {
-                System.out.print(rs.getInt(1));
-                System.out.print(": ");
-                System.out.println(rs.getString(2));
-            }
 
         } catch (SQLException ex) {
             System.out.println("FATAL ERROR: could not connect to card database");
@@ -54,5 +100,6 @@ public class CardMapper {
                 ex.printStackTrace();
             }
         }
+        return rs;
     }
 }

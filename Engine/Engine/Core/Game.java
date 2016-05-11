@@ -5,63 +5,146 @@ import java.util.List;
 import java.time.*;
 
 // Represents an active game - base class
-class Game {
-    private List<Player> players = new ArrayList<Player>();
+public class Game {
+
+    private List<Player> players = new ArrayList<>();
     private Instant beginTime = null;
     private int turn = 0;
     private boolean gameRunning = true;
     private Supply supply;
+    private Player activePlayer;
+    private ArrayList<Card> playArea = new ArrayList<>();
+    private ArrayList<Card> currentSet;
 
-    public List<Player> getPlayers() {
-            return players;
+    @Override
+    public String toString() {
+        String output = "[" + players.get(0).getName();
+        for (Player player : players) {
+            output += ", " + player.getName();
+        }
+        output += "] " + getDuration().toMinutes() + " minutes";
+        return output;
     }
 
-    public Player getPlayer(String playerName) {
+    public Duration getDuration() {
+        return Duration.between(beginTime, Instant.now());
+    }
+    
+    public ArrayList<Card> getCurrentSet() {
+        return currentSet;
+    }
+
+    public Game(String[] playerNames) {
+        for (int i = 0; i < playerNames.length; i++) {
+            Player player = new Player(i, playerNames[i]);
+            players.add(player);
+        }
+        supply = new Supply((byte) playerNames.length);
+
+        activePlayer = players.get(0);
+        this.beginTime = Instant.now();
+        ConsoleController.addGame(this);
+    }
+
+    public Game(String[] playerNames, ActionCard[] actionDeck) {
+        for (int i = 0; i < playerNames.length; i++) {
+            Player player = new Player(i, playerNames[i]);
+            players.add(player);
+        }
+        try {
+            supply = new Supply((byte) playerNames.length);
+        } catch (Exception e) {
+            System.out.println("FATAL ERROR: Deck too large");
+        }
+
+        activePlayer = players.get(0);
+        this.beginTime = Instant.now();
+        ConsoleController.addGame(this);
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public ArrayList<Card> getBuyableCards() {
+        ArrayList<Card> out = new ArrayList<>();
+        int treasury = getActivePlayer().getTreasury();
+        for (Card card : supply.getAllCardsUnique()) {
+            if (card.getCost() <= treasury) {
+                out.add(card);
+            }
+        }
+        currentSet = out;
+        return out;
+    }
+
+    private Player getPlayer(int playerId) {
         for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getName().equals(playerName)) {
+            if (players.get(i).getId() == playerId) {
                 return players.get(i);
             }
         }
         return null;
     }
 
-    @Override
-    public String toString() {
-            String output = "[" + players.get(0).getName();
-            for (Player player : players) {
-                    output += ", " + player.getName();
-            }
-            output += "] " + getDuration().toMinutes() + " minutes";
-            return output;
+    public int getTurn() {
+        return turn;
     }
 
-    public Duration getDuration() {
-            return Duration.between(beginTime, Instant.now());
+    public Player getActivePlayer() {
+        return activePlayer;
     }
 
-    public Game(String[] playerNames) {
-        for (String name : playerNames) {
-                Player player = new Player(name);
-                players.add(player);
+    public void nextPlayer() {
+        cleanup();
+        if (players.indexOf(activePlayer) == players.size() - 1) {
+            activePlayer = players.get(0);
         }
-        supply = new Supply();
+        else {
+            activePlayer = players.get(players.indexOf(activePlayer) + 1);
+        }
+        //activePlayer = players.get((players.indexOf(activePlayer) + 1) % players.size());
+    }
+
+    public void buy(int cardIndex, int[] treasureCardIndexes) throws Exception {
+        Card card = currentSet.get(cardIndex - 1);
+        ArrayList<TreasureCard> treasureCards = new ArrayList<>();
+        for (int index : treasureCardIndexes){
+            treasureCards.add((TreasureCard) activePlayer.getTreasureCards(PlayerPlace.PLACE_HAND).get(index - 1));
+        }
         
-        this.beginTime = Instant.now();
+        // value check
+        int value = 0;
+        for (TreasureCard treasureCard : treasureCards) {
+            value += treasureCard.getValue();
+        }
+        if (value < card.getCost() || activePlayer.getBuys() == 0) {
+            throw new Exception("Not enough money");
+        }
+        
+        activePlayer.discard.add(card);
+        supply.reduceAmount(card);
+        
+        
+        for (TreasureCard c : treasureCards) {
+            Card.transferCard(c, activePlayer.getHand(), playArea, true, false);
+        }
+        activePlayer.addBuy(-1);
     }
     
-    public Game(String[] playerNames, ActionCard[] actionDeck) {
-        for (String name : playerNames) {
-                Player player = new Player(name);
-                players.add(player);
-        }
-        try {
-            supply = new Supply(actionDeck);
-        }
-        catch (Exception e) {
-            System.out.println("FATAL ERROR: Deck too large");
-        }
+    public void playActionCard(int CardIndex) {
         
-        
-        this.beginTime = Instant.now();
+    }
+    
+    private void cleanup() {
+        Card.transferCards(activePlayer.hand, activePlayer.discard, true);
+        Card.transferCards(playArea, activePlayer.discard, true);
+        activePlayer.drawFromDeck(5);
+        activePlayer.addBuy(1);
+        activePlayer.addAction(1);
+    }
+
+    public Supply getSupply() {
+        return supply;
     }
 }

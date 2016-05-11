@@ -9,7 +9,7 @@ public class ConsoleController {
     private static List<Game> games = new ArrayList<Game>();
     private static boolean running = true;
     
-    public static void processInput(String input) {
+    private static void processInput(String input) {
             switch(input.toLowerCase()) {
             case "games":
                     listGames();
@@ -31,5 +31,16 @@ public class ConsoleController {
             for (int i = 0; i < games.size(); i++) {
                     System.out.println(i + " - " + games.get(i).toString());
             }
+    }
+    
+    protected static void addGame(Game game) {
+        games.add(game);
+    }
+    
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        while (running) {
+            processInput(in.next());
+        }
     }
 }
