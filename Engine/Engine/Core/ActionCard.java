@@ -10,10 +10,10 @@ class ActionCard extends Card {
             method = card.getClass().getMethod(name);
         }
         catch (NoSuchMethodException e) {
-            System.out.println("Failed to build card: " + name + " - no such method");
+            System.out.println("ERROR: Failed to build card: " + name + " - no such method");
         }
         catch (Exception e) {
-            System.out.println("Failed to build card: " + name + " - general reflection error");
+            System.out.println("ERROR: Failed to build card: " + name + " - general reflection error");
         } 
     }
     
@@ -24,10 +24,10 @@ class ActionCard extends Card {
             method = card.getClass().getMethod(name);
         }
         catch (NoSuchMethodException e) {
-            System.out.println("Failed to build card: " + name + " - no such method");
+            System.out.println("ERROR: Failed to build card: " + name + " - no such method");
         }
         catch (Exception e) {
-            System.out.println("Failed to build card: " + name + " - general reflection error");
+            System.out.println("ERROR: Failed to build card: " + name + " - general reflection error");
         } 
     }
     
@@ -36,12 +36,12 @@ class ActionCard extends Card {
             method.invoke(this);
         }
         catch (Exception e) {
-            System.out.println("Failed to execute card method: " + this.getName());
+            System.out.println("ERROR: Failed to execute card method: " + this.getName());
         }
        
     }
     
-    private static void cellar() {
+    public static void cellar() {
         boolean playerDone = false;
         //CardEffect.addAction(player, 1);
         while (!playerDone) {
