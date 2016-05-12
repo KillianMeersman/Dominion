@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dominion</title>
+    <link rel="icon" href="images/icon.png" />
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/screen.css" />
+</head>
+
+<body>
+
+    <header class="start">
+        <h1><img src="images/logo.gif" alt="logo"/></h1>
+
+    </header>
+
+    <div id="blackscreen">
+
+
+
+    </div>
+
+    <div id="cardSpectator">
+
+        <img src="images/ActionCards/thief.jpg">
+
+    </div>
+
+    <!---HOOFDMENU -->
+    <div id="authenticationScreen" class="menu">
+        <form action="post">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username">
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password">
+        </form>
+        <hr>
+        <section>
+            <a href="#" id="login">Login</a>
+            <a href="#">Register</a>
+        </section>
+
+
+
+
+    </div>
+
+    <div id="play">
+        <div class="menu start main">
+            <p>
+                <a id="newGame" href="#">New Game</a>
+            </p>
+            <p><a id="saveGame" href="#">Saved Game</a></p>
+            <p><a id="tutorial" href="#">Tutorial</a></p>
+
+        </div>
+        <div id="save" class="klapuit">
+            <h2>Previous Save files</h2>
+            <p><a href="#">Save Game #1</a></p>
+            <p><a href="#">Save Game #2</a></p>
+            <p><a href="#">Save Game #3</a></p>
+        </div>
+
+
+        <div id="new" class="klapuit">
+            <h2>Choose Action Deck</h2>
+
+            <p id="firstGame"><a href="#">First Game </a></p>
+            <p><a href="#">Big Money</a></p>
+            <p><a href="#">Interaction</a></p>
+            <p><a href="#">Size Distortion</a></p>
+            <p><a href="#">Village Square</a></p>
+            <p><a href="#">Custom Deck</a></p>
+
+        </div>
+
+
+
+
+    </div>
+
+    <!---DECK BUILDER -->
+
+    <div id="cardBook" class="deckBuild start">
+        <p>Click on the cards to choose</p>
+        <article id="viewCards">
+
+        </article>
+
+        <section id="cardBookFooter">
+            <a href="#" id="previousArrow">
+                <img src="images/arrow-left.png" alt="leftArrow" />
+            </a>
+            <p>Page 1 of 3</p>
+            <a href="#" id="nextArrow">
+                <img src="images/arrow-right.png" alt="rightArrow" />
+            </a>
+        </section>
+    </div>
+
+
+    <img id="transmission" src="images/transmision.png" class="deckBuild start" />
+
+
+    <div id="deckBook" class="deckBuild start">
+        <p>Choose Cards (10)</p>
+        <section id="viewDeck">
+
+        </section>
+    </div>
+
+
+
+
+
+
+
+    <div>
+
+    </div>
+    <div id="khalid">
+        <img src="images/khaled.gif">
+        <img src="images/wedabest.gif">
+        <img src="images/dove.gif">
+        <img src="images/genius.jpg">
+        <img src="images/gratuful.gif">
+        <img src="images/played.gif">
+        <img src="images/swim.gif">
+        <img src="images/usmart.gif">
+    </div>
+
+    <div id="esc">
+        <div class="menu">
+
+            <a id="forfeit" href="#">Forfeit</a>
+            <a href="#">Save and Quit</a>
+            <a href="#">Close</a>
+        </div>
+
+    </div>
+
+    <div id="gameTable">
+
+
+
+        <div id="introTutorial" class="menu tip">
+            <h4>Welcome to Dominion!</h4>
+            <p>To start the tutorial click anywhere.</p>
+            <p>To go to the next step you can use the arrow keys or simply click anywhere.</p>
+        </div>
+        <div id="tips">
+            <div class="menu tip">
+                <h4>Action Cards</h4>
+                <p>These are the special cards you can buy who have all special effects.</p>
+                <p>You can click on the card to view that specific card in spectator mode or you can click on the "+"-button (if you can afford it) to buy that card.</p>
+            </div>
+
+            <div class="menu tip">
+                <h4>Victory Cards</h4>
+                <p>These are cards that you can buy to gain victory-points which you need to win the game.</p>
+                <p>You can click on the card to view that specific card in spectator mode or you can click on the "+"-button (if you can afford it) to buy that card.</p>
+            </div>
+            <div class="menu tip">
+                <h4>Treasure Cards</h4>
+                <p>These are cards that you can buy to gain gain gold when you draw a treasure card to your hand. Gold can be used to buy more cards!</p>
+                <p>You can click on the card to view that specific card in spectator mode or you can click on the "+"-button (if you can afford it) to buy that card.</p>
+            </div>
+
+            <div class="menu tip">
+                <h4>Curse Card</h4>
+                <p>This is a card that you don't normally want to buy. </p>
+                <p>The curse cards gives you -1 victory points so it is best to combo this card with specific action cards. The witch card also gives an opponent a curse card.</p>
+            </div>
+
+            <div class="menu tip">
+                <h4>End Turn and Play Treasure button</h4>
+                <p>The "End Turn"-button if pressed will end your turn so the next player can make his moves!</p>
+                <p>The "Play Treasure"-button is handy when you have more than 2 treasure cards in your hand and you want to play them all in once.</p>
+            </div>
+            <div class="menu tip">
+                <h4>Thrash pile</h4>
+                <p>In the thrash pile are all the cards that are permantally discarded. You can click on the pile to view those cards. </p>
+            </div>
+            <div class="menu tip">
+                <h4>Amount of Actions/Buys/Coins</h4>
+                <p>This will display how many actions, buys and coins you have left.</p>
+            </div>
+            <div class="menu tip">
+                <h4>Player's Hand</h4>
+                <p>This is the current player's hand where you can view all the cards that you can play this turn.</p>
+                <p>To view a card just simply hover over a card or to play a card just click on that desired card.</p>
+            </div>
+
+            <div class="menu tip">
+                <h4>Current Player</h4>
+                <p>Displays the name of who's turn it currently is.</p>
+            </div>
+
+            <div class="menu tip">
+                <h4>Discard Pile and Deck</h4>
+                <p>The upper pile is the discard pile. All the cards who are played and will return to your deck in the next cicle will end up here.</p>
+                <p>The lower pile is your deck. At each start of your turn you will automatically draw cards from here.</p>
+            </div>
+
+            <div class="menu tip">
+                <h4>The player stats</h4>
+                <p>On this pannel you can view your opponents name and the first card on their discard pile. Click to dropdown.</p>
+
+            </div>
+        </div>
+
+        <div id="tutorialScreen" tabindex="-1">
+        </div>
+
+
+
+        <section id="trashCardsView">
+            <section>
+                <img src="images/ActionCards/feast.jpg">
+                <img src="images/ActionCards/market.jpg"> <img src="images/ActionCards/feast.jpg">
+                <img src="images/ActionCards/market.jpg"> <img src="images/ActionCards/feast.jpg">
+                <img src="images/ActionCards/market.jpg"> <img src="images/ActionCards/feast.jpg">
+                <img src="images/ActionCards/market.jpg"><img src="images/ActionCards/feast.jpg">
+                <img src="images/ActionCards/market.jpg"> <img src="images/ActionCards/feast.jpg">
+                <img src="images/ActionCards/market.jpg">
+            </section>
+
+        </section>
+
+        <section id="playerStats">
+            <img id="playerStatsImg" src="images/playerStatsWindow.png">
+            <p>Player Stats</p>
+
+            <h3 id="p1" class="threePlayer">Player Two</h3>
+            <img id="thief" src="images/ActionCards/thief.jpg">
+
+            <h3 id="p2" class="threePlayer">Player Three</h3>
+            <img id="moat" src="images/ActionCards/moat.jpg">
+
+
+
+            <h3 id="p3" class="threePlayer">Player Four</h3>
+            <img id="spy" src="images/ActionCards/spy.jpg">
+
+        </section>
+
+
+        <div id="notificationBar">
+            <img src="images/notificationBar.png" alt="notificationBarImg">
+            <p><em>Player 1</em> has played <em>Thief</em> card</p>
+        </div>
+
+
+
+        <section id="endTurn">
+            <p>End Turn</p>
+        </section>
+
+        <section id="playXXX">
+            <p>Play Treasure</p>
+        </section>
+
+
+        <section id="actionCardsBuy">
+            <!-- dynamisch ingevuld !-->
+        </section>
+
+
+        <section id="deckPile">
+
+            <img src="images/parralellogram-verticaal.png">
+            <img src="images/cardBack.jpg">
+            <div></div>
+        </section>
+
+
+        <section id="turnIndicator">
+            <img src="images/parralellogram.png">
+            <p>Player One</p>
+        </section>
+
+        <div id="buyOthers">
+            <section id="treasureCardsBuy">
+
+                <a id="gold" class="buyTreasureCards" href="#"><img src="images/TreasureCardsBuy/goldBuy.png" alt="6"></a>
+                <a id="silver" class="buyTreasureCards" href="#"><img src="images/TreasureCardsBuy/silverBuy.png" alt="3"></a>
+                <a id="copper" class="buyTreasureCards" href="#"><img src="images/TreasureCardsBuy/copperBuy.png" alt="0"></a>
+                <a id="curse" class="buyTreasureCards" href="#"><img src="images/VictoryCardsBuy/curseBuy.png"></a>
+
+                <a id="goldBuyButton" class="buttonBuyDesign buttonTreasurePlacement" href="#">+</a>
+                <a id="silverBuyButton" class="buttonBuyDesign buttonTreasurePlacement" href="#">+</a>
+                <a id="copperBuyButton" class="buttonBuyDesign buttonTreasurePlacement" href="#">+</a>
+                <a id="curseBuyButton" class="buttonBuyDesign buttonTreasurePlacement" href="#">+</a>
+            </section>
+
+            <section id="victoryCardsBuy">
+
+                <a id="province" class="buyVictoryCards" href="#"><img src="images/VictoryCardsBuy/provinceBuy.png" alt="8"></a>
+                <a id="duchy" class="buyVictoryCards" href="#"><img src="images/VictoryCardsBuy/duchyBuy.png" alt="3"></a>
+                <a id="estate" class="buyVictoryCards" href="#"><img src="images/VictoryCardsBuy/estateBuy.png" alt="1"></a>
+
+                <a id="provinceBuyButton" class="buttonBuyDesign buttonVictoryPlacement" href="#">+</a>
+                <a id="duchyBuyButton" class="buttonBuyDesign buttonVictoryPlacement" href="#">+</a>
+                <a id="estateBuyButton" class="buttonBuyDesign buttonVictoryPlacement" href="#">+</a>
+            </section>
+
+
+
+
+
+
+
+        </div>
+
+        <section id="abc">
+            <img src="images/abcv2.png">
+            <div>
+                <p id="amountActions">2</p>
+                <p id="amountBuys">2</p>
+                <p id="amountCoins">3</p>
+            </div>
+
+        </section>
+
+        <section id="thrashPile">
+            <img id="cover" src="images/ThrashPile.png">
+            <img id="firstOnPile" src="images/Trash.jpg">
+        </section>
+
+        <div id="cardField">
+
+        </div>
+
+    </div>
+
+
+
+    <!--<section id="cardsInTrash">
+    
+    
+    </section> !-->
+    <section id="footer start">
+        <p> <a href="#" id="back" class="start">Back</a></p>
+        <p> <a href="#" id="next" class="start">Next</a></p>
+    </section>
+    <script type="text/javascript" src="assets/js/jquery-2.1.4.min.js"></script>
+    <script src="assets/js/file.js"></script>
+
+</body>
+
+</html>

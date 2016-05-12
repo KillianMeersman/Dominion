@@ -1,0 +1,859 @@
+    /*---------------------*/
+    /*    HTML ELEMENTS    */
+    /*---------------------*/
+    
+    @font-face {
+        font-family: Enchanted;
+        src: url("../fonts/Enchanted Land.otf") format("opentype");
+    }
+    
+    body {
+        font-family: Enchanted;
+        background-image: url(../../images/bg.jpg);
+        overflow: hidden;
+    }
+    
+    header {
+        padding: 40px;
+        position: relative;
+    }
+    
+    p,
+    a {
+        color: black;
+        font-size: 3.3rem;
+        text-align: center;
+        text-decoration: none;
+    }
+    
+    h2 {
+        font-size: 3.3rem;
+        text-align: center;
+    }
+    /*---------------------*/
+    /*  REUSABLE CLASSES   */
+    
+    .menu {
+        background-color: rgba(255, 255, 255, 0.6);
+        left: 715px;
+        top: 425px;
+        padding: 20px 5px 20px 20px;
+        border-radius: 7px;
+        border: 1px solid black;
+        display: block;
+        position: fixed;
+    }
+    
+    hr {
+        width: 360px;
+        margin-left: auto;
+        margin-right: auto;
+        border-color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .klapuit h2 {
+        width: 350px;
+        margin-left: -15px;
+        border-bottom: 1px solid black;
+        padding-bottom: 10px;
+    }
+    
+    form,
+    #authenticationScreen>section {
+        margin-left: auto;
+        margin-right: auto;
+        width: 350px;
+    }
+    
+    #authenticationScreen>section {
+        width: 300px;
+        margin-bottom: -10px;
+    }
+    
+    hr+section a+a {
+        float: right;
+    }
+    
+    #authenticationScreen>hr+section a {
+        font-size: 2rem;
+    }
+    
+    #authenticationScreen input:focus {
+        outline: #ffffff;
+    }
+    
+    #authenticationScreen input {
+        float: right;
+        font-size: 2.4rem;
+        font-family: Enchanted;
+        width: 220px;
+        height: 30px;
+        border: 1px solid black;
+        background-image: url(../../images/paper.jpg);
+        opacity: 0.6;
+        border-radius: 2px;
+    }
+    
+    #authenticationScreen label {
+        font-size: 2.3rem;
+    }
+    
+    #authenticationScreen {
+        width: 400px;
+    }
+    
+    .main {
+        width: 400px;
+        height: 155px;
+    }
+    
+    .klapuit {
+        background-color: rgba(255, 255, 255, 0.6);
+        border-radius: 7px;
+        border: 1px solid black;
+        width: 320px;
+        padding: 15px;
+        display: inline-block;
+        left: 1150px;
+        top: 425px;
+        position: fixed;
+        /*
+    right: 375px;
+    top: 200px;
+    position: fixed;
+    */
+    }
+    
+    .klapuit:not(h2)>p>a {
+        font-size: 2.9rem;
+    }
+    
+    #cardBook {
+        height: 640px;
+        background-color: rgba(255, 255, 255, 0.6);
+        border-radius: 7px;
+        border: 1px solid black;
+        margin: -25px 0px 0px 150px;
+        padding: 10px;
+        width: 910px;
+    }
+    
+    #cardBook>p {
+        text-align: left;
+        display: inline-block;
+        font-size: 2.5rem;
+        margin-left: 12px;
+    }
+    
+    #viewCards {
+        height: 552px;
+    }
+    
+    #viewCards a {
+        display: inline-block;
+        margin-left: 10px;
+    }
+    
+    #viewCards img {
+        width: 172px;
+        height: auto;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    #cardBookFooter {
+        margin-left: auto;
+        margin-right: auto;
+        width: 200px;
+    }
+    
+    #nextArrow img,
+    #previousArrow img {
+        height: 25px;
+        width: auto;
+    }
+    
+    #cardBookFooter p {
+        display: inline;
+        font-size: 2.5rem;
+        margin-left: -8px;
+        font-weight: 400;
+    }
+    /*---------------------*/
+    /*---------------------*/
+    /* CONTAINING ELEMENTS */
+    /*---------------------*/
+    
+    #transmission {
+        width: 150px;
+        height: auto;
+        position: fixed;
+        top: 400px;
+        left: 1130px;
+    }
+    
+    #deckBook {
+        background-color: rgba(255, 255, 255, 0.6);
+        border-radius: 7px;
+        border: 1px solid black;
+        width: 480px;
+        position: fixed;
+        top: 305px;
+        left: 1300px;
+        padding: 10px 5px 10px 5px;
+        height: 600px;
+    }
+    
+    #deckBook>p {
+        font-size: 2.8rem;
+    }
+    
+    #footer {
+        position: fixed;
+        bottom: 0px;
+    }
+    
+    #previousArrow {}
+    /*------------------------*/
+    /* PAGE SPECIFIC ELEMENTS */
+    
+    input,
+    button,
+    submit {
+        border: none;
+    }
+    
+    #next {
+        text-align: right;
+        right: 0px;
+        margin-right: 20px
+    }
+    
+    #back {
+        margin-left: 20px;
+        text-align: left;
+        left: 0px;
+    }
+    
+    #next,
+    #back {
+        color: #fff;
+        margin-bottom: 15px;
+        position: fixed;
+        bottom: 0px;
+    }
+    
+    #library {}
+    
+    a.buildCard {
+        position: static;
+    }
+    
+    viewDeck {}
+    
+    #viewDeck a {
+        display: inline-block;
+        margin-left: 8px;
+    }
+    
+    #viewDeck img {
+        width: 110px;
+        height: auto;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    #blackscreen {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        display: block;
+        background-color: #171717;
+        z-index: 999999;
+        top: 0px;
+    }
+    
+    #gameTable {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        display: block;
+        top: 0px;
+    }
+    
+    #actionCardsBuy {
+        width: 950px;
+        height: 320px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+        border-style: solid;
+        border-color: rgba(238, 238, 238, 0.5);
+        border-width: medium;
+        padding: 10px;
+        padding-left: 0px;
+        border-radius: 5px;
+    }
+    
+    #actionCardsBuy a {
+        display: inline-block;
+        margin-left: 10px;
+    }
+    
+    a.buyActionCards {
+        position: static;
+    }
+    
+    #actionCardsBuy img {
+        width: 180px;
+        height: auto;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    #victoryCardsBuy,
+    #treasureCardsBuy {
+        width: 155px;
+        height: 440px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 25px;
+        padding: 10px;
+        padding-left: 0px;
+        top: 0px;
+        float: right;
+        margin-right: 20px;
+    }
+    
+    #victoryCardsBuy {
+        left: 1500px;
+    }
+    
+    #treasureCardsBuy {
+        left: 1700px;
+    }
+    
+    #victoryCardsBuy img,
+    #treasureCardsBuy img {
+        width: 165px;
+        height: auto;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    /*  
+#victoryCardsBuy a,
+#treasureCardsBuy a,
+{
+    display: inline-block;
+    margin-left: 10px;
+}
+*/
+    
+    #turnIndicator p {
+        color: rgb(255, 216, 0);
+        position: fixed;
+        bottom: 12px;
+        left: 100px;
+    }
+    
+    #turnIndicator img {
+        bottom: -2px;
+        width: 450px;
+        height: 120px;
+        position: fixed;
+        left: -31px;
+    }
+    
+    #abc img {
+        position: fixed;
+        bottom: -5px;
+        left: 1425px;
+        height: 120px;
+    }
+    
+    #abc div p {
+        display: inline-block;
+        color: whitesmoke;
+        margin-left: 57px;
+        font-size: 2.2rem;
+    }
+    
+    #abc div {
+        position: fixed;
+        bottom: 18px;
+        left: 1430px;
+    }
+    
+    #cover {
+        width: 150px;
+        position: fixed;
+        bottom: 10px;
+        right: 52px;
+        height: 220px;
+    }
+    
+    #firstOnPile {
+        z-index: 500;
+        display: inline;
+        width: 100px;
+        position: fixed;
+        bottom: 41px;
+        right: 76px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    
+    .buttonBuyDesign {
+        border-radius: 3px;
+        display: inherit;
+        line-height: 30px;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        background-color: rgba(95, 2, 31, 0.8);
+        color: azure;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    
+    .buttonVictoryPlacement {
+        position: relative;
+        top: -515px;
+        margin-top: 132px;
+        left: 120px;
+    }
+    
+    .buttonActionCards {
+        position: relative;
+        top: -215px;
+        left: 137px;
+        margin-bottom: 133px;
+        margin-right: 147px;
+    }
+    
+    .buttonTreasurePlacement {
+        position: relative;
+        top: -679px;
+        margin-top: 132px;
+        left: 120px;
+    }
+    
+    #buyOthers {
+        width: 375px;
+        height: 600px;
+        float: right;
+        margin-right: 50px;
+        margin-top: -370px
+    }
+    
+    #cardSpectator,
+    #esc {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        display: block;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 500;
+        top: 0px;
+    }
+    
+    #cardSpectator img {
+        border-radius: 10px;
+        width: 350px;
+        margin-left: 775px;
+        margin-top: 200px;
+    }
+    
+    .cardsTemp {
+        position: fixed;
+        border-radius: 10px;
+        width: 170px;
+    }
+    
+    #deckPile {}
+    
+    #deckPile>:first-child {
+        width: 150px;
+        bottom: -80px;
+        left: -2px;
+        position: fixed;
+    }
+    
+    #deckPile>:first-child+img {
+        width: 70px;
+        border-radius: 10px;
+        position: fixed;
+        left: 6px;
+        bottom: 75px;
+    }
+    
+    #deckPile div {
+        height: 97px;
+        width: 62px;
+        border-style: solid;
+        border-color: rgba(238, 238, 238, 0.5);
+        border-width: medium;
+        border-radius: 5px;
+        position: fixed;
+        bottom: 189px;
+        left: 6px;
+    }
+    
+    cardField {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        display: block;
+        z-index: -1;
+        top: 0px;
+    }
+    
+    #tempcard {
+        width: 68px;
+        border-radius: 5px;
+        position: fixed;
+        bottom: 75px;
+        left: 7px;
+    }
+    
+    .standardCard {
+        position: fixed;
+        border-radius: 10px;
+        width: 160px;
+    }
+    
+    #card1 {
+        bottom: -65px;
+        left: 925px;
+    }
+    
+    #card2 {
+        bottom: -65px;
+        left: 850px;
+    }
+    
+    img.cardInHand {
+        transform: translate3d(0px, 0px, 0px);
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    img.cardInHand:hover {
+        transform: translate3d(0px, -30px, 0px);
+    }
+    /*#cardsInTrash {
+        position: fixed;
+        width: 700px;
+    }*/
+    
+    #endTurn,
+    #playXXX {
+        cursor: pointer;
+        text-align: center;
+        position: fixed;
+        width: 150px;
+        height: 68px;
+        border: 3px solid black;
+        border-radius: 5px;
+        background-image: url(../../images/wood-small.png);
+        background-size: cover;
+    }
+    
+    #endTurn p,
+    #playXXX p {
+        color: whitesmoke;
+    }
+    
+    #endTurn {
+        right: 260px;
+        top: 528px;
+    }
+    
+    #endTurn p {
+        padding-top: 14px;
+        font-size: 2.5rem;
+    }
+    
+    #playXXX {
+        right: 260px;
+        top: 605px;
+    }
+    
+    #playXXX:hover,
+    #endTurn:hover {
+        border-color: rgb(255, 255, 255);
+    }
+    
+    #playXXX p {
+        font-size: 2.4rem;
+        padding-top: 14px;
+    }
+    
+    #playerStats:hover {
+        transform: translate3d(0px, 227px, 0px);
+    }
+    
+    #playerStats {
+        transform: translate3d(0px, 0px, 0px);
+        transition: transform 0.3s ease-in-out;
+        z-index: -1;
+        position: fixed;
+        left: 20px;
+        top: -464px;
+    }
+    
+    #playerStatsImg {
+        width: 420px;
+        z-index: -1;
+    }
+    
+    #playerStatsImg+p {
+        margin-top: -90px;
+        color: white;
+        font-size: 2.5rem;
+    }
+    /*ONE PLAYER VIEW */
+    
+    #p1.onePlayer {
+        margin-top: -250px;
+        color: white;
+        font-size: 2.2rem;
+        text-align: center;
+    }
+    
+    #p1.onePlayer+img {
+        border: medium solid rgba(238, 238, 238, 0.5);
+        width: 80px;
+        border-radius: 5px;
+        margin-left: 165px;
+        margin-top: 15px;
+        z-index: 5;
+    }
+    /*Two PLAYER VIEW */
+    
+    #p1.twoPlayer {
+        width: 220px;
+        margin-top: -250px;
+        color: white;
+        font-size: 2.2rem;
+        text-align: center;
+    }
+    
+    #p1.twoPlayer+img {
+        border: medium solid rgba(238, 238, 238, 0.5);
+        width: 80px;
+        border-radius: 5px;
+        margin-left: 65px;
+        margin-top: 15px;
+        z-index: 5;
+    }
+    
+    #p2.twoPlayer {
+        width: 220px;
+        top: 0px;
+        color: white;
+        font-size: 2.2rem;
+        text-align: center;
+        margin-left: 200px;
+        margin-top: -188px;
+    }
+    
+    h3+img {
+        cursor: pointer;
+    }
+    
+    #p2.twoPlayer+img {
+        border: medium solid rgba(238, 238, 238, 0.5);
+        display: inline;
+        width: 80px;
+        border-radius: 5px;
+        margin-left: 265px;
+        margin-top: 15px;
+        z-index: 5;
+    }
+    /* Three PLAYER VIEW */
+    
+    #p1.threePlayer {
+        width: 146px;
+        margin-top: -250px;
+        color: white;
+        font-size: 2rem;
+        text-align: center;
+    }
+    
+    #p1.threePlayer+img {
+        border: medium solid rgba(238, 238, 238, 0.5);
+        width: 80px;
+        border-radius: 5px;
+        margin-left: 30px;
+        margin-top: 15px;
+        z-index: 5;
+    }
+    
+    #p2.threePlayer {
+        width: 147px;
+        top: 0px;
+        color: white;
+        font-size: 2rem;
+        text-align: center;
+        margin-left: 140px;
+        margin-top: -188px;
+    }
+    
+    #p2.threePlayer+img {
+        border: medium solid rgba(238, 238, 238, 0.5);
+        display: inline;
+        width: 80px;
+        border-radius: 5px;
+        margin-left: 165px;
+        margin-top: 15px;
+        z-index: 5;
+    }
+    
+    #p3.threePlayer {
+        width: 146px;
+        top: 0px;
+        color: white;
+        font-size: 2rem;
+        text-align: center;
+        margin-left: 278px;
+        margin-top: -188px;
+    }
+    
+    #p3.threePlayer+img {
+        border: medium solid rgba(238, 238, 238, 0.5);
+        display: inline;
+        width: 80px;
+        border-radius: 5px;
+        margin-left: 304px;
+        margin-top: 15px;
+        z-index: 5;
+    }
+    
+    #notificationBar img {
+        position: fixed;
+        top: 385px;
+        left: 562px;
+        width: 800px;
+        height: 35px;
+    }
+    
+    em {
+        color: rgb(255, 216, 0);
+    }
+    
+    #trashCardsView {
+        display: block;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 5000;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+    }
+    
+    #trashCardsView section {
+        z-index: 5000;
+        width: 808px;
+        padding: 20px 20px 20px 10px;
+        margin-top: 150px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 7px;
+        border: 2px solid whitesmoke;
+        background-color: rgba(255, 255, 240, 0.2)
+    }
+    
+    #trashCardsView section img {
+        width: 150px;
+        border-radius: 7px;
+        margin-left: 10px;
+    }
+    
+    .boughtCard {
+        width: 75px;
+        position: fixed;
+    }
+    
+    #tutorialScreen {
+        z-index: 600;
+        position: fixed;
+        border: 2000px solid rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        width: 0px;
+        height: 0px;
+        left: 0px;
+        top: 0px;
+    }
+    
+    #introTutorial {
+        width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        z-index: 999;
+        left: 540px;
+    }
+    
+    .tip {
+        padding: 20px 20px 20px 20px;
+    }
+    
+    .tip p {
+        font-size: 2.8rem
+    }
+    
+    h4 {
+        text-align: center;
+        font-size: 3.8rem;
+        margin-bottom: 20px;
+    }
+    
+    #tips h4 {
+        font-size: 2.8rem;
+    }
+    
+    #tips p {
+        font-size: 2.3rem;
+    }
+    
+    #tips p {
+        margin-top: 10px;
+    }
+    
+    #tips div {
+        width: 800px;
+        z-index: 666;
+        left: 545px;
+    }
+    
+    #esc a {
+        margin-bottom: 20px;
+        text-align: center;
+        display: block;
+    }
+    
+    #esc div {
+        padding: 20px;
+        left: 800px;
+        top: 380px;
+        width: 270px;
+        height: 200px;
+        display: block;
+    }
+    
+    #notificationBar p {
+        position: fixed;
+        width: 800px;
+        top: 385px;
+        left: 567px;
+        font-size: 2.2rem;
+        color: white;
+        height: 35px;
+    }
+    
+    #khalid {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        z-index: 999;
+    }
+    /*------------------------*/
+    /* --- Home --- */
