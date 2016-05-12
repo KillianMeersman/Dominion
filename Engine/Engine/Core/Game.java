@@ -33,6 +33,43 @@ public class Game {
     public ArrayList<Card> getCurrentSet() {
         return currentSet;
     }
+    
+    public Supply getSupply() {
+        return supply;
+    }
+    
+    public int getTurn() {
+        return turn;
+    }
+
+    public Player getActivePlayer() {
+        return activePlayer;
+    }
+    
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public ArrayList<Card> getBuyableCards() {
+        ArrayList<Card> out = new ArrayList<>();
+        int treasury = getActivePlayer().getTreasury();
+        for (Card card : supply.getAllCardsUnique()) {
+            if (card.getCost() <= treasury) {
+                out.add(card);
+            }
+        }
+        currentSet = out;
+        return out;
+    }
+
+    private Player getPlayer(int playerId) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getId() == playerId) {
+                return players.get(i);
+            }
+        }
+        return null;
+    }
 
     public Game(String[] playerNames) {
         for (int i = 0; i < playerNames.length; i++) {
@@ -62,50 +99,10 @@ public class Game {
         ConsoleController.addGame(this);
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public void playActionCard(int CardIndex) {
+        
     }
-
-    public ArrayList<Card> getBuyableCards() {
-        ArrayList<Card> out = new ArrayList<>();
-        int treasury = getActivePlayer().getTreasury();
-        for (Card card : supply.getAllCardsUnique()) {
-            if (card.getCost() <= treasury) {
-                out.add(card);
-            }
-        }
-        currentSet = out;
-        return out;
-    }
-
-    private Player getPlayer(int playerId) {
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getId() == playerId) {
-                return players.get(i);
-            }
-        }
-        return null;
-    }
-
-    public int getTurn() {
-        return turn;
-    }
-
-    public Player getActivePlayer() {
-        return activePlayer;
-    }
-
-    public void nextPlayer() {
-        cleanup();
-        if (players.indexOf(activePlayer) == players.size() - 1) {
-            activePlayer = players.get(0);
-        }
-        else {
-            activePlayer = players.get(players.indexOf(activePlayer) + 1);
-        }
-        //activePlayer = players.get((players.indexOf(activePlayer) + 1) % players.size());
-    }
-
+    
     public void buy(int cardIndex, int[] treasureCardIndexes) throws Exception {
         Card card = currentSet.get(cardIndex - 1);
         ArrayList<TreasureCard> treasureCards = new ArrayList<>();
@@ -114,37 +111,48 @@ public class Game {
         }
         
         // value check
-        int value = 0;
-        for (TreasureCard treasureCard : treasureCards) {
-            value += treasureCard.getValue();
-        }
-        if (value < card.getCost() || activePlayer.getBuys() == 0) {
+        if (getCardsValue(treasureCards) < card.getCost()) {
             throw new Exception("Not enough money");
         }
         
         activePlayer.discard.add(card);
         supply.reduceAmount(card);
         
-        
         for (TreasureCard c : treasureCards) {
             Card.transferCard(c, activePlayer.getHand(), playArea, true, false);
         }
         activePlayer.addBuy(-1);
-    }
-    
-    public void playActionCard(int CardIndex) {
         
+        if (activePlayer.getBuys() < 1) {
+            activePlayer.nextPhase();
+        }
     }
     
-    private void cleanup() {
+    public void cleanup() {
         Card.transferCards(activePlayer.hand, activePlayer.discard, true);
         Card.transferCards(playArea, activePlayer.discard, true);
         activePlayer.drawFromDeck(5);
         activePlayer.addBuy(1);
         activePlayer.addAction(1);
+        activePlayer.nextPhase();
+        nextPlayer();
     }
-
-    public Supply getSupply() {
-        return supply;
+    
+    private void nextPlayer() {
+        if (players.indexOf(activePlayer) == players.size() - 1) {
+            activePlayer = players.get(0);
+        }
+        else {
+            activePlayer = players.get(players.indexOf(activePlayer) + 1);
+        }
+        //activePlayer = players.get((players.indexOf(activePlayer) + 1) % players.size());
+    }
+    
+    private int getCardsValue(ArrayList<TreasureCard> cards) {
+        int value = 0;
+        for (TreasureCard treasureCard : cards) {
+            value += treasureCard.getValue();
+        }
+        return value;
     }
 }

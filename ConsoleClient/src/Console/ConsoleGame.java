@@ -1,9 +1,10 @@
+// TODO MS PROJECT
 package Console;
 
 import Core.Card;
 import Core.Game;
+import Core.PlayerPhase;
 import Core.PlayerPlace;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ConsoleGame {
@@ -39,14 +40,23 @@ public class ConsoleGame {
     private void gameLoop() {
         while (gameRunning) {
             for (byte i = 0; i < game.getPlayers().size(); i++) {
-                if (game.getTurn() % 10 == 0) {
+                if (game.getTurn() % 10 == 0 && game.getTurn() != 0) {
                     System.out.println("TURN " + game.getTurn());
-                    underlineOut("Player " + game.getActivePlayer().getName() + "'s turn");
+                }
+                underlineOut("Player " + game.getActivePlayer().getName() + "'s turn");
+
+                while (game.getActivePlayer().getPhase() == PlayerPhase.PHASE_ACTION) {
                     actionPrint();
-                    game.getActivePlayer().nextPhase();
+                    actionInput();
+                }
+
+                while (game.getActivePlayer().getPhase() == PlayerPhase.PHASE_BUY) {
                     buyPrint();
-                    game.getActivePlayer().nextPhase();
-                    game.nextPlayer();
+                    buyInput();
+                }
+                
+                if (game.getActivePlayer().getPhase() == PlayerPhase.PHASE_CLEANUP) {
+                    game.cleanup();
                 }
             }
         }
@@ -61,26 +71,23 @@ public class ConsoleGame {
     }
 
     private void actionPrint() {
-        if (game.getActivePlayer().hasActionCards(PlayerPlace.PLACE_HAND) && game.getActivePlayer().getActions() > 0) {
-            System.out.println("ACTION PHASE");
-            System.out.println("You can undertake this many actions: " + game.getActivePlayer().getActions());
-            System.out.println("You have these action cards:");
-            int i = 0;
+        System.out.println("ACTION PHASE");
+        System.out.println("You can undertake this many actions: " + game.getActivePlayer().getActions());
+        System.out.println("You have these action cards:");
+        int i = 0;
 
-            for (Card card : game.getActivePlayer().getActionCards(PlayerPlace.PLACE_HAND)) {
-                System.out.println(i++ + ". " + card.toString());
-            }
-
-            System.out.print("Which card do you wish to play? ");
-            while (!processInput(in.nextLine())) {
-                System.out.print("What do you wish to do? ");
-                processInput(in.nextLine());
-            }
+        for (Card card : game.getActivePlayer().getActionCards(PlayerPlace.PLACE_HAND)) {
+            System.out.println(i++ + ". " + card.toString());
         }
     }
 
+    private void actionInput() {
+            System.out.print("Which card do you wish to play? ");
+            processInput(in.next());
+    }
+
     private void buyPrint() {
-        System.out.println("BUY PHASE");
+        System.out.println("\nBUY PHASE");
         System.out.println("Possible transactions: " + game.getActivePlayer().getBuys());
         System.out.println("You have these treasure cards:");
         int i = 1;
@@ -90,13 +97,22 @@ public class ConsoleGame {
         }
 
         printBuyableCards();
+    }
 
-        while (game.getActivePlayer().getBuys() > 0 && game.getActivePlayer().getTreasury() > 0) {
-            System.out.print("What do you wish to buy? ");
-            while (!processInput(in.nextLine())) {
-                System.out.print("What do you wish to buy? ");
+    private void buyInput() {
+        System.out.print("What do you wish to buy? ");
+        String input = in.next();
+        if (!processInput(input)) {
+            System.out.print("Which treasure cards will you use for this? (Cost:" + game.getCurrentSet().get(Integer.parseInt(input) - 1).getCost() + "): ");
+            in.nextLine();
+            char[] cards = in.nextLine().toCharArray();
+            try {
+                game.buy(Integer.parseInt(input), processSpacedInput(cards));
             }
-        }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }     
     }
 
     private void printBuyableCards() {
@@ -129,47 +145,31 @@ public class ConsoleGame {
         }
     }
 
-    private boolean processInput(String input) {
+    private void printHelp() {
+        System.out.println("\nsupply - Print the supply");
+        System.out.println("hand - Print you hand");
+        System.out.println("skip - Go to next stage / player\n");
+    }
+
+    private boolean processInput(String input) { // false = keep current command; true = go to gameloop
         switch (input) {
             case "supply":
                 printSupply();
-                return false;
+                return true;
             case "hand":
                 printHand();
-                return false;
+                return true;
             case "help":
-                System.out.println("supply, hand");
-                return false;
+                printHelp();
+                return true;
             case "skip":
+                game.getActivePlayer().nextPhase();
+                return true;
+            case "exit":
+                gameRunning = false;
                 return true;
             default:
-                try {
-                    return processGameInput(input);
-                } catch (Exception e) {
-                    System.out.println("Not a valid command");
-                    return false;
-                }
-        }
-    }
-
-    private boolean processGameInput(String input) throws Exception {
-        switch (game.getActivePlayer().getPhase()) {
-            case PHASE_ACTION:
                 return false;
-            case PHASE_BUY:
-                System.out.print("Which treasure cards will you use for this? (ex. 1 2 4): ");
-                try {
-                    game.buy(Integer.parseInt(input), processSpacedInput(in.nextLine().toCharArray()));
-                    return true;
-                } catch (Exception e) {
-                    System.out.println("Not enough money");
-                    return false;
-                }
-
-            case PHASE_CLEANUP:
-                return false;
-            default:
-                throw new Exception("unknown command");
         }
     }
 

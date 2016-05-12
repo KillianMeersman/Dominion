@@ -120,12 +120,23 @@ public class Player {
     public void nextPhase() {
         switch (phase) {
             case PHASE_ACTION:
-                phase = PlayerPhase.PHASE_BUY;
+                if (buys > 0 && getTreasury() > 0) {
+                    phase = PlayerPhase.PHASE_BUY;
+                }
+                else {
+                    phase = PlayerPhase.PHASE_CLEANUP;
+                }
                 break;
             case PHASE_BUY:
                 phase = PlayerPhase.PHASE_CLEANUP;
                 break;
             case PHASE_CLEANUP:
+                if (actions > 0 && hasActionCards(PlayerPlace.PLACE_HAND)) {
+                    phase = PlayerPhase.PHASE_ACTION;
+                }
+                else {
+                    phase = PlayerPhase.PHASE_BUY;
+                }
                 phase = PlayerPhase.PHASE_ACTION;
                 break;
         }
