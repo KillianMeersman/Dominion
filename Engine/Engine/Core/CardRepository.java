@@ -109,7 +109,7 @@ class CardRepository {
         actionCards.add(new ActionCard(8, Supply.ACTIONSETAMOUNT, 5, "market", "+1 Card, +1 Action, +1 Buy, +1 Coin"));
         actionCards.add(new ActionCard(9, Supply.ACTIONSETAMOUNT, 4, "militia", "+2 Coins, Each other player discards down to 3 cards in his hand"));
         actionCards.add(new ActionCard(10, Supply.ACTIONSETAMOUNT, 5, "mine", "Trash a Treasure card from your hand. Gain a Treasure card costing up to 3 Coins more; put it into your hand"));
-        actionCards.add(new ActionCard(11, Supply.ACTIONSETAMOUNT, 2, "moat", "+2 Cards, When another player plays an Attack card, you may reveal this from your hand. If you do, you are unaffected by that Attack"));
+        actionCards.add(new ReactionCard(11, Supply.ACTIONSETAMOUNT, 2, "moat", "+2 Cards, When another player plays an Attack card, you may reveal this from your hand. If you do, you are unaffected by that Attack"));
         actionCards.add(new ActionCard(12, Supply.ACTIONSETAMOUNT, 4, "remodel", "+2 Coins, Each other player discards down to 3 cards in his hand."));
         actionCards.add(new ActionCard(13, Supply.ACTIONSETAMOUNT, 4, "smithy", "+3 Cards"));
         actionCards.add(new ActionCard(14, Supply.ACTIONSETAMOUNT, 3, "village", "+1 Card, +2 Actions"));

@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 public class ConsoleGame {
 
+    private static final String INV_INP_MSSG = "Invalid, input, please only input numbers and commands, type 'help' for more info";
+
     private boolean gameRunning = true;
     private Game game;
     Scanner in = new Scanner(System.in);
@@ -54,7 +56,7 @@ public class ConsoleGame {
                     buyPrint();
                     buyInput();
                 }
-                
+
                 if (game.getActivePlayer().getPhase() == PlayerPhase.PHASE_CLEANUP) {
                     game.cleanup();
                 }
@@ -82,8 +84,12 @@ public class ConsoleGame {
     }
 
     private void actionInput() {
-            System.out.print("Which card do you wish to play? ");
-            processInput(in.next());
+        System.out.print("Which card do you wish to play? > ");
+        String input = in.next();
+        if (!processInput(input)) {
+            //if (game.get
+        }
+        
     }
 
     private void buyPrint() {
@@ -100,19 +106,22 @@ public class ConsoleGame {
     }
 
     private void buyInput() {
-        System.out.print("What do you wish to buy? ");
+        System.out.print("What do you wish to buy? > ");
         String input = in.next();
-        if (!processInput(input)) {
-            System.out.print("Which treasure cards will you use for this? (Cost:" + game.getCurrentSet().get(Integer.parseInt(input) - 1).getCost() + "): ");
-            in.nextLine();
-            char[] cards = in.nextLine().toCharArray();
-            try {
+        try {
+            if (!processInput(input)) {
+                System.out.print("Which treasure cards will you use for this? (Cost:" + game.getCurrentSet().get(Integer.parseInt(input) - 1).getCost() + "): > ");
+                in.nextLine();
+                char[] cards = in.nextLine().toCharArray();
                 game.buy(Integer.parseInt(input), processSpacedInput(cards));
             }
-            catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }     
+        } 
+        catch (NumberFormatException e) {
+            messageUser(INV_INP_MSSG);
+        }
+        catch (Exception e) {
+            messageUser(e.getMessage());
+        }
     }
 
     private void printBuyableCards() {
@@ -197,5 +206,23 @@ public class ConsoleGame {
             }
         }
         return out;
+    }
+
+    private void messageUser(String message) {
+        System.out.println(message);
+        System.out.print("\nPress ENTER to continue");
+        try {
+            System.in.read();
+        } catch (Exception e) {
+            // Nothing here
+        }
+    }
+    
+    private void actionMode(int maxTurns) {
+        int i = 1;
+        System.out.println("\nACTION MODE - enter 'end' to exit this mode\n");
+        while (!(in.next().equals("end")) && (i++ != maxTurns + 1)) {
+            
+        }
     }
 }

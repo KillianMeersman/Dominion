@@ -15,6 +15,7 @@ public class Game {
     private Player activePlayer;
     private ArrayList<Card> playArea = new ArrayList<>();
     private ArrayList<Card> currentSet;
+    private ArrayList<ActionCard> reactionCards = new ArrayList<>();
 
     @Override
     public String toString() {
@@ -154,5 +155,13 @@ public class Game {
             value += treasureCard.getValue();
         }
         return value;
+    }
+    
+    public String[] getActionCardParamMessages(int CardIndex) {
+        return ((ActionCard) currentSet.get(CardIndex)).parameterMessages;
+    }
+    
+    public String[] getActionCardModeMessages(int CardIndex) {
+        return ((ActionCard) currentSet.get(CardIndex)).actionMessages;
     }
 }
