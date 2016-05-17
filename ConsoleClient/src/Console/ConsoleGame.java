@@ -235,8 +235,14 @@ public class ConsoleGame implements IEngineInterface {
 
     @Override
     public void displayCards(Card[] cards) {
+        int i = 1;
         for (Card card : cards) {
-            System.out.println(card.toString());
+            System.out.println(i++ + ". " + card.toString());
         }
+    }
+
+    @Override
+    public void messagePlayer(String message) {
+        confirmMessage(message);
     }
 }

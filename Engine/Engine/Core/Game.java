@@ -15,12 +15,6 @@ public class Game {
     private Player activePlayer;
     private ArrayList<Card> playArea = new ArrayList<>();
     private ArrayList<Card> currentSet;
-    protected boolean canEnd = false;
-    
-    public boolean canEnd() {
-        boolean end = canEnd;
-        return end;
-    }
 
     @Override
     public String toString() {
@@ -159,6 +153,7 @@ public class Game {
         else {
             activePlayer = players.get(players.indexOf(activePlayer) + 1);
         }
+        turn += 1;
         //activePlayer = players.get((players.indexOf(activePlayer) + 1) % players.size());
     }
     
@@ -179,14 +174,30 @@ public class Game {
         }
     }
     
-    protected Card promptPlayerCard(String message, boolean canEnd) {
-        String append = canEnd ? " (end to end action-mode) > " : " > ";
-        return currentSet.get(Integer.parseInt(view.promptPlayer(message + append)));
+    private <T extends Object> T promptPlayer(List<? extends Object> list, String message, boolean canEnd) {
+        try {
+            String append = canEnd ? " ('end' to end action-mode) > " : " > ";
+            String in = view.promptPlayer(message + append);
+            if (canEnd) {
+                if (in.equals("end")) { activePlayer.inActionMode = false; return null; }
+                return (T)list.get(Integer.parseInt(in));
+            }
+            else {
+                return (T)list.get(Integer.parseInt(in));
+            }
+        }
+        catch (Exception e) {
+            view.messagePlayer("Invalid input");
+            return promptPlayer(list, message, canEnd);
+        }
     }
     
-    protected Player promptPlayerPlayer(String message) {
-        String append = canEnd ? " (end to end action-mode) > " : " > ";
-        return players.get(Integer.parseInt(view.promptPlayer(message + append)));
+    protected Card promptPlayerCard(String message, boolean canEnd) {
+        return promptPlayer(currentSet, message, canEnd);
+    }
+    
+    protected Player promptPlayerPlayer(String message, boolean canEnd) {
+        return promptPlayer(players, message, canEnd);
     }
     
     protected void displayCards(ArrayList<Card> cards) {
@@ -194,9 +205,4 @@ public class Game {
         cards.toArray(cardsArray);
         view.displayCards(cardsArray);
     }
-}
-
-enum ActionCardReturn {
-    RETURN_CARD,
-    RETURN_PLAYER
 }
