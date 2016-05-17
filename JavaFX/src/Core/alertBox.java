@@ -1,11 +1,13 @@
 package Core;
 
+import static Core.ConfirmBox.answer;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 
 public class AlertBox {
     
@@ -29,8 +31,17 @@ public class AlertBox {
         layout.getChildren().addAll(alert, button);
         layout.setAlignment(Pos.CENTER);
         
-        Scene box = new Scene(layout);
-        alertBox.setScene(box);
+        Scene scene = new Scene(layout);
+        alertBox.setScene(scene);
+        
+        scene.setOnKeyPressed((KeyEvent event) -> {
+            switch (event.getCode()) {
+                case ENTER:
+                    alertBox.close();
+                    break;
+            }
+        });
+        
         alertBox.showAndWait();
         
     }

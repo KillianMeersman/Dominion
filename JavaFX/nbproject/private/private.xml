@@ -3,26 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Core/Main.java</file>
-            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Core/AlertBox.java</file>
-            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Controller/Menu.java</file>
-            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Core/ConfirmBox.java</file>
-            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Core/Styling.css</file>
-            <file>file:/D:/Development/GitHub/Dominion/JavaFX/test/db/RegisterTest.java</file>
-            <file>file:/D:/Development/GitHub/Dominion/JavaFX/test/db/LoginTest.java</file>
             <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Core/Credentials.fxml</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Core/Main.java</file>
             <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Controller/Credentials.java</file>
-            <file>file:/D:/Development/GitHub/Dominion/JavaFX/test/Core/AlertBoxTest.java</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Core/AlertBox.java</file>
             <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/db/Login.java</file>
             <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/db/Register.java</file>
-            <file>file:/D:/Development/GitHub/Dominion/JavaFX/test/Controller/MenuTest.java</file>
-            <file>file:/D:/Development/GitHub/Dominion/JavaFX/test/Core/MainTest.java</file>
             <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Core/Game.fxml</file>
-            <file>file:/D:/Development/GitHub/Dominion/JavaFX/test/Controller/GameTest.java</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Controller/Menu.java</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Core/ConfirmBox.java</file>
             <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Core/Menu.fxml</file>
-            <file>file:/D:/Development/GitHub/Dominion/JavaFX/test/Controller/CredentialsTest.java</file>
             <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Controller/Game.java</file>
-            <file>file:/D:/Development/GitHub/Dominion/JavaFX/test/Core/ConfirmBoxTest.java</file>
         </group>
     </open-files>
 </project-private>

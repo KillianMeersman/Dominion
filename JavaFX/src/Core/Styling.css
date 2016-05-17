@@ -1,6 +1,6 @@
 .button {
     -fx-background-color: rgba(255, 255, 255, 0);
-    -fx-text-fill: white;
+    -fx-text-fill: black;
     -fx-text-align: center;
     -fx-text-decoration: none;
     -fx-font: 28px "Enchanted Land";
@@ -8,14 +8,27 @@
 }
 
 .button:hover {
-    -fx-font-style: italic;
+    -fx-font-style: bold;
     -fx-font-size: 30px;
 }
 
 .vbox {}
 
-.text-input {
-    -fx-opacity: 0.9;
+.textfield {
+    -fx-opacity: 0.5;
     -fx-text-fill: black;
-    -fx-border: 5px solid white;
+    -fx-border: 5px solid black;
+    -fx-font: "Enchanted Land";
+    -fx-background-color: black;
+}
+
+.passwordfield {
+    
+}
+
+.rectangle {
+    -fx-fill: white;
+    -fx-arc-width: 25;
+    -fx-arc-height: 25;
+    -fx-opacity: 0.75;
 }

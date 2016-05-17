@@ -4,13 +4,17 @@ import Core.Main;
 import Core.AlertBox;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 
-public class Credentials implements Initializable {
+public class Credentials implements Initializable, IKeyDetection {
     
     @FXML
     public TextField userName;
@@ -21,19 +25,38 @@ public class Credentials implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         buttonLogin.setOnAction(e -> {
-            if (userPassword.getText().equals(db.Login.getPassword(userName.getText()))) {
-                Main.switchScene(Main.mainScreen);
-            } else {
-                System.out.println("Wrong combination!");
-                System.out.println("Please try again or register.");
-                AlertBox.display("Wrong combination", "Please try again or register.");
+            try {
+                if (userPassword.getText().equals(db.Login.getPassword(userName.getText()))) {
+                    Main.switchScene(Main.mainScreen);
+                } else {
+                    System.out.println("Wrong combination!");
+                    System.out.println("Please try again or register.");
+                    AlertBox.display("Wrong combination", "Please try again or register.");
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(Credentials.class.getName()).log(Level.SEVERE, null, ex);
+                AlertBox.display("Database", "Connection failed.");
             }
         });
         buttonRegister.setOnAction(e -> {
-            db.Register.updateRecords(userName.getText(), userPassword.getText());
-            System.out.println("Game on!");
-            System.out.println("You are now registered.");
-            AlertBox.display("Game on!", "You are now registered.");
+            try {
+                db.Register.updateRecords(userName.getText(), userPassword.getText());
+                System.out.println("Game on!");
+                System.out.println("You are now registered.");
+                AlertBox.display("Game on!", "You are now registered.");
+            } catch (Exception ex) {
+                Logger.getLogger(Credentials.class.getName()).log(Level.SEVERE, null, ex);
+                AlertBox.display("Database", "Connection failed.");
+            }
+            
         });
-    }  
+    }
+    
+    public void init(Scene scene) {
+        scene.setOnKeyPressed((KeyEvent event) -> {
+            switch (event.getCode()) {
+                case ESCAPE: Main.closeProgram(); break;
+            }
+        }); 
+    }
 }

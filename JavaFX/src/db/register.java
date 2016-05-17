@@ -10,7 +10,7 @@ public class Register {
    static final String PASS = "toor";
    public static String returnValue;
    
-   public static String updateRecords(String username, String password) {
+   public static String updateRecords(String username, String password) throws Exception {
    Connection conn = null;
    Statement stmt = null;
    try{
@@ -28,10 +28,10 @@ public class Register {
 
    }catch(SQLException se){
       //Handle errors for JDBC
-      se.printStackTrace();
-   }catch(Exception e){
+      throw se;
+   }catch(ClassNotFoundException e){
       //Handle errors for Class.forName
-      e.printStackTrace();
+      throw e;
    }
    return null;
 } 

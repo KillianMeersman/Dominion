@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -7,4 +8,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="gameStyle" stylesheets="@Styling.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="Controller.Game" />
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" styleClass="gameStyle" stylesheets="@Styling.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Game">
+   <children>
+      <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" smooth="false">
+         <image>
+            <Image url="http://i.imgur.com/TCNMXno.jpg" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

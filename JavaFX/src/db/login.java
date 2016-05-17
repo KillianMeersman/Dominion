@@ -10,7 +10,7 @@ public class Login {
    static final String PASS = "toor";
    public static String returnValue;
    
-   public static String getPassword(String username) {
+   public static String getPassword(String username) throws SQLException, Exception {
    Connection conn = null;
    Statement stmt = null;
    try{
@@ -37,10 +37,10 @@ public class Login {
       rs.close();
    }catch(SQLException se){
       //Handle errors for JDBC
-      se.printStackTrace();
-   }catch(Exception e){
+      throw se;
+   }catch(ClassNotFoundException e){
       //Handle errors for Class.forName
-      e.printStackTrace();
+      throw e;
    }
    return returnValue;
 } 

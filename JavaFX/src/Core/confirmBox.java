@@ -6,6 +6,7 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 
 public class ConfirmBox {
 
@@ -38,15 +39,39 @@ public class ConfirmBox {
             confirmBox.close();
         });
 
+        
+        
         VBox layout = new VBox(10);
 
         layout.getChildren().addAll(label, buttonYes, buttonNo);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout);
         confirmBox.setScene(scene);
+        
+        scene.setOnKeyPressed((KeyEvent event) -> {
+            switch (event.getCode()) {
+                case ENTER:
+                    answer = true;
+                    confirmBox.close();
+                    break;
+                case ESCAPE:
+                    answer = false;
+                    confirmBox.close();
+                    break;
+                case Y:
+                    answer = true;
+                    confirmBox.close();
+                    break;
+                case N:
+                    answer = false;
+                    confirmBox.close();
+                    break;
+            }
+        }); 
+        
         confirmBox.showAndWait();
 
         return answer;
     }
-
+    
 }
