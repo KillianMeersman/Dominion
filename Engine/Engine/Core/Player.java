@@ -14,6 +14,7 @@ public class Player {
     protected ArrayList<Card> deck = new ArrayList<>();
     protected ArrayList<Card> hand = new ArrayList<>();
     protected ArrayList<Card> discard = new ArrayList<>();
+    public boolean inActionMode = false;
 
     protected void addAction(int amount) {
         actions += amount;
@@ -47,20 +48,21 @@ public class Player {
         return phase;
     }
 
-    public ArrayList<ActionCard> getActionCards(PlayerPlace source) {
+    protected ArrayList<Card> getActionCards(PlayerPlace source) {
         ArrayList<Card> cards = resolvePlayerPlace(source);
-        ArrayList<ActionCard> out = new ArrayList<>();
+        ArrayList<Card> out = new ArrayList<>();
         for (Card card : cards) {
             if (card instanceof ActionCard) {
-                out.add((ActionCard) card);
+                out.add(card);
             }
         }
         return out;
+        
     }
 
-    public ArrayList<TreasureCard> getTreasureCards(PlayerPlace source) {
+    protected ArrayList<Card> getTreasureCards(PlayerPlace source) {
         ArrayList<Card> cards = resolvePlayerPlace(source);
-        ArrayList<TreasureCard> out = new ArrayList<>();
+        ArrayList<Card> out = new ArrayList<>();
         for (Card card : cards) {
             if (card instanceof TreasureCard) {
                 out.add((TreasureCard) card);
@@ -69,9 +71,9 @@ public class Player {
         return out;
     }
 
-    public ArrayList<VictoryCard> getVictoryCards(PlayerPlace source) {
+    protected ArrayList<Card> getVictoryCards(PlayerPlace source) {
         ArrayList<Card> cards = resolvePlayerPlace(source);
-        ArrayList<VictoryCard> out = new ArrayList<>();
+        ArrayList<Card> out = new ArrayList<>();
         for (Card card : cards) {
             if (card instanceof VictoryCard) {
                 out.add((VictoryCard) card);
@@ -82,8 +84,8 @@ public class Player {
     
     public int getTreasury() {
         int coins = 0;
-        for (TreasureCard card : getTreasureCards(PlayerPlace.PLACE_HAND)) {
-            coins += card.getValue();
+        for (Card card : getTreasureCards(PlayerPlace.PLACE_HAND)) {
+            coins += ((TreasureCard)card).getValue();
         }
         return coins;
     }
@@ -137,7 +139,6 @@ public class Player {
                 else {
                     phase = PlayerPhase.PHASE_BUY;
                 }
-                phase = PlayerPhase.PHASE_ACTION;
                 break;
         }
     }

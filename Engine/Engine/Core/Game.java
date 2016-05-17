@@ -7,15 +7,20 @@ import java.time.*;
 // Represents an active game - base class
 public class Game {
 
+    private IEngineInterface view;
     private List<Player> players = new ArrayList<>();
     private Instant beginTime = null;
     private int turn = 0;
-    private boolean gameRunning = true;
     private Supply supply;
     private Player activePlayer;
     private ArrayList<Card> playArea = new ArrayList<>();
     private ArrayList<Card> currentSet;
-    private ArrayList<ActionCard> reactionCards = new ArrayList<>();
+    protected boolean canEnd = false;
+    
+    public boolean canEnd() {
+        boolean end = canEnd;
+        return end;
+    }
 
     @Override
     public String toString() {
@@ -62,6 +67,16 @@ public class Game {
         currentSet = out;
         return out;
     }
+    
+    public ArrayList<Card> getTreasureCards() {
+        currentSet = activePlayer.getTreasureCards(PlayerPlace.PLACE_HAND);
+        return currentSet;
+    }
+    
+    public ArrayList<Card> getActionCards() {
+        currentSet = activePlayer.getActionCards(PlayerPlace.PLACE_HAND);
+        return currentSet;
+    }
 
     private Player getPlayer(int playerId) {
         for (int i = 0; i < players.size(); i++) {
@@ -72,7 +87,8 @@ public class Game {
         return null;
     }
 
-    public Game(String[] playerNames) {
+    public Game(IEngineInterface view, String[] playerNames) {
+        this.view = view;
         for (int i = 0; i < playerNames.length; i++) {
             Player player = new Player(i, playerNames[i]);
             players.add(player);
@@ -84,7 +100,8 @@ public class Game {
         ConsoleController.addGame(this);
     }
 
-    public Game(String[] playerNames, ActionCard[] actionDeck) {
+    public Game(IEngineInterface view, String[] playerNames, ActionCard[] actionDeck) {
+        this.view = view;
         for (int i = 0; i < playerNames.length; i++) {
             Player player = new Player(i, playerNames[i]);
             players.add(player);
@@ -98,10 +115,6 @@ public class Game {
         activePlayer = players.get(0);
         this.beginTime = Instant.now();
         ConsoleController.addGame(this);
-    }
-
-    public void playActionCard(int CardIndex) {
-        
     }
     
     public void buy(int cardIndex, int[] treasureCardIndexes) throws Exception {
@@ -157,11 +170,33 @@ public class Game {
         return value;
     }
     
-    public String[] getActionCardParamMessages(int CardIndex) {
-        return ((ActionCard) currentSet.get(CardIndex)).parameterMessages;
+    public void playActionCard(int cardIndex) throws Exception {
+        try {
+            activePlayer.inActionMode = true;
+            ((ActionCard)currentSet.get(cardIndex)).execute(this, activePlayer);
+        } catch (Exception e) {
+            throw new Exception("Invalid input");
+        }
     }
     
-    public String[] getActionCardModeMessages(int CardIndex) {
-        return ((ActionCard) currentSet.get(CardIndex)).actionMessages;
+    protected Card promptPlayerCard(String message, boolean canEnd) {
+        String append = canEnd ? " (end to end action-mode) > " : " > ";
+        return currentSet.get(Integer.parseInt(view.promptPlayer(message + append)));
     }
+    
+    protected Player promptPlayerPlayer(String message) {
+        String append = canEnd ? " (end to end action-mode) > " : " > ";
+        return players.get(Integer.parseInt(view.promptPlayer(message + append)));
+    }
+    
+    protected void displayCards(ArrayList<Card> cards) {
+        Card[] cardsArray = new Card[cards.size()];
+        cards.toArray(cardsArray);
+        view.displayCards(cardsArray);
+    }
+}
+
+enum ActionCardReturn {
+    RETURN_CARD,
+    RETURN_PLAYER
 }

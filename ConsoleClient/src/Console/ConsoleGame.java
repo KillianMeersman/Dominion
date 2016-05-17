@@ -6,8 +6,9 @@ import Core.Game;
 import Core.PlayerPhase;
 import Core.PlayerPlace;
 import java.util.Scanner;
+import Core.IEngineInterface;
 
-public class ConsoleGame {
+public class ConsoleGame implements IEngineInterface {
 
     private static final String INV_INP_MSSG = "Invalid, input, please only input numbers and commands, type 'help' for more info";
 
@@ -35,7 +36,7 @@ public class ConsoleGame {
             System.out.print("Player " + (i + 1) + " name: ");
             playerNames[i] = in.nextLine();
         }
-        game = new Game(playerNames);
+        game = new Game(this, playerNames);
         gameLoop();
     }
 
@@ -78,7 +79,7 @@ public class ConsoleGame {
         System.out.println("You have these action cards:");
         int i = 0;
 
-        for (Card card : game.getActivePlayer().getActionCards(PlayerPlace.PLACE_HAND)) {
+        for (Card card : game.getActionCards()) {
             System.out.println(i++ + ". " + card.toString());
         }
     }
@@ -86,8 +87,16 @@ public class ConsoleGame {
     private void actionInput() {
         System.out.print("Which card do you wish to play? > ");
         String input = in.next();
-        if (!processInput(input)) {
-            //if (game.get
+        try {
+            if (!processInput(input)) {
+                game.playActionCard(Integer.parseInt(input));
+            }
+        }
+        catch (NumberFormatException e) {
+            confirmMessage(INV_INP_MSSG);
+        }
+        catch (Exception e) {
+            confirmMessage(e.getMessage());
         }
         
     }
@@ -98,7 +107,7 @@ public class ConsoleGame {
         System.out.println("You have these treasure cards:");
         int i = 1;
 
-        for (Card card : game.getActivePlayer().getTreasureCards(PlayerPlace.PLACE_HAND)) {
+        for (Card card : game.getTreasureCards()) {
             System.out.println(i++ + ". " + card.toString());
         }
 
@@ -117,10 +126,10 @@ public class ConsoleGame {
             }
         } 
         catch (NumberFormatException e) {
-            messageUser(INV_INP_MSSG);
+            confirmMessage(INV_INP_MSSG);
         }
         catch (Exception e) {
-            messageUser(e.getMessage());
+            confirmMessage(e.getMessage());
         }
     }
 
@@ -208,7 +217,7 @@ public class ConsoleGame {
         return out;
     }
 
-    private void messageUser(String message) {
+    private void confirmMessage(String message) {
         System.out.println(message);
         System.out.print("\nPress ENTER to continue");
         try {
@@ -217,12 +226,17 @@ public class ConsoleGame {
             // Nothing here
         }
     }
-    
-    private void actionMode(int maxTurns) {
-        int i = 1;
-        System.out.println("\nACTION MODE - enter 'end' to exit this mode\n");
-        while (!(in.next().equals("end")) && (i++ != maxTurns + 1)) {
-            
+
+    @Override
+    public String promptPlayer(String message) {
+        System.out.print(message);
+        return in.next();
+    }
+
+    @Override
+    public void displayCards(Card[] cards) {
+        for (Card card : cards) {
+            System.out.println(card.toString());
         }
     }
 }

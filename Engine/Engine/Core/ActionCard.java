@@ -1,13 +1,12 @@
 package Core;
 
+import java.util.ArrayList;
+
 class ActionCard extends Card {
 
     protected ActionCardMode cardMode;
     private java.lang.reflect.Method method;
-    private java.lang.reflect.Method initMethod;
-    protected String[] parameterMessages;
-    protected String[] actionMessages;
-    protected String actionTitle;
+    boolean canEnd = false;
 
     protected ActionCard(int id, int amount, int cost, String name, String description) {
         super(id, amount, cost, name, description);
@@ -18,40 +17,41 @@ class ActionCard extends Card {
         super(id, amount, cost, name, description, startAmount);
         init();
     }
-
+    
     private void init() {
         try {
-            method = this.getClass().getMethod(getName(), new Class[]{Player.class});
+            method = this.getClass().getMethod(getName(), Game.class, Player.class);
         } catch (NoSuchMethodException e) {
             System.out.println("ERROR: Failed to build card: " + getName() + " - no method");
         } catch (Exception e) {
             System.out.println("ERROR: Failed to build card: " + getName() + " - general reflection error");
         }
-        
-        try {
-            initMethod = this.getClass().getMethod("init" + getName());
-            initMethod.invoke(this);
-        } catch (NoSuchMethodException e) {
-            System.out.println("ERROR: Failed to build card: " + getName() + " - no init method");
-        } catch (Exception e) {
-            System.out.println("ERROR: Failed to build card: " + getName() + " - general reflection error");
-        }
     }
 
-    protected void execute() {
+    protected void execute(Game game, Player player) {
         try {
-            method.invoke(this);
+            player.inActionMode = true;
+            method.invoke(this, game, player);
         } catch (Exception e) {
             System.out.println("ERROR: Failed to execute card method: " + this.getName());
         }
 
     }
-
-    public static void initcellar() {
-
+    
+    // Card-specific functions
+    
+    public static void cellar(Game game, Player player) {
+        while(player.inActionMode) {
+            game.displayCards(player.hand);
+            Card.transferCard(game.promptPlayerCard("Which card do you wish to discard?", true), player.hand, player.discard, true, true);
+            // player.gain()
+        }
+        
     }
-
-    public static void cellar(Player player) {
-        player.addAction(1);
+    
+    public static void chapel(Game game, Player player) {
+        for (int i = 0; i < 4; i++) {
+            Card.transferCard(game.promptPlayerCard("Which card do you wish to trash? >", true), player.hand, game.getSupply().trash, true, true);
+        }
     }
 }

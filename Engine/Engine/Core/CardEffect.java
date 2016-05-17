@@ -33,9 +33,9 @@ class CardEffect {
                     }
             }
     }
-
-    public static void trash(Player player, Card[] cards) {
-        //player.game.supply.trashCard(cards);
+    
+    public static void discard(Player player, List<Card> source, Card card) {
+        Card.transferCard(card, source, player.discard, true, true);
     }
 
     public static void gain(Player player, Card card) {
