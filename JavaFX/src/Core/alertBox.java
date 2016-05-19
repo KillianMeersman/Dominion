@@ -9,8 +9,17 @@ import javafx.geometry.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 
+/**
+ *
+ * @author Sepp
+ */
 public class AlertBox {
     
+    /**
+     *
+     * @param title Title to display
+     * @param message Message to display
+     */
     public static void display(String title, String message) {
      
         Stage alertBox = new Stage();
@@ -41,6 +50,14 @@ public class AlertBox {
                     break;
             }
         });
+        
+        scene.setOnKeyPressed((KeyEvent event) -> {
+            switch (event.getCode()) {
+                case ENTER:
+                    alertBox.close();
+                    break;
+            }
+        }); 
         
         alertBox.showAndWait();
         

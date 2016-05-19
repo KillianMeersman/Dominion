@@ -8,10 +8,20 @@ import javafx.geometry.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 
+/**
+ *
+ * @author Sepp
+ */
 public class ConfirmBox {
 
     static boolean answer;
 
+    /**
+     *
+     * @param title title to Display
+     * @param message Message to display
+     * @return returns The answer in boolean
+     */
     public static boolean display(String title, String message) {
         Stage confirmBox = new Stage();
         confirmBox.initModality(Modality.APPLICATION_MODAL);

@@ -1,13 +1,17 @@
 package Controller;
 
+import Interface.IKeyDetection;
 import Core.Main;
-import static Core.Main.gameScreen;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 
+/**
+ *
+ * @author Sepp
+ */
 public class Game implements Initializable, IKeyDetection {
     
     @Override
@@ -15,6 +19,10 @@ public class Game implements Initializable, IKeyDetection {
         // TODO     
     }
 
+    /**
+     *
+     * @param scene Current scene
+     */
     public void init(Scene scene) {
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch (event.getCode()) {

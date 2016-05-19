@@ -1,11 +1,9 @@
 package Controller;
 
-import java.net.URL;
 import Core.Main;
-import static Core.Main.gameScreen;
-import static Core.Main.mainScreen;
+import Interface.IKeyDetection;
+import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -15,9 +13,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
-
+/**
+ *
+ * @author Sepp
+ */
 public class Menu implements Initializable, IKeyDetection {
 
+    public String gameType;
+    
     @FXML
     public Button buttonPlay;
     public Button buttonSavedGames;
@@ -45,9 +48,38 @@ public class Menu implements Initializable, IKeyDetection {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         buttonExit.setOnAction(e -> Core.Main.closeProgram());
-        buttonPlay.setOnAction(e -> Core.Main.switchScene(Main.gameScreen));
-        vboxNewGame.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> vboxNewGame.setVisible(false));
-        vboxSavedGames.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> vboxSavedGames.setVisible(false));
+        buttonCustomDeck.setOnAction(e -> {
+            Json.Write.Object("FirstGame", "gameType");
+            Core.Main.switchScene(Main.deckScreen); 
+        });
+        buttonFirstGame.setOnAction(e -> {
+            Json.Write.Object("FirstGame", "gameType");
+            Core.Main.switchScene(Main.gameScreen); 
+        });
+        buttonBigMoney.setOnAction(e -> {
+            Json.Write.Object("BigMoney", "gameType");
+            Core.Main.switchScene(Main.gameScreen); 
+        });
+        buttonInteraction.setOnAction(e -> {
+            Json.Write.Object("Interaction", "gameType");
+            Core.Main.switchScene(Main.gameScreen); 
+        });
+        buttonSizeDistortion.setOnAction(e -> {
+            Json.Write.Object("SizeDistortion", "gameType");
+            Core.Main.switchScene(Main.gameScreen); 
+        });
+        buttonVillageSquare.setOnAction(e -> {
+            Json.Write.Object("FirstGame", "gameType");
+            Core.Main.switchScene(Main.gameScreen);
+        });
+        vboxNewGame.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+            vboxNewGame.setVisible(false);
+            rectangleNewgame.setVisible(false);
+        });
+        vboxSavedGames.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+            vboxSavedGames.setVisible(false);
+            rectangleSavegame.setVisible(false);
+        });
         buttonPlay.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
             vboxNewGame.setVisible(true);
             vboxSavedGames.setVisible(false);
@@ -70,6 +102,10 @@ public class Menu implements Initializable, IKeyDetection {
               
     }
     
+    /**
+     *
+     * @param scene Current Scene
+     */
     public void init(Scene scene) {
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch (event.getCode()) {

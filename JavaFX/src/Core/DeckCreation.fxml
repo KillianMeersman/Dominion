@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.DeckCreation">
+    <stylesheets>
+        <URL value="@Styling.css" />
+    </stylesheets>
+   <children>
+      <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true">
+         <viewport>
+            <Rectangle2D minX="1280.0" minY="720.0" />
+         </viewport>
+         <image>
+            <Image url="http://i.imgur.com/R2YUSns.jpg" />
+         </image>
+      </ImageView>
+      <Pane layoutX="64.0" layoutY="260.0" prefHeight="339.0" prefWidth="316.0" />
+   </children>
+</AnchorPane>

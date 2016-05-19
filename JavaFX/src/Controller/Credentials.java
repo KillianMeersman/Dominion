@@ -1,5 +1,6 @@
 package Controller;
 
+import Interface.IKeyDetection;
 import Core.Main;
 import Core.AlertBox;
 import java.net.URL;
@@ -14,6 +15,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
+/**
+ *
+ * @author Sepp
+ */
 public class Credentials implements Initializable, IKeyDetection {
     
     @FXML
@@ -26,7 +31,7 @@ public class Credentials implements Initializable, IKeyDetection {
     public void initialize(URL url, ResourceBundle rb) {
         buttonLogin.setOnAction(e -> {
             try {
-                if (userPassword.getText().equals(db.Login.getPassword(userName.getText()))) {
+                if (userPassword.getText().equals(Database.Login.getPassword(userName.getText()))) {
                     Main.switchScene(Main.mainScreen);
                 } else {
                     System.out.println("Wrong combination!");
@@ -40,7 +45,7 @@ public class Credentials implements Initializable, IKeyDetection {
         });
         buttonRegister.setOnAction(e -> {
             try {
-                db.Register.updateRecords(userName.getText(), userPassword.getText());
+                Database.Register.updateRecords(userName.getText(), userPassword.getText());
                 System.out.println("Game on!");
                 System.out.println("You are now registered.");
                 AlertBox.display("Game on!", "You are now registered.");
@@ -52,6 +57,10 @@ public class Credentials implements Initializable, IKeyDetection {
         });
     }
     
+    /**
+     *
+     * @param scene Current scene.
+     */
     public void init(Scene scene) {
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch (event.getCode()) {
