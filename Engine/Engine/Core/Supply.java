@@ -39,7 +39,7 @@ public class Supply {
             victoryAmount[victoryCards.indexOf(card)] -= 1;
         }
     }
-
+    
     public ArrayList<Card> getAllCards() {
         ArrayList<Card> out = new ArrayList<>();
         for (int i = 0; i < treasureCards.size(); i++) {

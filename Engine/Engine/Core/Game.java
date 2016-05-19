@@ -205,4 +205,8 @@ public class Game {
         cards.toArray(cardsArray);
         view.displayCards(cardsArray);
     }
+    
+    private boolean gameDone() {
+        if (supply.getCardAmount(CardRepository.getInstance().getCardByName("Province")));
+    }
 }

@@ -1,0 +1,4 @@
+[0510/220947:ERROR:file_io.cc(30)] read: expected 36, observed 0
+[0515/133741:ERROR:process_reader_win.cc(141)] SuspendThread: Toegang geweigerd. (0x5)
+[0515/133741:ERROR:exception_snapshot_win.cc(57)] thread ID 9820 not found in process
+[0515/133741:WARNING:crash_report_exception_handler.cc(60)] ProcessSnapshotWin::InitializeException failed
