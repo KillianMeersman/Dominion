@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 // Holds instance of each card once
-class CardRepository {
+public class CardRepository {
     private static CardRepository instance = new CardRepository();
     private ArrayList<TreasureCard> treasureCards = new ArrayList<>();
     private ArrayList<VictoryCard> victoryCards = new ArrayList<>();

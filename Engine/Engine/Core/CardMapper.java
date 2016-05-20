@@ -3,7 +3,7 @@ package Core;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class CardMapper {
+class CardMapper {
 
     public static ArrayList<TreasureCard> getTreasureCards() {
         ResultSet rs = retrieve("treasurecards");

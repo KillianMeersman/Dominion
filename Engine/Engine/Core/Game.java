@@ -7,7 +7,8 @@ import java.time.*;
 // Represents an active game - base class
 public class Game {
 
-    private IEngineInterface view;
+    private int id;
+    protected IEngineInterface view;
     private List<Player> players = new ArrayList<>();
     private Instant beginTime = null;
     private int turn = 0;
@@ -16,6 +17,10 @@ public class Game {
     private ArrayList<Card> playArea = new ArrayList<>();
     private ArrayList<Card> currentSet;
 
+    public int getId() {
+        return id;
+    }
+    
     @Override
     public String toString() {
         String output = "[" + players.get(0).getName();
@@ -81,7 +86,7 @@ public class Game {
         return null;
     }
 
-    public Game(IEngineInterface view, String[] playerNames) {
+    public Game(int id, IEngineInterface view, String[] playerNames) {
         this.view = view;
         for (int i = 0; i < playerNames.length; i++) {
             Player player = new Player(i, playerNames[i]);
@@ -94,7 +99,7 @@ public class Game {
         ConsoleController.addGame(this);
     }
 
-    public Game(IEngineInterface view, String[] playerNames, ActionCard[] actionDeck) {
+    public Game(int id, IEngineInterface view, String[] playerNames, Card[] actionDeck) {
         this.view = view;
         for (int i = 0; i < playerNames.length; i++) {
             Player player = new Player(i, playerNames[i]);
@@ -174,39 +179,12 @@ public class Game {
         }
     }
     
-    private <T extends Object> T promptPlayer(List<? extends Object> list, String message, boolean canEnd) {
-        try {
-            String append = canEnd ? " ('end' to end action-mode) > " : " > ";
-            String in = view.promptPlayer(message + append);
-            if (canEnd) {
-                if (in.equals("end")) { activePlayer.inActionMode = false; return null; }
-                return (T)list.get(Integer.parseInt(in));
-            }
-            else {
-                return (T)list.get(Integer.parseInt(in));
-            }
-        }
-        catch (Exception e) {
-            view.messagePlayer("Invalid input");
-            return promptPlayer(list, message, canEnd);
-        }
-    }
     
-    protected Card promptPlayerCard(String message, boolean canEnd) {
-        return promptPlayer(currentSet, message, canEnd);
-    }
-    
-    protected Player promptPlayerPlayer(String message, boolean canEnd) {
-        return promptPlayer(players, message, canEnd);
-    }
-    
-    protected void displayCards(ArrayList<Card> cards) {
-        Card[] cardsArray = new Card[cards.size()];
-        cards.toArray(cardsArray);
-        view.displayCards(cardsArray);
-    }
     
     private boolean gameDone() {
-        if (supply.getCardAmount(CardRepository.getInstance().getCardByName("Province")));
+        if (supply.getCardAmount(CardRepository.getInstance().getCardByName("Province")) < 1) {
+            return true;
+        }
+        return false;
     }
 }

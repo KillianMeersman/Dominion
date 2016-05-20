@@ -83,4 +83,12 @@ public class Card {
         }
         if (removeFromSource) { source.clear(); }
     }
+    
+    protected static Card[] listToArray(List<Card> cards) {
+        Card[] out = new Card[cards.size()];
+        for (int i = 0; i < cards.size(); i++) {
+            out[i] = cards.get(i);
+        }
+        return out;
+    }
 }

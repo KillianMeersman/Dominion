@@ -7,6 +7,7 @@ import Core.PlayerPhase;
 import Core.PlayerPlace;
 import java.util.Scanner;
 import Core.IEngineInterface;
+import Core.Player;
 
 public class ConsoleGame implements IEngineInterface {
 
@@ -36,7 +37,7 @@ public class ConsoleGame implements IEngineInterface {
             System.out.print("Player " + (i + 1) + " name: ");
             playerNames[i] = in.nextLine();
         }
-        game = new Game(this, playerNames);
+        game = new Game(0, this, playerNames);
         gameLoop();
     }
 
@@ -228,21 +229,17 @@ public class ConsoleGame implements IEngineInterface {
     }
 
     @Override
-    public String promptPlayer(String message) {
-        System.out.print(message);
-        return in.next();
+    public Card promptPlayerCards(String prompt, Card[] cards, boolean canExit) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void displayCards(Card[] cards) {
-        int i = 1;
-        for (Card card : cards) {
-            System.out.println(i++ + ". " + card.toString());
-        }
+    public Player promptPlayerPlayer(String prompt, Player[] players, boolean canExit) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void messagePlayer(String message) {
-        confirmMessage(message);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
