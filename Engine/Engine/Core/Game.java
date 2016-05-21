@@ -57,7 +57,7 @@ public class Game {
 
     public ArrayList<Card> getBuyableCards() {
         ArrayList<Card> out = new ArrayList<>();
-        int treasury = getActivePlayer().getTreasury();
+        int treasury = getActivePlayer().addTreasureCoins();
         for (Card card : supply.getAllCardsUnique()) {
             if (card.getCost() <= treasury) {
                 out.add(card);

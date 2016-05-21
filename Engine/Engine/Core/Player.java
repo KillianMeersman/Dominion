@@ -10,6 +10,7 @@ public class Player {
     private String name = null;
     private byte actions = 1;
     private byte buys = 1;
+    private byte coins = 0;
     private PlayerPhase phase = PlayerPhase.PHASE_BUY;
     protected ArrayList<Card> deck = new ArrayList<>();
     protected ArrayList<Card> hand = new ArrayList<>();
@@ -22,6 +23,10 @@ public class Player {
 
     protected void addBuy(int amount) {
         buys += amount;
+    }
+    
+    protected void addCoins(int amount){
+        coins += amount;
     }
 
     public ArrayList<Card> getHand() {
@@ -82,8 +87,7 @@ public class Player {
         return out;
     }
     
-    public int getTreasury() {
-        int coins = 0;
+    public int addTreasureCoins() {        
         for (Card card : getTreasureCards(PlayerPlace.PLACE_HAND)) {
             coins += ((TreasureCard)card).getValue();
         }
@@ -122,7 +126,7 @@ public class Player {
     public void nextPhase() {
         switch (phase) {
             case PHASE_ACTION:
-                if (buys > 0 && getTreasury() > 0) {
+                if (buys > 0 && addTreasureCoins() > 0) {
                     phase = PlayerPhase.PHASE_BUY;
                 }
                 else {
