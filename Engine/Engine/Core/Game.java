@@ -7,7 +7,6 @@ import java.time.*;
 // Represents an active game - base class
 public class Game {
 
-    private int id;
     protected IEngineInterface view;
     private List<Player> players = new ArrayList<>();
     private Instant beginTime = null;
@@ -16,10 +15,6 @@ public class Game {
     private Player activePlayer;
     private ArrayList<Card> playArea = new ArrayList<>();
     private ArrayList<Card> currentSet;
-
-    public int getId() {
-        return id;
-    }
     
     @Override
     public String toString() {
@@ -86,7 +81,7 @@ public class Game {
         return null;
     }
 
-    public Game(int id, IEngineInterface view, String[] playerNames) {
+    public Game(IEngineInterface view, String[] playerNames) {
         this.view = view;
         for (int i = 0; i < playerNames.length; i++) {
             Player player = new Player(i, playerNames[i]);
@@ -99,7 +94,7 @@ public class Game {
         ConsoleController.addGame(this);
     }
 
-    public Game(int id, IEngineInterface view, String[] playerNames, Card[] actionDeck) {
+    public Game(IEngineInterface view, String[] playerNames, Card[] actionDeck) {
         this.view = view;
         for (int i = 0; i < playerNames.length; i++) {
             Player player = new Player(i, playerNames[i]);
@@ -170,10 +165,10 @@ public class Game {
         return value;
     }
     
-    public void playActionCard(int cardIndex) throws Exception {
+    public void playActionCard(Card actionCard) throws Exception {
         try {
             activePlayer.inActionMode = true;
-            ((ActionCard)currentSet.get(cardIndex)).execute(this, activePlayer);
+            ((ActionCard)actionCard).execute(this, activePlayer);
         } catch (Exception e) {
             throw new Exception("Invalid input");
         }

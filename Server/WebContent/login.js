@@ -30,7 +30,7 @@ function processAjaxResponse(response) { // Processes the AJAX response into a m
 		$("#message").html("The server ran into some trouble :(");
 		break;
 	default:
-		$("body").html(xhttp.responseText);
+		$("body").html(response);
 	}
 }
 
