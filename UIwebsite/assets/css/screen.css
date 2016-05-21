@@ -11,6 +11,17 @@
         font-family: Enchanted;
         background-image: url(../../images/bg.jpg);
         overflow: hidden;
+        -webkit-touch-callout: none;
+        /* iOS Safari */
+        -webkit-user-select: none;
+        /* Chrome/Safari/Opera */
+        -khtml-user-select: none;
+        /* Konqueror */
+        -moz-user-select: none;
+        /* Firefox */
+        -ms-user-select: none;
+        /* Internet Explorer/Edge */
+        user-select: none;
     }
     
     header {
@@ -58,6 +69,51 @@
         padding-bottom: 10px;
     }
     
+    #playerSelection h2 {
+        font-size: 3.5rem;
+        display: block;
+        width: 380px;
+        margin-left: -15px;
+        border-bottom: 1px solid black;
+        padding-bottom: 10px;
+    }
+    
+    #playerSelection {
+        width: 350px;
+        padding: 15px;
+        left: 770px;
+    }
+    
+    #playerSelection a {
+        margin-top: 10px;
+        display: block;
+    }
+    
+    #playerSelection+div {
+        width: 410px;
+        left: 1155px;
+    }
+    
+    #playerSelection+div label,
+    #playerSelection+div input {
+        margin: 7px 0px 7px 0px;
+    }
+    
+    #playerSelection+div label {
+        display: inline-block;
+        font-size: 2.6rem;
+    }
+    
+    #playerSelection+div input {
+        margin-top: 15px;
+    }
+    
+    #playerSelection+div a {
+        font-size: 2.2rem;
+        float: right;
+        display: none;
+    }
+    
     form,
     #authenticationScreen>section {
         margin-left: auto;
@@ -78,11 +134,11 @@
         font-size: 2rem;
     }
     
-    #authenticationScreen input:focus {
+    input:focus {
         outline: #ffffff;
     }
     
-    #authenticationScreen input {
+    input {
         float: right;
         font-size: 2.4rem;
         font-family: Enchanted;
@@ -350,10 +406,11 @@
 */
     
     #turnIndicator p {
+        width: 200px;
         color: rgb(255, 216, 0);
         position: fixed;
         bottom: 12px;
-        left: 100px;
+        left: 88px;
     }
     
     #turnIndicator img {
@@ -435,6 +492,41 @@
         top: -679px;
         margin-top: 132px;
         left: 120px;
+    }
+    
+    .amountTreasureCards {
+        position: relative;
+        top: -1316px;
+        margin-bottom: 127px;
+        left: 132px;
+    }
+    
+    .amountVictoryCards {
+        position: relative;
+        top: -988px;
+        margin-bottom: 127px;
+        left: 132px;
+    }
+    
+    .amountActionCards {
+        display: inline-block;
+        position: relative;
+        top: -665px;
+        left: 157px;
+        margin-bottom: 128px;
+        margin-right: 153px;
+    }
+    
+    .amountCardsDesign {
+        width: 35px;
+        height: 35px;
+        border-radius: 500px;
+        background-color: rgba(95, 2, 31, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        text-align: center;
+        font-size: 2.0rem;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.3;
     }
     
     #buyOthers {
@@ -534,10 +626,15 @@
     img.cardInHand {
         transform: translate3d(0px, 0px, 0px);
         transition: transform 0.3s ease-in-out;
+        border-color: none;
+        box-shadow: none;
     }
     
     img.cardInHand:hover {
         transform: translate3d(0px, -30px, 0px);
+        outline: none;
+        border-color: #9ecaed;
+        box-shadow: 0 0 30px #9ecaed;
     }
     /*#cardsInTrash {
         position: fixed;
@@ -545,7 +642,8 @@
     }*/
     
     #endTurn,
-    #playXXX {
+    #playXXX,
+    .done {
         cursor: pointer;
         text-align: center;
         position: fixed;
@@ -558,8 +656,13 @@
     }
     
     #endTurn p,
-    #playXXX p {
+    #playXXX p,
+    .done p {
         color: whitesmoke;
+    }
+    
+    .done p {
+        margin-top: 10px;
     }
     
     #endTurn {
@@ -578,7 +681,8 @@
     }
     
     #playXXX:hover,
-    #endTurn:hover {
+    #endTurn:hover,
+    .done:hover {
         border-color: rgb(255, 255, 255);
     }
     
@@ -612,14 +716,14 @@
     }
     /*ONE PLAYER VIEW */
     
-    #p1.onePlayer {
+    #p1.player1 {
         margin-top: -250px;
         color: white;
         font-size: 2.2rem;
         text-align: center;
     }
     
-    #p1.onePlayer+img {
+    #p1.player1+img {
         border: medium solid rgba(238, 238, 238, 0.5);
         width: 80px;
         border-radius: 5px;
@@ -629,7 +733,7 @@
     }
     /*Two PLAYER VIEW */
     
-    #p1.twoPlayer {
+    #p1.player2 {
         width: 220px;
         margin-top: -250px;
         color: white;
@@ -637,7 +741,7 @@
         text-align: center;
     }
     
-    #p1.twoPlayer+img {
+    #p1.player2+img {
         border: medium solid rgba(238, 238, 238, 0.5);
         width: 80px;
         border-radius: 5px;
@@ -646,7 +750,7 @@
         z-index: 5;
     }
     
-    #p2.twoPlayer {
+    #p2.player2 {
         width: 220px;
         top: 0px;
         color: white;
@@ -660,7 +764,7 @@
         cursor: pointer;
     }
     
-    #p2.twoPlayer+img {
+    #p2.player2+img {
         border: medium solid rgba(238, 238, 238, 0.5);
         display: inline;
         width: 80px;
@@ -671,7 +775,7 @@
     }
     /* Three PLAYER VIEW */
     
-    #p1.threePlayer {
+    #p1.player3 {
         width: 146px;
         margin-top: -250px;
         color: white;
@@ -679,7 +783,7 @@
         text-align: center;
     }
     
-    #p1.threePlayer+img {
+    #p1.player3+img {
         border: medium solid rgba(238, 238, 238, 0.5);
         width: 80px;
         border-radius: 5px;
@@ -688,7 +792,7 @@
         z-index: 5;
     }
     
-    #p2.threePlayer {
+    #p2.player3 {
         width: 147px;
         top: 0px;
         color: white;
@@ -698,7 +802,7 @@
         margin-top: -188px;
     }
     
-    #p2.threePlayer+img {
+    #p2.player3+img {
         border: medium solid rgba(238, 238, 238, 0.5);
         display: inline;
         width: 80px;
@@ -708,7 +812,7 @@
         z-index: 5;
     }
     
-    #p3.threePlayer {
+    #p3.player3 {
         width: 146px;
         top: 0px;
         color: white;
@@ -718,7 +822,7 @@
         margin-top: -188px;
     }
     
-    #p3.threePlayer+img {
+    #p3.player3+img {
         border: medium solid rgba(238, 238, 238, 0.5);
         display: inline;
         width: 80px;
@@ -740,28 +844,6 @@
         color: rgb(255, 216, 0);
     }
     
-    #trashCardsView {
-        display: block;
-        background-color: rgba(0, 0, 0, 0.4);
-        z-index: 5000;
-        top: 0px;
-        width: 100%;
-        height: 100%;
-        position: fixed;
-    }
-    
-    #trashCardsView section {
-        z-index: 5000;
-        width: 808px;
-        padding: 20px 20px 20px 10px;
-        margin-top: 150px;
-        margin-left: auto;
-        margin-right: auto;
-        border-radius: 7px;
-        border: 2px solid whitesmoke;
-        background-color: rgba(255, 255, 240, 0.2)
-    }
-    
     #trashCardsView section img {
         width: 150px;
         border-radius: 7px;
@@ -771,6 +853,7 @@
     .boughtCard {
         width: 75px;
         position: fixed;
+        border-radius: 10px;
     }
     
     #tutorialScreen {
@@ -854,6 +937,96 @@
         top: 0px;
         left: 0px;
         z-index: 999;
+    }
+    
+    .invisible {
+        display: none;
+    }
+    
+    .blackview {
+        display: block;
+        background-color: rgba(0, 0, 0, 0.55);
+        z-index: 5000;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+    }
+    
+    .gameWindow {
+        z-index: 5000;
+        width: 808px;
+        padding: 20px 20px 20px 10px;
+        margin-top: 150px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 7px;
+        border: 3px solid black;
+        background-color: rgba(200, 200, 200, 0.2)
+    }
+    
+    #revealView section {
+        width: 302px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    #revealView h4 {
+        text-shadow: 2px 2px black;
+        color: whitesmoke;
+        font-size: 3.2rem;
+    }
+    
+    #revealView img {
+        border-radius: 12px;
+    }
+    
+    .imgCardReaveal {
+        margin-left: 50px;
+        display: inline-block;
+        width: 200px;
+    }
+    
+    .imgRegCardReaveal {margin-left: 50px;
+        display: inline-block;
+        width: 200px;}
+    
+    .imgTwoCardReveal {
+        margin-left: 10px;
+        display: inline-block;
+        width: 140px;
+    }
+    
+    #revealView .gameWindow {
+        border-color: rgba(250, 250, 250, 0.5);
+    }
+    
+    .cardReveal div {
+        width: 300px;
+    }
+    
+    #revealView div {
+        margin-top: 10px;
+        margin-left: 20px;
+        display: inline-block;
+    }
+    
+    .gameWindow h3 {
+        text-shadow: 2px 2px black;
+        color: gold;
+        font-size: 3.8rem;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px dashed white;
+        padding-bottom: 20px;
+    }
+    
+    .done {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        position: inherit;
+        margin-top: 20px;
     }
     /*------------------------*/
     /* --- Home --- */

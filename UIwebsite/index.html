@@ -118,9 +118,24 @@
 
 
 
-    <div>
-
+    <div id="playerSelection" class="menu">
+        <h2>Amount Players</h2>
+        <a href="#">2 Players</a>
+        <a href="#">3 Players</a>
+        <a href="#">4 Players</a>
     </div>
+
+    <div class="klapuit menu">
+
+
+        <div id="playersAndNames">
+
+        </div>
+        <a href="#" style="">Play ></a>
+    </div>
+
+
+
     <div id="khalid">
         <img src="images/khaled.gif">
         <img src="images/wedabest.gif">
@@ -143,7 +158,53 @@
     </div>
 
     <div id="gameTable">
+        <section id="revealView" class="blackview">
 
+            <section class="gameWindow cardReveal">
+
+                <h3>Click on the cards you want to discard.</h3>
+
+
+                <div>
+                    <h4>Player 1</h4>
+                    <section>
+                        <img class="imgCardReaveal" src="images/ActionCards/thief.jpg">
+
+
+                    </section>
+                </div>
+
+                <div>
+                    <h4>Player 1</h4>
+                    <section>
+                        <img class="imgCardReaveal" src="images/ActionCards/thief.jpg">
+
+
+                    </section>
+                </div>
+                <div>
+                    <h4>Player 1</h4>
+                    <section>
+                        <img class="imgCardReaveal" src="images/ActionCards/thief.jpg">
+
+
+                    </section>
+                </div>
+                <div>
+                    <h4>Player 1</h4>
+                    <section>
+                        <img class="imgCardReaveal" src="images/ActionCards/thief.jpg">
+
+
+                    </section>
+                </div>
+
+                <section id="done">
+                    <p>Done</p>
+                </section>
+            </section>
+
+        </section>
 
 
         <div id="introTutorial" class="menu tip">
@@ -217,8 +278,8 @@
 
 
 
-        <section id="trashCardsView">
-            <section>
+        <section id="trashCardsView" class="blackview">
+            <section class="gameWindow">
                 <img src="images/ActionCards/feast.jpg">
                 <img src="images/ActionCards/market.jpg"> <img src="images/ActionCards/feast.jpg">
                 <img src="images/ActionCards/market.jpg"> <img src="images/ActionCards/feast.jpg">
@@ -230,20 +291,22 @@
 
         </section>
 
+
+
         <section id="playerStats">
             <img id="playerStatsImg" src="images/playerStatsWindow.png">
             <p>Player Stats</p>
 
-            <h3 id="p1" class="threePlayer">Player Two</h3>
-            <img id="thief" src="images/ActionCards/thief.jpg">
+            <h3 id="p1" class="invisible">Player Two</h3>
+            <img id="thief" src="images/ActionCards/thief.jpg" class="invisible">
 
-            <h3 id="p2" class="threePlayer">Player Three</h3>
-            <img id="moat" src="images/ActionCards/moat.jpg">
+            <h3 id="p2" class="invisible">Player Three</h3>
+            <img id="moat" src="images/ActionCards/moat.jpg" class="invisible">
 
 
 
-            <h3 id="p3" class="threePlayer">Player Four</h3>
-            <img id="spy" src="images/ActionCards/spy.jpg">
+            <h3 id="p3" class="invisible">Player Four</h3>
+            <img id="spy" src="images/ActionCards/spy.jpg" class="invisible">
 
         </section>
 
@@ -294,6 +357,13 @@
                 <a id="silverBuyButton" class="buttonBuyDesign buttonTreasurePlacement" href="#">+</a>
                 <a id="copperBuyButton" class="buttonBuyDesign buttonTreasurePlacement" href="#">+</a>
                 <a id="curseBuyButton" class="buttonBuyDesign buttonTreasurePlacement" href="#">+</a>
+
+                <p id='goldBuyAmount' class='amountCardsDesign amountTreasureCards'>50</p>
+                <p id='silverBuyAmount' class='amountCardsDesign amountTreasureCards'>50</p>
+                <p id='copperBuyAmount' class='amountCardsDesign amountTreasureCards'>50</p>
+                <p id='curseBuyAmount' class='amountCardsDesign amountTreasureCards'>50</p>
+
+
             </section>
 
             <section id="victoryCardsBuy">
@@ -305,6 +375,10 @@
                 <a id="provinceBuyButton" class="buttonBuyDesign buttonVictoryPlacement" href="#">+</a>
                 <a id="duchyBuyButton" class="buttonBuyDesign buttonVictoryPlacement" href="#">+</a>
                 <a id="estateBuyButton" class="buttonBuyDesign buttonVictoryPlacement" href="#">+</a>
+
+                <p id='provinceBuyAmount' class='amountCardsDesign amountVictoryCards'>50</p>
+                <p id='duchyBuyAmount' class='amountCardsDesign amountVictoryCards'>50</p>
+                <p id='estateBuyAmount' class='amountCardsDesign amountVictoryCards'>50</p>
             </section>
 
 
@@ -346,6 +420,7 @@
         <p> <a href="#" id="back" class="start">Back</a></p>
         <p> <a href="#" id="next" class="start">Next</a></p>
     </section>
+
     <script type="text/javascript" src="assets/js/jquery-2.1.4.min.js"></script>
     <script src="assets/js/file.js"></script>
 
