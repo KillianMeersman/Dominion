@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCombination;
 
 /**
  *
@@ -53,17 +54,21 @@ public class Main extends Application {
         c.init(gameScreen);
         d.init(deckScreen);
         
-        window.getIcons().add(new Image("http://i.imgur.com/m1IuO5q.png"));
-        window.setTitle("Dominion");
-        window.setWidth(1280);
-        window.setHeight(720);
-        window.setResizable(true);
-        window.setScene(credentialsScreen);
-        window.setOnCloseRequest(e -> {
+        primaryStage.getIcons().add(new Image("http://i.imgur.com/m1IuO5q.png"));
+        primaryStage.setTitle("Dominion");
+        primaryStage.setWidth(1920);
+        primaryStage.setHeight(1080);
+        primaryStage.setFullScreen(true);        
+        primaryStage.setResizable(true);
+        primaryStage.setScene(gameScreen);
+        primaryStage.setOnCloseRequest(e -> {
             e.consume();
             closeProgram();
         });
-        window.show(); 
+        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        primaryStage.setAlwaysOnTop(true);
+        primaryStage.show(); 
+        
     } 
     
     /**

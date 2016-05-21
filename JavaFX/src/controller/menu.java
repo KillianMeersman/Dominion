@@ -1,6 +1,7 @@
 package Controller;
 
 import Core.Main;
+import static Core.Main.window;
 import Interface.IKeyDetection;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,8 +19,6 @@ import javafx.scene.shape.Rectangle;
  * @author Sepp
  */
 public class Menu implements Initializable, IKeyDetection {
-
-    public String gameType;
     
     @FXML
     public Button buttonPlay;
@@ -51,26 +50,32 @@ public class Menu implements Initializable, IKeyDetection {
         buttonCustomDeck.setOnAction(e -> {
             Json.Write.Object("FirstGame", "gameType");
             Core.Main.switchScene(Main.deckScreen); 
+            Core.Main.window.setFullScreen(true);
         });
         buttonFirstGame.setOnAction(e -> {
             Json.Write.Object("FirstGame", "gameType");
             Core.Main.switchScene(Main.gameScreen); 
+            Core.Main.window.setFullScreen(true);
         });
         buttonBigMoney.setOnAction(e -> {
             Json.Write.Object("BigMoney", "gameType");
             Core.Main.switchScene(Main.gameScreen); 
+            Core.Main.window.setFullScreen(true);
         });
         buttonInteraction.setOnAction(e -> {
             Json.Write.Object("Interaction", "gameType");
             Core.Main.switchScene(Main.gameScreen); 
+            Core.Main.window.setFullScreen(true);
         });
         buttonSizeDistortion.setOnAction(e -> {
             Json.Write.Object("SizeDistortion", "gameType");
             Core.Main.switchScene(Main.gameScreen); 
+            Core.Main.window.setFullScreen(true);
         });
         buttonVillageSquare.setOnAction(e -> {
             Json.Write.Object("FirstGame", "gameType");
             Core.Main.switchScene(Main.gameScreen);
+            Core.Main.window.setFullScreen(true);
         });
         vboxNewGame.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
             vboxNewGame.setVisible(false);
@@ -99,6 +104,7 @@ public class Menu implements Initializable, IKeyDetection {
             rectangleSavegame.setVisible(false);
             
         });
+        
               
     }
     

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
@@ -8,11 +10,88 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" styleClass="gameStyle" stylesheets="@Styling.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Game">
+<AnchorPane id="AnchorPane" maxHeight="1080.0" maxWidth="1920.0" minHeight="720.0" minWidth="1280.0" prefHeight="1080.0" prefWidth="1920.0" styleClass="gameStyle" stylesheets="@Styling.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Game">
    <children>
-      <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" smooth="false">
+      <ImageView fitHeight="1080.0" fitWidth="1920.0" pickOnBounds="true" smooth="false">
          <image>
-            <Image url="http://i.imgur.com/R2YUSns.jpg" />
+            <Image url="@../../images/Board.jpg" />
+         </image>
+         <viewport>
+            <Rectangle2D height="1080.0" width="1920.0" />
+         </viewport>
+      </ImageView>
+      <ImageView fitHeight="130.0" fitWidth="404.0" layoutX="-38.0" layoutY="963.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/Trapezium_Horizontal.png" />
+         </image>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ImageView>
+      <ImageView fitHeight="385.0" fitWidth="122.0" layoutY="742.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/Trapezium_Vertical.png" />
+         </image>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ImageView>
+      <ImageView fx:id="dropDown" fitHeight="403.0" fitWidth="316.0" layoutY="-337.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/PlayerStats.png" />
+         </image>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ImageView>
+      <ImageView fitHeight="216.0" fitWidth="159.0" layoutX="1757.0" layoutY="855.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/Trash_Back.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1777.0" layoutY="888.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/Trash_Front.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="275.0" layoutX="1459.0" layoutY="957.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/Stats.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1742.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/TreasureCardsBuy/goldBuy.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1742.0" layoutY="170.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/TreasureCardsBuy/silverBuy.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1742.0" layoutY="326.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/TreasureCardsBuy/copperBuy.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1742.0" layoutY="482.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/VictoryCardsBuy/curseBuy.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1571.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/VictoryCardsBuy/provinceBuy.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1571.0" layoutY="170.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/VictoryCardsBuy/duchyBuy.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1571.0" layoutY="326.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/VictoryCardsBuy/estateBuy.png" />
          </image>
       </ImageView>
    </children>

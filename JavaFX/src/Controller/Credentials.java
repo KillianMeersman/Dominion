@@ -33,6 +33,7 @@ public class Credentials implements Initializable, IKeyDetection {
             try {
                 if (userPassword.getText().equals(Database.Login.getPassword(userName.getText()))) {
                     Main.switchScene(Main.mainScreen);
+                    Core.Main.window.setFullScreen(true);
                 } else {
                     System.out.println("Wrong combination!");
                     System.out.println("Please try again or register.");
@@ -64,7 +65,7 @@ public class Credentials implements Initializable, IKeyDetection {
     public void init(Scene scene) {
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch (event.getCode()) {
-                case ESCAPE: Main.closeProgram(); break;
+                case BACK_SPACE: Main.closeProgram(); break;
             }
         }); 
     }

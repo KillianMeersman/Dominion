@@ -3,13 +3,12 @@
     -fx-text-fill: black;
     -fx-text-align: center;
     -fx-text-decoration: none;
-    -fx-font: 28px "Enchanted Land";
+    -fx-font: 48px "Enchanted Land";
 
 }
 
 .button:hover {
-    -fx-font-style: oblique;
-    -fx-font-size: 30px;
+    -fx-font-size: 48px;
 }
 
 .vbox .button {
@@ -17,19 +16,19 @@
     -fx-text-fill: black;
     -fx-text-align: center;
     -fx-text-decoration: none;
-    -fx-font: 28px "Enchanted Land";
+    -fx-font: 48px "Enchanted Land";
 }
 
 .vbox .button:hover {
     -fx-font-style: oblique;
-    -fx-font-size: 30px;
+    -fx-font-size: 48px;
 }
 
 .text-field {
     -fx-opacity: 0.5;
     -fx-text-fill: black;
-    -fx-font: 15px "consolas";
-    -fx-background-image: url("http://i.imgur.com/TCNMXno.jpg");
+    -fx-font-family: "Echanted Land";
+    -fx-background-image: url("/images/Paper.jpg");
 }
 
 .rectangle {
@@ -40,7 +39,7 @@
 }
 
 .text {
-    -fx-font: 28px "Enchanted Land";
+    -fx-font: 48px "Enchanted Land";
     -fx-text-fill: black;
     -fx-text-align: center;
     -fx-text-decoration: none;
