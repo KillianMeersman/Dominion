@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 /**
@@ -20,24 +21,31 @@ import javafx.util.Duration;
 public class Game implements Initializable, IKeyDetection {
     
     @FXML
-    public ImageView dropDown;
+    public ImageView dropDownImage;
+    public Text dropDownText;
     
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        TranslateTransition playerStats = 
-        new TranslateTransition(Duration.seconds(0.5), dropDown);
+        TranslateTransition dropImage = new TranslateTransition(Duration.seconds(0.5), dropDownImage);
+        TranslateTransition dropText = new TranslateTransition(Duration.seconds(0.5), dropDownText);
         
-        dropDown.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-            playerStats.setFromY(0);
-            playerStats.setToY(145);
-            playerStats.play();
+        dropDownImage.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+            dropImage.setFromY(0);
+            dropImage.setToY(145);
+            dropImage.play();
+            dropText.setFromY(0);
+            dropText.setToY(145);
+            dropText.play();
         });
-        dropDown.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-            playerStats.setFromY(145);
-            playerStats.setToY(0);
-            playerStats.play();
+        dropDownImage.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+            dropImage.setFromY(145);
+            dropImage.setToY(0);
+            dropImage.play();
+            dropText.setFromY(145);
+            dropText.setToY(0);
+            dropText.play();
         });
     }
 
@@ -48,7 +56,7 @@ public class Game implements Initializable, IKeyDetection {
     public void init(Scene scene) {
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch (event.getCode()) {
-                case ESCAPE: Main.switchScene(Main.mainScreen); break;
+                case ESCAPE: event.consume(); break;
             }
         }); 
     }

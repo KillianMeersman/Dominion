@@ -66,6 +66,7 @@ public class Credentials implements Initializable, IKeyDetection {
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch (event.getCode()) {
                 case BACK_SPACE: Main.closeProgram(); break;
+                case F12: Main.window.setFullScreen(true); break;
             }
         }); 
     }

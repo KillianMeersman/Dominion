@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
@@ -36,7 +37,7 @@
             <DropShadow />
          </effect>
       </ImageView>
-      <ImageView fx:id="dropDown" fitHeight="403.0" fitWidth="316.0" layoutY="-337.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="dropDownImage" fitHeight="533.0" fitWidth="463.0" layoutY="-444.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../images/PlayerStats.png" />
          </image>
@@ -94,5 +95,15 @@
             <Image url="@../../images/VictoryCardsBuy/estateBuy.png" />
          </image>
       </ImageView>
+      <Text fill="#fffb00" layoutX="58.0" layoutY="1065.0" strokeType="OUTSIDE" strokeWidth="0.0" text="{PlayerName}">
+         <font>
+            <Font name="Enchanted Land" size="48.0" />
+         </font>
+      </Text>
+      <Text fx:id="dropDownText" fill="#fffb00" layoutX="119.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player Stats">
+         <font>
+            <Font name="Enchanted Land" size="48.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

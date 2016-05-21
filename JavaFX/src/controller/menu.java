@@ -1,7 +1,6 @@
 package Controller;
 
 import Core.Main;
-import static Core.Main.window;
 import Interface.IKeyDetection;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -115,7 +114,8 @@ public class Menu implements Initializable, IKeyDetection {
     public void init(Scene scene) {
         scene.setOnKeyPressed((KeyEvent event) -> {
             switch (event.getCode()) {
-                case ESCAPE: Main.closeProgram(); break;
+                case ESCAPE: event.consume(); Main.switchScene(Main.credentialsScreen); break;
+                case F12: Main.window.setFullScreen(true); break;
             }
         }); 
     }
