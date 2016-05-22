@@ -73,8 +73,8 @@ public class LoginController extends HttpServlet {
 						User user = new User(sessionId, username);
 						authorizedUsers.add(user);	// Currently not used - leave in
 						session.setAttribute("username", username);	// Set a session variable
-						//response.getWriter().print("200_good_login");
-						request.getRequestDispatcher("/welcome.jsp").forward(request, response); // Send welcome.jsp
+						response.getWriter().print("200_good_login");
+						//request.getRequestDispatcher("/welcome.jsp").forward(request, response); // Send welcome.jsp
 					}
 					else { // Wrong password
 						response.getWriter().print("bad_login"); // Send "bad_login" message
