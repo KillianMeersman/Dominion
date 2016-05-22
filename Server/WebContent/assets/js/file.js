@@ -1,6 +1,7 @@
 //-----------------GLOBALE VARIABELEN-----------------//
 var cards = ["adventurer", "bureaucrat", "gold", "silver", "copper", "cellar", "chancellor", "chapel", "councilroom", "feast", "festival", "gardens", "laboratory", "library", "market", "militia", "mine", "moat", "moneylender", "remodel", "smithy", "spy", "thief", "throneroom", "village", "witch", "woodcutter", "workshop"];
 
+var treasureCards = ["copper", "silver", "gold"]
 var firstPageHtml = ""
 var secondPageHtml = ""
 var thirdPageHtml = ""
@@ -35,6 +36,32 @@ $(document).on('ready', function () {
     $("#playerSelection+div").hide();
     $('#revealView').hide();
 
+
+
+    cards = $.parseJSON(ajaxBasicGet({
+        action: "getCards"
+    }));
+
+    /*
+        var xhttp;
+        if (window.XMLHttpRequest) {
+            xhttp = new XMLHttpRequest();
+        } else {
+            xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xhttp.open("POST", "LoginController", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("username=" + "admin" + "&password=" + "test" + "&action=login");
+
+        xhttp.onreadystatechange = function () {
+            console.log(xhttp.response);
+            if (xhttp.readyState == 4) {
+                alert(xhttp.responseText);
+            }
+        }
+  */
+
 });
 $(document).on("contextmenu", function () {
     return false;
@@ -42,21 +69,63 @@ $(document).on("contextmenu", function () {
 
 
 //-----------------LOGIN SCREEN-----------------//
+function ajaxAuthentication(action) {
+    $.ajax({
+        method: "POST",
+        url: '/Dominion/LoginController',
+        data: {
+            username: $("#username").val(),
+            password: $("#password").val(),
+            action: action
+        },
+        success: function (response) {
 
-$("#login").on("click", function () {
+            if ((response == "200_good_login") || (response == "user_registered")) {
+                $("#authenticationScreen").fadeOut("fast", function () {
+                    $("#play").fadeIn("fast");
+                })
+            } else {
+                alert(response);
+            }
+        },
+        error: function (response) {
+            alert(response);
+        },
 
-    $("#authenticationScreen").fadeOut("fast", function () {
-        $("#play").fadeIn("fast");
+        dataType: "text"
 
 
     });
 
+
+}
+
+
+$("#login").on("click", function () {
+    ajaxAuthentication("login");
+
 });
 $("#login+a").on("click", function () {
-
-    $("#authenticationScreen").fadeOut("fast");
-
+    ajaxAuthentication("register");
 });
+//-----------------LOGIN SCREEN-----------------//
+function ajaxBasicGet(data) {
+    $.ajax({
+        method: "GET",
+        url: '/Dominion/GameController',
+        data: data,
+        success: function (response) {
+            return response;
+        },
+        error: function (error) {
+            alert(error);
+        },
+
+        dataType: "json"
+    });
+}
+
+
 
 //-----------------MAIN MENU BUILD + FUNCTIES-----------------//
 
@@ -93,18 +162,23 @@ $("#tutorial").on("click", function () {
 
 });
 
-//player selection 
+//player selection
+var deckName
 $("#new a").on("click", function () {
+    deckName = $(this).html();
+
 
 
     $(".menu").fadeOut(200);
-
     $("#new").fadeOut(200);
     $("#save").fadeOut(200);
     $("#playerSelection").fadeIn();
-
-
 });
+
+
+
+
+
 var activeSelectionTab = false;
 var amountPlayers = 0;
 $("#playerSelection a").on("click", function () {
@@ -202,12 +276,21 @@ function initPlayerNames() {
 
 $("#playerSelection+div").on("click", "a", function () {
     chosenCards = ["militia", "mine", "moat", "moneylender", "remodel", "smithy", "spy", "thief", "throneroom", "village"];
+
+
+
     for (i = 0; i < amountPlayers; i++) {
 
 
         playerNames[i] = document.getElementById("inputPlayerName" + (i + 1)).value;
 
     }
+
+    ajaxBasicGet({
+        deck: deckName,
+        playernames: JSON.stringify(playerNames),
+        action: "new"
+    });
     $("#blackscreen").fadeIn(500, function () {
         $(".start").fadeOut(500, initBoard())
     });
@@ -599,7 +682,7 @@ function initBoard() {
     actionCardsHtml += buyButtonHtml + amountCardsLeft;
     $("#actionCardsBuy").append(actionCardsHtml);
 
-    $("#blackscreen").fadeOut(800);
+    $("#blackscreen").fadeOut(500);
 }
 
 function fillNames() {
@@ -720,10 +803,16 @@ function generateBuyCard(el) {
 }
 
 $("#gameTable").on("click", "a.buttonBuyDesign", function () {
+
+
+
     generateBuyCard($(this));
 
 
+    ajaxBasicGet({
+        action: "buy"
 
+    });
     if (cardBuyDestination == "discard") {
 
         $("#b" + zIndexDiscardPile).animate({
@@ -864,7 +953,19 @@ function addCardToHand(cardName) {
     reformHand();
 };
 
+function addExistingCardToHand(card) {
 
+    playerHand.push(card);
+    pxFromLeftHand += 20;
+    $("#" + card.id).animate({
+        bottom: '-65px',
+        left: pxFromLeftHand + 'px',
+        width: '160px'
+
+    });
+    $("#" + card.id).addClass("cardInHand");
+    reformHand();
+}
 
 var pxOldCardsLeft = 950;
 
@@ -900,7 +1001,20 @@ function discardCard(cardID) {
     reformHand();
 };
 
-function revealCard() {}
+
+function discardCardFromAny(cardID) {
+
+    $("#" + cardID).animate({
+        width: '60px',
+        bottom: '192px',
+        left: '10px'
+    }).css("z-index", zIndexDiscardPile);
+    $("#" + cardID).addClass("discarted");
+    zIndexDiscardPile++;
+
+}
+
+
 
 
 
@@ -925,7 +1039,7 @@ function addCardToPlayField(cardID) {
 
     playerHand.splice(searchCardsInHand($("#" + cardID).attr("id")), 1);
     console.log(playerHand)
-    $("#" + cardID).removeClass("cardInHand")
+    $("#" + cardID).removeClass("cardInHand").css("border-color", "").css("box-shadow", "");
     fieldCards.push($("#" + cardID).attr("id"));
 
 };
@@ -979,21 +1093,28 @@ function searchCardsInHand(idToSearch) {
 
 
 //-------FIELD EVENST-------//
+
+var destinationCardInHand = "trash";
 $("#cardField").on("click", "img.cardInHand", function () {
 
     //hand-click events
 
-    if ($(this).attr("id") == 2) {
-        playTwice($(this).attr("id"));
 
+    switch (destinationCardInHand) {
 
-    } else {
+    case "field":
         addCardToPlayField($(this).attr("id"));
+        break;
+
+
+    case "trash":
+        cardToTrash($(this).attr("id"));
+        break;
+
+    case "discard":
+        discardCard($(this).attr("id"));
+
     }
-
-
-
-
     //reformFieldCards();
     pxOldCardsLeft = 950;
     pxFromLeftHand = 875;
@@ -1023,7 +1144,9 @@ $("#cover").on("click", function () {
 
 });
 $("#playXXX").on("click", function () {
-    addSilverToDeck();
+    revealCards(["estate", "province", "duchy"], [0, 1, 2], "Treasure Card from the opponent's hands");
+
+
     for (i = 0; i < playerHand.length; i++) {
         if (playerHand[i].name == "copper" || playerHand[i].name == "silver" || playerHand[i].name == "gold") {
 
@@ -1049,7 +1172,7 @@ $("a.buttonBuyDesign").on("click", function () {
 $("#firstOnPile").on("click", function () {
     $("#trashCardsView").fadeIn();
 
-})
+});
 $("#trashCardsView").on("click", function () {
     $(this).fadeOut();
 
@@ -1093,35 +1216,59 @@ $("#curseBuyButton").on("click", function () {
 
 //TRASH FUNCTIONS
 function cardToTrash(cardID) {
-    br = "border-radius";
-    zdex = "z-index";
+    playerHand.splice(searchCardsInHand($("#" + cardID).attr("id")), 1);
     $("#" + cardID).animate({
         width: '90px',
         bottom: '41px',
         left: '1745px',
         br: '10 px',
         zdex: '499'
-    })
+    }).removeClass("cardInHand");
 }
 
-function handTrashModudesOn(wich) {
+function handDiscardModudesOn() {
 
-    if (wich == "all") {
+    for (i = 0; i < playerHand.length; i++) {
+
+        $("#" + playerHand[i].id).css("border-color", "GoldenRod").css("box-shadow", "0 0 30px GoldenRod");
+    }
+
+
+
+}
+
+
+function handTrashModudesOn(wich) {
+    switch (wich) {
+    case "all":
         for (i = 0; i < playerHand.length; i++) {
 
             $("#" + playerHand[i].id).css("border-color", "darkred").css("box-shadow", "0 0 30px darkred");
         }
-    } else {
-        for (i = 0; i < playerHand.length; i++) {
+        break;
 
-            if ($("#" + playerHand[i].name) == wich) {
+    case "treasure":
+
+        for (i = 0; i < playerHand.length; i++) {
+            if (treasureCards.indexOf(playerHand[i].name) != -1) {
                 $("#" + playerHand[i].id).css("border-color", "darkred").css("box-shadow", "0 0 30px darkred");
             }
         }
+        break;
+    default:
+
+        for (i = 0; i < playerHand.length; i++) {
+
+            if (playerHand[i].name == wich) {
+                $("#" + playerHand[i].id).css("border-color", "darkred").css("box-shadow", "0 0 30px darkred");
+            }
+        }
+        break;
+
     }
 }
 
-function handTrashModudesOff() {
+function removeColorEffects() {
     for (i = 0; i < playerHand.length; i++) {
 
         $("#" + playerHand[i].id).css("border-color", "").css("box-shadow", "");
@@ -1157,7 +1304,6 @@ function playTwice(cardID) {
 }
 
 function completeDeckToDiscardPile() {
-
     $("#deckPile>:first-child+img").animate({
 
         width: '60px',
@@ -1205,16 +1351,39 @@ function showSpy(cardsToDisplay) {
 
     htmlCardsAndPlayerNames = "<h3>Click on the cards you want to discard.</h3>";
     for (i = 0; i < playerNames.length; i++) {
-        htmlCardsAndPlayerNames += '<div> <h4>' + playerNames[i] + '</h4><section> <img class="imgCardReaveal" src="images/ActionCards/' + cardsToDisplay[i] + '.jpg"></section></div>';
+        htmlCardsAndPlayerNames += '<div> <h4>' + playerNames[i] + '</h4><section> <img class="imgCardReaveal" src="images/ActionCards/' + cardsToDisplay[i] + '.jpg"></section></div>'
 
     }
 
     $("#revealView .gameWindow").css("width", (amountPlayers * 320) + "px");
-    htmlCardsAndPlayerNames += '<section id="done"><p>Done</p></section>';
+    htmlCardsAndPlayerNames += '<section id="doneSpy" class="done"><p>Done</p></section>';
     $("#revealView .cardReveal").append(htmlCardsAndPlayerNames);
     $("#revealView").fadeIn();
     thiefPhase = "trashPhase";
 }
+
+function revealCards(cardsToDisplay, fromPlayers, description) {
+
+
+    $("#revealView .cardReveal").empty();
+
+    htmlCardsAndPlayerNames = "<h3>" + description + "</h3>";
+    for (i = 0; i < fromPlayers.length; i++) {
+
+        htmlCardsAndPlayerNames += '<div> <h4>' + playerNames[fromPlayers[i]] + '</h4><section> <img class="imgRegCardReaveal" src="images/ActionCards/' + cardsToDisplay[i] + '.jpg"></section></div>'
+
+    }
+
+    $("#revealView .gameWindow").css("width", (fromPlayers.length * 320) + "px");
+    htmlCardsAndPlayerNames += '<section id="doneRegular" class="done"><p>Done</p></section>';
+    $("#revealView .cardReveal").append(htmlCardsAndPlayerNames);
+    $("#revealView").fadeIn();
+    thiefPhase = "trashPhase";
+}
+
+
+
+
 
 function addCardToDeck(cardID) {
 
@@ -1244,17 +1413,31 @@ var thiefPhase = "trashPhase";
 function showThief(cardsToDisplay, fromPlayers) {
     $("#revealView .cardReveal").empty();
     htmlCardsAndPlayerNames = "<h3>Opponents must trash one treasure card (if possible).</h3>";
+    styleImgOne = "";
+    styleImgTwo = "";
     playerNameI = 0;
+
     for (i = 0; i < cardsToDisplay.length; i += 2) {
 
-        htmlCardsAndPlayerNames += '<div> <h4>' + playerNames[fromPlayers[playerNameI]] + '</h4><section> <img id="t' + i + '"  class="imgTwoCardReveal" src="images/ActionCards/' + cardsToDisplay[i] + '.jpg" alt="' + cardsToDisplay[i] + '"><img id="t' + (i + 1) + '" class="imgTwoCardReveal" src="images/ActionCards/' + cardsToDisplay[i + 1] + '.jpg" alt="' + cardsToDisplay[i + 1] + '"></section></div>'
+        if (treasureCards.indexOf(cardsToDisplay[i]) != -1) {
+            styleImgOne = "style='border-color: darkred; box-shadow: 0 0 40px darkred;'"
+
+
+        } else if (treasureCards.indexOf(cardsToDisplay[i + 1]) != -1) {
+            styleImgTwo = "style='border-color: darkred; box-shadow: 0 0 40px darkred;'"
+        }
+
+
+
+
+        htmlCardsAndPlayerNames += '<div> <h4>' + playerNames[fromPlayers[playerNameI]] + '</h4><section> <img id="t' + i + '"  class="imgTwoCardReveal" ' + styleImgOne + '  src="images/ActionCards/' + cardsToDisplay[i] + '.jpg" alt="' + cardsToDisplay[i] + '"><img id="t' + (i + 1) + '" class="imgTwoCardReveal"  ' + styleImgTwo + ' src="images/ActionCards/' + cardsToDisplay[i + 1] + '.jpg" alt="' + cardsToDisplay[i + 1] + '"></section></div>'
 
         playerNameI++;
 
     }
 
     $("#revealView .gameWindow").css("width", (fromPlayers.length * 327) + "px");
-    htmlCardsAndPlayerNames += '<section id="done"><p>Done</p></section>';
+    htmlCardsAndPlayerNames += '<section id="doneThief" class="done"><p>Done</p></section>';
     $("#revealView .cardReveal").append(htmlCardsAndPlayerNames);
     $("#revealView").fadeIn();
 
@@ -1282,11 +1465,47 @@ function returnThief() {
     return cardsClicked;
 
 }
+
+function doAdventurer(card, destination) {
+    cardHtml = '<img id="' + card.id + '" src="images/ActionCards/' + card.name + '.jpg" style="position: fixed; bottom: 75px; left: 7px; width: 68px; border-radius: 5px; ">';
+
+    $("#cardField").append(cardHtml);
+    //show middle
+    $("#" + card.id).animate({
+        width: '250px',
+        left: '835px',
+        bottom: '280px'
+    }, function () {
+
+
+        if (destination == "hand") {
+
+            addExistingCardToHand(card);
+
+        } else if (destination == "discard") {
+            discardCardFromAny(card.id);
+
+        }
+
+
+    });
+
+}
+
+function loopAdventure() {
+    card = {
+        name: 'thief',
+        id: overalCardID
+    };
+    overalCardID++;
+
+    doAdventurer(card, 'hand');
+
+}
+
 var close = false;
 
-$("section").on("click", "#done", function () {
-
-
+$("section").on("click", "#doneThief", function () {
     if (close) {
         returnThief();
         $("#revealView").fadeOut();
@@ -1298,7 +1517,18 @@ $("section").on("click", "#done", function () {
 
     }
 });
+$("section").on("click", '#doneRegular', function () {
 
+    $("#revealView").fadeOut();
+});
+
+$("section").on("click", "#doneSpy", function () {
+
+    $("#revealView").fadeOut();
+
+
+
+});
 $(document).mousemove(function () {
     if (thiefPhase == "gainPhase") {
         close = true;
@@ -1306,7 +1536,7 @@ $(document).mousemove(function () {
 });
 
 
-var treasureCards = ["copper", "silver", "gold"]
+
 
 
 
@@ -1314,12 +1544,7 @@ $("#revealView").on("click", "img.imgTwoCardReveal", function () {
 
     if (thiefPhase == "trashPhase") {
 
-        if ($(this).css("border-color") == "rgb(139, 0, 0)") {
-
-
-            $(this).css("border-color", "").css("box-shadow", "none");
-
-        } else if (thiefPhase == "trashPhase") {
+        if (thiefPhase == "trashPhase") {
             if (treasureCards.indexOf($(this).attr("alt")) != -1) {
                 $(this).parent().addClass("tempClass")
                 $(".tempClass img").css("border-color", "").css("box-shadow", "none");
