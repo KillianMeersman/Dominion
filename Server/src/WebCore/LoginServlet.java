@@ -15,7 +15,7 @@ import java.math.BigInteger;
 /**
  * Servlet implementation class logincontroller
  */
-@WebServlet("/LoginController")
+@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

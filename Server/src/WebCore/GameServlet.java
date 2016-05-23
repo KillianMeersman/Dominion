@@ -64,7 +64,7 @@ public class GameServlet extends HttpServlet {
         ArrayList<Card> cards = Core.CardRepository.getInstance().getAllCards();
         String[] out = new String[cards.size()];
         for (int i = 0; i < cards.size(); i++) {
-            out[cards.get(i).getId()] = cards.get(i).getName();
+            out[cards.get(i).getId() - 1] = cards.get(i).getName();
         }
         return out;
     }
@@ -86,7 +86,7 @@ public class GameServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         switch (request.getParameter("action")) {
             case "getCards":
-                response.getWriter().write(makeCardArray().toString());
+                response.getWriter().write(Arrays.toString(makeCardArray()));
             case "new":
                 request.getSession(true);
                 newGame(request.getSession(), request.getParameterValues("playernames"), request.getParameterValues("deck")); // new game

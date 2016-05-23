@@ -37,9 +37,9 @@ $(document).on('ready', function () {
     $('#revealView').hide();
 
 
-    cards = JSON.parse(ajaxBasicGet({
+    cards = ajaxBasicGet({
         action: "getCards"
-    }));
+    });
 
 
 });
@@ -52,7 +52,7 @@ $(document).on("contextmenu", function () {
 function ajaxAuthentication(action) {
     $.ajax({
         method: "POST",
-        url: '/Dominion/LoginController',
+        url: '/LoginServlet',
         data: {
             username: $("#username").val(),
             password: $("#password").val(),
@@ -65,11 +65,11 @@ function ajaxAuthentication(action) {
                     $("#play").fadeIn("fast");
                 })
             } else {
-                alert(response);
+                alert(response.responseText);
             }
         },
         error: function (response) {
-            alert(response);
+            alert(response.responseText);
         },
 
         dataType: "text"
@@ -96,9 +96,10 @@ $("#login+a").on("click", function () {
 function ajaxBasicGet(data) {
     $.ajax({
         method: "GET",
-        url: '/Dominion/GameController',
+        url: '/GameServlet',
         data: data,
         success: function (response) {
+            console.log(response.responseText);
             return response;
         },
         error: function (error) {

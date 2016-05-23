@@ -66,16 +66,22 @@ public class Card {
      this.startingAmount = startAmount;
     }
     
-    protected static boolean transferCard(Card card, List<Card> source, List<Card> destination, boolean removeFromSource, boolean force) {
+    protected static void transferCard(Card card, List<Card> source, List<Card> destination, boolean removeFromSource, boolean force) {
         if (source.contains(card) || force) {
             destination.add(card);
         }
-        else {
-            return false;
-        }
         if (removeFromSource) { source.remove(card); }
-        return true;
     }
+    
+    protected static void transferCard(Card[] cards, List<Card> source, List<Card> destination, boolean removeFromSource, boolean force) {
+        for (Card card : cards) {
+            if (source.contains(card) || force) {
+            destination.add(card);
+            }
+        if (removeFromSource) { source.remove(card); }
+        }
+        
+    } 
     
     protected static void transferCards(List<Card> source, List<Card> destination, boolean removeFromSource) {
         for (int i = 0; i < source.size(); i++) {

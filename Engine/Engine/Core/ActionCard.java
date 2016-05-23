@@ -48,8 +48,11 @@ class ActionCard extends Card {
     }
     
     public static void chapel(Game game, Player player) {
-        for (int i = 0; i < 4; i++) {
-            Card.transferCard(game.view.promptPlayerCards(game, "Which card do you wish to trash?", Card.listToArray(player.hand), 1, 4, true, "none"), player.hand, game.getSupply().trash, true, true);
+        int i = 0;
+        while (i < 5) {
+            Card[] cards = game.view.promptPlayerCards(game, "Which card do you wish to trash?", Card.listToArray(player.hand), 1, 4, true, "none");
+            Card.transferCard(cards, player.hand, game.getSupply().trash, true, true);
+            i += cards.length;
         }
     }
     
