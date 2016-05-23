@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
  * Servlet implementation class GameController
  */
 @WebServlet("/GameServlet")
-public class GameServlet extends HttpServlet implements Callable {
+public class GameServlet extends HttpServlet {
     
     private static int currentId = 0;
     private static ArrayList<GameSession> gameSessions = new ArrayList<>();
@@ -57,8 +57,7 @@ public class GameServlet extends HttpServlet implements Callable {
         for (int i = 0; i < deck.length; i++) {
             cards[i] = Core.CardRepository.getInstance().getCardById(Integer.parseInt(deck[i]));
         }
-        //Game game = new Game(this, playerNames, cards);
-        //addSession(new GameSession(httpSession, game));
+        addSession(new GameSession(httpSession, playerNames, cards));
     }
     
     private String[] makeCardArray() {
@@ -106,10 +105,5 @@ public class GameServlet extends HttpServlet implements Callable {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
         doGet(request, response);
-    }
-
-    @Override
-    public Object call() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

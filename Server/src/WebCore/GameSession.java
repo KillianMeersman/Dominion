@@ -41,9 +41,10 @@ public class GameSession implements IEngineInterface {
         return game;
     }
     
-    public GameSession(HttpSession httpSession, Game game) {
+    public GameSession(HttpSession httpSession, String[] playerNames, Card[] deck) {
         this.httpSession = httpSession;
-        this.game = game;
+        this.game = new Game(this, playerNames, deck);
+        gameLoop();
     }
 
     private HttpServletRequest emptyResponse() {
@@ -81,7 +82,7 @@ public class GameSession implements IEngineInterface {
         return out;
     }
     
-    private void gameLoop() {
+    public void gameLoop() {
         while (gameRunning) {
             for (Player player : game.getPlayers()) {
                 setBackLog("action=nextTurn&player=" + player.getId());
