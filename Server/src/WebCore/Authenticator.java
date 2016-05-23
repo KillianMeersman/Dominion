@@ -1,4 +1,4 @@
-package model;
+package WebCore;
 
 import java.sql.*;
 import java.util.Random;

@@ -1,4 +1,4 @@
-package controllers;
+package WebCore;
 
 public class User {
 	private String _sessioncode = null;

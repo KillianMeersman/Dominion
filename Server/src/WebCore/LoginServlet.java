@@ -1,4 +1,4 @@
-package controllers;
+package WebCore;
 
 import java.io.IOException;
 
@@ -11,13 +11,12 @@ import javax.servlet.http.HttpSession;
 import java.security.SecureRandom;
 import java.util.*;
 import java.math.BigInteger;
-import model.Authenticator;
 
 /**
  * Servlet implementation class logincontroller
  */
 @WebServlet("/LoginController")
-public class LoginController extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private static List<User> authorizedUsers = new ArrayList<User>();
@@ -44,7 +43,7 @@ public class LoginController extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginController() {
+    public LoginServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

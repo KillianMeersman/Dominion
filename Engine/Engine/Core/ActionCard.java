@@ -41,7 +41,7 @@ class ActionCard extends Card {
     
     public static void cellar(Game game, Player player) {
         while(player.inActionMode) {
-            Card.transferCard(game.view.promptPlayerCards(game, "Which card do you wish to discard?", Card.listToArray(player.hand), true), player.hand, player.discard, true, true);
+            Card.transferCard(game.view.promptPlayerCards(game, "Which card do you wish to discard?", Card.listToArray(player.hand), 1, 1, true), player.hand, player.discard, true, true);
             // player.gain()
         }
     }
@@ -114,7 +114,7 @@ class ActionCard extends Card {
         //TODO  Each player (including you) reveals the top card of his deck and either discards it or puts it back, your choice.                
     }
     
-    public static void thief(){
+    public static void thief() {
         //TODO  Each other player reveals the top 2 cards of his deck. If they revealed any Treasure cards, they trash one of them that you choose. 
         //      You may gain any or all of these trashed cards. They discard the other revealed cards.
     }
