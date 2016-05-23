@@ -92,7 +92,7 @@ public class GameServlet extends HttpServlet implements Callable {
                 request.getSession(true);
                 newGame(request.getSession(), request.getParameterValues("playernames"), request.getParameterValues("deck")); // new game
                 break;
-            case "play":
+            default:
                 GameSession session = getSessionBySession(request.getSession());
                 session.setResponse(request);
                 response.getWriter().write(session.getBackLog());

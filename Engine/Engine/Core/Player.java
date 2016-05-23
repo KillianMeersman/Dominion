@@ -40,6 +40,10 @@ public class Player {
     public int getBuys() {
         return buys;
     }
+    
+    public int getCoins() {
+        return coins + addTreasureCoins();
+    }
 
     public String getName() {
         return name;
@@ -47,6 +51,14 @@ public class Player {
 
     public int getId() {
         return id;
+    }
+    
+    private int addTreasureCoins() {
+        int c = 0;
+        for (Card card : getTreasureCards(PlayerPlace.PLACE_HAND)) {
+            c += ((TreasureCard)card).getValue();
+        }
+        return c;
     }
 
     public PlayerPhase getPhase() {
@@ -85,13 +97,6 @@ public class Player {
             }
         }
         return out;
-    }
-    
-    public int addTreasureCoins() {        
-        for (Card card : getTreasureCards(PlayerPlace.PLACE_HAND)) {
-            coins += ((TreasureCard)card).getValue();
-        }
-        return coins;
     }
 
     protected void drawFromDeck(int amount) {

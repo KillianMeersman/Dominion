@@ -9,6 +9,8 @@ import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -61,22 +63,49 @@ public class GameSession implements IEngineInterface {
         }
     }
     
-    private String getHandString() {
+    private String getListString(ArrayList<Card> source) {
         String out = "[";
-        ArrayList<Card> hand = game.getActivePlayer().getHand();
-        for (int i = 0; i < hand.size() - 1; i++) {
-            out += hand.get(i).getId() + ",";
+        for (int i = 0; i < source.size() - 1; i++) {
+            out += source.get(i).getId() + ",";
         }
-        out += hand.get(hand.size() - 1).getId() + "]";
+        out += source.get(source.size() - 1).getId() + "]";
+        return out;
+    }
+    
+    private String getParameterString() {
+        String out = "[";
+        Player player = game.getActivePlayer();
+        out += player.getCoins();
+        out += "," + player.getBuys();
+        out += "," + player.getActions() + "]";
         return out;
     }
     
     private void gameLoop() {
         while (gameRunning) {
             for (Player player : game.getPlayers()) {
-                setBackLog("player=" + player.getId() + "&phase=" + player.getPhase().toString() + "&hand=" + getHandString());
+                setBackLog("action=nextTurn&player=" + player.getId());
                 while (player.getPhase() == PlayerPhase.PHASE_BUY) {
-                    setBackLog();
+                    setBackLog("action=buy&parameters=[" + getParameterString() + "," + getListString(game.getActivePlayer().getHand()) + "]");
+                    try {
+                        game.buy(Integer.parseInt(response.getParameter("cardId")));
+                    } catch (Exception ex) {
+                        Logger.getLogger(GameSession.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                }
+                
+                while (player.getPhase() == PlayerPhase.PHASE_ACTION) {
+                    setBackLog("action=action&parameters=[" + getParameterString() + "," + getListString(game.getActionCards()) + "]");
+                    try {
+                        game.playActionCard(Core.CardRepository.getInstance().getCardById(Integer.parseInt(response.getParameter("cardId"))));
+                    } catch (Exception ex) {
+                        Logger.getLogger(GameSession.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
+                if (player.getPhase() == PlayerPhase.PHASE_CLEANUP) {
+                    game.cleanup();
                 }
             }
         }

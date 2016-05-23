@@ -51,10 +51,10 @@ public class Game {
     }
 
     public ArrayList<Card> getBuyableCards() {
+        int coins = activePlayer.getCoins();
         ArrayList<Card> out = new ArrayList<>();
-        int treasury = getActivePlayer().addTreasureCoins();
         for (Card card : supply.getAllCardsUnique()) {
-            if (card.getCost() <= treasury) {
+            if (card.getCost() <= coins) {
                 out.add(card);
             }
         }
@@ -111,24 +111,16 @@ public class Game {
         ConsoleController.addGame(this);
     }
     
-    public void buy(int cardIndex, int[] treasureCardIndexes) throws Exception {
+    public void buy(int cardIndex) throws Exception {
         Card card = currentSet.get(cardIndex - 1);
-        ArrayList<TreasureCard> treasureCards = new ArrayList<>();
-        for (int index : treasureCardIndexes){
-            treasureCards.add((TreasureCard) activePlayer.getTreasureCards(PlayerPlace.PLACE_HAND).get(index - 1));
-        }
         
         // value check
-        if (getCardsValue(treasureCards) < card.getCost()) {
+        if (activePlayer.getCoins() < card.getCost()) {
             throw new Exception("Not enough money");
         }
         
         activePlayer.discard.add(card);
         supply.reduceAmount(card);
-        
-        for (TreasureCard c : treasureCards) {
-            Card.transferCard(c, activePlayer.getHand(), playArea, true, false);
-        }
         activePlayer.addBuy(-1);
         
         if (activePlayer.getBuys() < 1) {

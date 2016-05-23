@@ -41,14 +41,15 @@ class ActionCard extends Card {
     
     public static void cellar(Game game, Player player) {
         while(player.inActionMode) {
-            Card.transferCard(game.view.promptPlayerCards(game, "Which card do you wish to discard?", Card.listToArray(player.hand), 1, 1, true), player.hand, player.discard, true, true);
+            Card.transferCard(game.view.promptPlayerCards(game, "Which card do you wish to discard?", Card.listToArray(player.hand), 1, player.getHand().size(), true, "none")
+                    , player.hand, player.discard, true, true);
             // player.gain()
         }
     }
     
     public static void chapel(Game game, Player player) {
         for (int i = 0; i < 4; i++) {
-            Card.transferCard(game.view.promptPlayerCards(game, "Which card do you wish to trash?", Card.listToArray(player.hand), true), player.hand, game.getSupply().trash, true, true);
+            Card.transferCard(game.view.promptPlayerCards(game, "Which card do you wish to trash?", Card.listToArray(player.hand), 1, 4, true, "none"), player.hand, game.getSupply().trash, true, true);
         }
     }
     
