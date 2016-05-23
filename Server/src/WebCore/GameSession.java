@@ -113,16 +113,19 @@ public class GameSession implements IEngineInterface {
     }
     
     @Override
-    public Card promptPlayerCards(Game game, String prompt, Card[] cards, int minAmount, int maxAmount, boolean canExit, String visual) {
+    public Card[] promptPlayerCards(Game game, String prompt, Card[] cards, int minAmount, int maxAmount, boolean canExit, String visual) {
         backLog = "action=promptCards&parameters=" + prompt + ",[";
         for (Card card : cards) {
             backLog += card.getId();
         }
         backLog += "]," + "," + minAmount + "," + maxAmount + "," + canExit;
         waitForResponse();
-        
-        return Core.CardRepository.getInstance().getCardById(
-                Integer.parseInt(emptyResponse().getParameter("cardId")));
+        String[] in = emptyResponse().getParameterValues("cardId");
+        Card[] out = new Card[in.length];
+        for (int i = 0; i < in.length; i++) {
+            out[i] = Core.CardRepository.getInstance().getCardById(Integer.parseInt(in[i]));
+        }
+        return out;
     }
 
     @Override

@@ -87,6 +87,7 @@ public class GameServlet extends HttpServlet {
         switch (request.getParameter("action")) {
             case "getCards":
                 response.getWriter().write(Arrays.toString(makeCardArray()));
+                break;
             case "new":
                 request.getSession(true);
                 newGame(request.getSession(), request.getParameterValues("playernames"), request.getParameterValues("deck")); // new game
