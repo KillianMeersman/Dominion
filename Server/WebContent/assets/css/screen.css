@@ -632,7 +632,7 @@
     
     #endTurn,
     #playXXX,
-    #done {
+    .done {
         cursor: pointer;
         text-align: center;
         position: fixed;
@@ -646,11 +646,11 @@
     
     #endTurn p,
     #playXXX p,
-    #done p {
+    .done p {
         color: whitesmoke;
     }
     
-    #done p {
+    .done p {
         margin-top: 10px;
     }
     
@@ -671,7 +671,7 @@
     
     #playXXX:hover,
     #endTurn:hover,
-    #done:hover {
+    .done:hover {
         border-color: rgb(255, 255, 255);
     }
     
@@ -955,7 +955,7 @@
     }
     
     #revealView section {
-        width: 302px;
+        width: 340px;
         margin-left: auto;
         margin-right: auto;
     }
@@ -971,15 +971,16 @@
     }
     
     .imgCardReaveal {
-        margin-left: 50px;
+        margin-left: 32px;
         display: inline-block;
         width: 200px;
     }
     
     .imgTwoCardReveal {
         margin-left: 10px;
+        margin-right: 10px;
         display: inline-block;
-        width: 140px;
+        width: 150px;
     }
     
     #revealView .gameWindow {
@@ -1006,7 +1007,7 @@
         padding-bottom: 20px;
     }
     
-    #done {
+    .done {
         display: block;
         margin-left: auto;
         margin-right: auto;

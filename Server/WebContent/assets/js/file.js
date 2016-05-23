@@ -37,30 +37,10 @@ $(document).on('ready', function () {
     $('#revealView').hide();
 
 
-
-    cards = $.parseJSON(ajaxBasicGet({
+    cards = JSON.parse(ajaxBasicGet({
         action: "getCards"
     }));
 
-    /*
-        var xhttp;
-        if (window.XMLHttpRequest) {
-            xhttp = new XMLHttpRequest();
-        } else {
-            xhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-
-        xhttp.open("POST", "LoginController", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("username=" + "admin" + "&password=" + "test" + "&action=login");
-
-        xhttp.onreadystatechange = function () {
-            console.log(xhttp.response);
-            if (xhttp.readyState == 4) {
-                alert(xhttp.responseText);
-            }
-        }
-  */
 
 });
 $(document).on("contextmenu", function () {
@@ -106,7 +86,11 @@ $("#login").on("click", function () {
 
 });
 $("#login+a").on("click", function () {
-    ajaxAuthentication("register");
+    $("#authenticationScreen").fadeOut("fast", function () {
+        $("#play").fadeIn("fast");
+    })
+
+    //ajaxAuthentication("register");
 });
 //-----------------LOGIN SCREEN-----------------//
 function ajaxBasicGet(data) {
@@ -118,7 +102,7 @@ function ajaxBasicGet(data) {
             return response;
         },
         error: function (error) {
-            alert(error);
+            console.log(error);
         },
 
         dataType: "json"
@@ -267,13 +251,6 @@ $("#playerSelection+div>div").on("keyup", "input", function () {
 
 });
 
-function initPlayerNames() {
-
-
-
-}
-
-
 $("#playerSelection+div").on("click", "a", function () {
     chosenCards = ["militia", "mine", "moat", "moneylender", "remodel", "smithy", "spy", "thief", "throneroom", "village"];
 
@@ -287,7 +264,7 @@ $("#playerSelection+div").on("click", "a", function () {
     }
 
     ajaxBasicGet({
-        deck: deckName,
+        deck: deckName.replace(" ", ""),
         playernames: JSON.stringify(playerNames),
         action: "new"
     });
@@ -683,6 +660,13 @@ function initBoard() {
     $("#actionCardsBuy").append(actionCardsHtml);
 
     $("#blackscreen").fadeOut(500);
+
+
+    //todo
+    /*startingHand = ajaxBasicGet({
+        action:
+    });*/
+
 }
 
 function fillNames() {
@@ -716,7 +700,21 @@ function fillNames() {
 
 }
 
+function refreshNames(newPlayer) {
+    $('#turnIndicator p').fadeOut(500, function () {
+        $('#turnIndicator p').html(playerNames[newPlayer]);
+        $('#turnIndicator p').fadeIn();
+    });
 
+    for (i = 1; i < amountPlayers; i++) {
+        if ($("#p" + i).html() == playerNames[newPlayer]) {
+            $("#p" + i).html($('#turnIndicator p').html());
+            return $("#p" + i + "+img").attr("id");
+        }
+    }
+
+
+}
 
 
 function denitBoard() {
@@ -792,27 +790,31 @@ $("a.buyTreasureCards").on("click", function () {
 });
 
 //----BUY CARD----//
-var cardBuyDestination = "hand";
+var cardBuyDestination = "discard";
 
 function generateBuyCard(el) {
     htmlBoughtCard = '<img id="b' + zIndexDiscardPile + '"class="boughtCard" style="bottom: ' + (($(window).height() - el.offset().top - el.height())) + 'px; left: ' + el.position().left + 'px;" src="images/ActionCards/' + el.attr("id").replace("BuyButton", ".jpg") + '">';
     $("#cardField").append(htmlBoughtCard);
-
-
-
 }
 
+
+//permission BUY card
 $("#gameTable").on("click", "a.buttonBuyDesign", function () {
+    if (ajaxBasicGet({
+            action: "buy",
+            card: cards.indexOf($(this).attr("id").replace("BuyButton", ""))
+        }) == "true") {
+        generateBuyCard($(this));
+        var card = {
+            name: $(this).attr("id").replace("BuyButton", ""),
+            id: overalCardID
+
+        };
+    };
 
 
 
-    generateBuyCard($(this));
 
-
-    ajaxBasicGet({
-        action: "buy"
-
-    });
     if (cardBuyDestination == "discard") {
 
         $("#b" + zIndexDiscardPile).animate({
@@ -1093,8 +1095,8 @@ function searchCardsInHand(idToSearch) {
 
 
 //-------FIELD EVENST-------//
-
-var destinationCardInHand = "trash";
+var twice = false;
+var destinationCardInHand = "field";
 $("#cardField").on("click", "img.cardInHand", function () {
 
     //hand-click events
@@ -1103,16 +1105,39 @@ $("#cardField").on("click", "img.cardInHand", function () {
     switch (destinationCardInHand) {
 
     case "field":
-        addCardToPlayField($(this).attr("id"));
+
+        if (twice != true) {
+            addCardToPlayField($(this).attr("id"));
+
+
+        } else {
+
+            //TODO add ajax call playTwice(addCardToPlayField($(this).attr("id")));
+            twice = false;
+        }
         break;
 
 
     case "trash":
         cardToTrash($(this).attr("id"));
+        cardsClicked++;
+        if (maxAmountClick == cardsClicked) {
+            destinationCardInHand = "field";
+            removeColorEffects();
+            cardsClicked = 0;
+        }
         break;
 
     case "discard":
         discardCard($(this).attr("id"));
+        cardsClicked++;
+        if (maxAmountClick == cardsClicked) {
+            destinationCardInHand = "field";
+            removeColorEffects();
+            cardsClicked = 0;
+        }
+
+
 
     }
     //reformFieldCards();
@@ -1144,8 +1169,7 @@ $("#cover").on("click", function () {
 
 });
 $("#playXXX").on("click", function () {
-    revealCards(["estate", "province", "duchy"], [0, 1, 2], "Treasure Card from the opponent's hands");
-
+    showSpy("copper", "Thief player 1");
 
     for (i = 0; i < playerHand.length; i++) {
         if (playerHand[i].name == "copper" || playerHand[i].name == "silver" || playerHand[i].name == "gold") {
@@ -1158,6 +1182,18 @@ $("#playXXX").on("click", function () {
 
 });
 $("#endTurn").on("click", function () {
+    if ($("#endTurn").html() == "End Action" && cardsClicked >= minAmountClick) {
+
+        $("#endTurn").html("End Turn");
+
+        //todo ajax
+
+    } else {
+
+        endTurn()
+    }
+
+
     discardCard(6);
 });
 
@@ -1227,7 +1263,7 @@ function cardToTrash(cardID) {
 }
 
 function handDiscardModudesOn() {
-
+    destinationCardInHand = "discard";
     for (i = 0; i < playerHand.length; i++) {
 
         $("#" + playerHand[i].id).css("border-color", "GoldenRod").css("box-shadow", "0 0 30px GoldenRod");
@@ -1236,10 +1272,136 @@ function handDiscardModudesOn() {
 
 
 }
+var clickedCards = 0;
+var pickableCards = [];
 
+function promtCards(description, cards, minAmount, maxAmount, canExit, visual) {
+    $('#notificationBar p').fadeOut('slow', function () {
+        $('#notificationBar p').html(description);
+        $('#notificationBar p').fadeIn('slow');
+    });
+
+    if (canExit == true) {
+        $("#endTurn").html("End Action");
+    }
+    switch (visual) {
+
+    case "spy":
+
+        showSpy(cards, description);
+
+        break;
+
+
+    case "thief":
+        showThief(cards, description);
+        break;
+
+
+    case "bureaucrat":
+        revealCards(cards, description, false);
+        break;
+
+
+    case "militia":
+        revealCards(cards, description, true);
+        break;
+
+
+    case "discard":
+        handDiscardModudesOn();
+        maxAmountClick = maxAmount;
+        minAmountClick = minAmount;
+
+        break;
+
+
+    case "trash":
+        handTrashModudesOn(cards);
+        maxAmountClick = maxAmount;
+        minAmountClick = minAmount;
+
+
+        break;
+    }
+
+
+
+
+    //action=reveal&parameters=[These are player 1's top 2 cards, [1,24]]
+    //action=animation&parameters=[2,deck,hand]
+
+
+
+
+
+}
+
+
+function handleAjaxCall(obj) {
+    if (obj.action == "animation") {
+        switch (obj.action) {
+        case obj.action == "addCardToHand":
+            addCardToHand(cards[obj.cardID]);
+            break;
+
+        case obj.action == "deckToDiscard":
+            completeDeckToDiscardPile();
+
+            break;
+        case obj.action == "giveCurseCard":
+            giveCurseCard();
+
+            break;
+        case obj.action == "addSilverToDeck":
+            addSilverToDeck();
+            break;
+
+        case obj.action == "fieldCardsToDiscard":
+            fieldCardsToDiscardPile();
+
+            break;
+
+        }
+    }
+
+    switch (obj.action) {
+    case obj.action == "showSpy":
+        showSpy(obj.cardsToDisplay);
+        break;
+
+    case obj.action == "showThief":
+        showThief(obj.cardsToDisplay, obj.fromPlayers);
+        break;
+
+    case obj.action == "revealCards":
+        revealCards(obj.cardsToDisplay, obj.fromPlayers, obj.description);
+        break;
+    case obj.action == "doAdventureCard":
+        loopAdventure(obj.cards)
+        break;
+
+    case obj.action == "discardCardsFromHand":
+        amountToClick = obj.amountCards;
+        handDiscardModudesOn();
+
+        break;
+    case obj.action == "trashCardsFromHand":
+
+        break;
+
+    case obj.action == "playCardTwice":
+        twice = true;
+        break;
+    }
+
+
+}
 
 function handTrashModudesOn(wich) {
+    destinationCardInHand = "trash";
     switch (wich) {
+
     case "all":
         for (i = 0; i < playerHand.length; i++) {
 
@@ -1259,7 +1421,7 @@ function handTrashModudesOn(wich) {
 
         for (i = 0; i < playerHand.length; i++) {
 
-            if (playerHand[i].name == wich) {
+            if (wich.indexOf(playerHand[i].name) != -1) {
                 $("#" + playerHand[i].id).css("border-color", "darkred").css("box-shadow", "0 0 30px darkred");
             }
         }
@@ -1323,6 +1485,22 @@ function completeDeckToDiscardPile() {
     });
 }
 
+function endTurn(nextPlayer) {
+    $(".cardInHand").animate({
+        bottom: "-=200px"
+
+    }, 300)
+    fieldCardsToDiscardPile();
+
+    $(".discarted").fadeOut();
+    $("#cardField").empty();
+    $("#cardField").append('<img class="discarted" style="position: fixed; bottom: 192px; left: 10px; width: 60px; z-index: 1;" src="images/ActionCards/' + refreshNames(nextPlayer) + '.jpg">');
+    pxOldCardsLeft = 950;
+    playerHand = [];
+    pxFromLeftHand = 875;
+
+}
+
 function giveCurseCard() {
 
     for (i = 1; i < amountPlayers; i++) {
@@ -1343,19 +1521,16 @@ function giveCurseCard() {
 
 }
 
-function showSpy(cardsToDisplay) {
-
-
+function showSpy(cardsToDisplay, description) {
 
     $("#revealView .cardReveal").empty();
 
-    htmlCardsAndPlayerNames = "<h3>Click on the cards you want to discard.</h3>";
-    for (i = 0; i < playerNames.length; i++) {
-        htmlCardsAndPlayerNames += '<div> <h4>' + playerNames[i] + '</h4><section> <img class="imgCardReaveal" src="images/ActionCards/' + cardsToDisplay[i] + '.jpg"></section></div>'
+    htmlCardsAndPlayerNames = "<h3>" + description + "</h3>";
 
-    }
+    htmlCardsAndPlayerNames += '<div> <h4> </h4><section> <img class="imgCardReaveal" src="images/ActionCards/' + cardsToDisplay + '.jpg"></section></div>'
 
-    $("#revealView .gameWindow").css("width", (amountPlayers * 320) + "px");
+
+    //$("#revealView .gameWindow").css("width", (amountPlayers * 320) + "px");
     htmlCardsAndPlayerNames += '<section id="doneSpy" class="done"><p>Done</p></section>';
     $("#revealView .cardReveal").append(htmlCardsAndPlayerNames);
     $("#revealView").fadeIn();
@@ -1380,10 +1555,6 @@ function revealCards(cardsToDisplay, fromPlayers, description) {
     $("#revealView").fadeIn();
     thiefPhase = "trashPhase";
 }
-
-
-
-
 
 function addCardToDeck(cardID) {
 
@@ -1410,9 +1581,9 @@ function addSilverToDeck() {
 
 var thiefPhase = "trashPhase";
 
-function showThief(cardsToDisplay, fromPlayers) {
+function showThief(cardsToDisplay, description) {
     $("#revealView .cardReveal").empty();
-    htmlCardsAndPlayerNames = "<h3>Opponents must trash one treasure card (if possible).</h3>";
+    htmlCardsAndPlayerNames = "<h3>" + description + "</h3>";
     styleImgOne = "";
     styleImgTwo = "";
     playerNameI = 0;
@@ -1430,13 +1601,13 @@ function showThief(cardsToDisplay, fromPlayers) {
 
 
 
-        htmlCardsAndPlayerNames += '<div> <h4>' + playerNames[fromPlayers[playerNameI]] + '</h4><section> <img id="t' + i + '"  class="imgTwoCardReveal" ' + styleImgOne + '  src="images/ActionCards/' + cardsToDisplay[i] + '.jpg" alt="' + cardsToDisplay[i] + '"><img id="t' + (i + 1) + '" class="imgTwoCardReveal"  ' + styleImgTwo + ' src="images/ActionCards/' + cardsToDisplay[i + 1] + '.jpg" alt="' + cardsToDisplay[i + 1] + '"></section></div>'
+        htmlCardsAndPlayerNames += '<div> <h4></h4><section> <img id="t' + i + '"  class="imgTwoCardReveal" ' + styleImgOne + '  src="images/ActionCards/' + cardsToDisplay[i] + '.jpg" alt="' + cardsToDisplay[i] + '"><img id="t' + (i + 1) + '" class="imgTwoCardReveal"  ' + styleImgTwo + ' src="images/ActionCards/' + cardsToDisplay[i + 1] + '.jpg" alt="' + cardsToDisplay[i + 1] + '"></section></div>'
 
         playerNameI++;
-
+        $("#revealView .gameWindow").css("width", '390px');
     }
 
-    $("#revealView .gameWindow").css("width", (fromPlayers.length * 327) + "px");
+    //$("#revealView .gameWindow").css("width", (fromPlayers.length * 327) + "px");
     htmlCardsAndPlayerNames += '<section id="doneThief" class="done"><p>Done</p></section>';
     $("#revealView .cardReveal").append(htmlCardsAndPlayerNames);
     $("#revealView").fadeIn();
@@ -1492,13 +1663,16 @@ function doAdventurer(card, destination) {
 
 }
 
-function loopAdventure() {
-    card = {
-        name: 'thief',
-        id: overalCardID
-    };
-    overalCardID++;
+function loopAdventure(cardsToDo) {
+    for (i = 0; i < cardsToDo.length; i++) {
+        card = {
+            name: cards[cardsToDo[i].cardID].name,
+            id: overalCardID
+        };
+        overalCardID++;
+        doAdventurer(card, cardsToDo[i].destination);
 
+    }
     doAdventurer(card, 'hand');
 
 }
