@@ -1,10 +1,10 @@
 //-----------------GLOBALE VARIABELEN-----------------//
 var cards = ["adventurer", "bureaucrat", "gold", "silver", "copper", "cellar", "chancellor", "chapel", "councilroom", "feast", "festival", "gardens", "laboratory", "library", "market", "militia", "mine", "moat", "moneylender", "remodel", "smithy", "spy", "thief", "throneroom", "village", "witch", "woodcutter", "workshop"];
 
-var treasureCards = ["copper", "silver", "gold"]
-var firstPageHtml = ""
-var secondPageHtml = ""
-var thirdPageHtml = ""
+var treasureCards = ["copper", "silver", "gold"];
+var firstPageHtml = "";
+var secondPageHtml = "";
+var thirdPageHtml = "";
 
 //-----------------COMMON FUNCTIONS-----------------//
 
@@ -35,8 +35,8 @@ $(document).on('ready', function () {
     $("#khalid").hide();
     $("#playerSelection+div").hide();
     $('#revealView').hide();
-    $.ajax({
-        url: 'localhost/LoginController',
+    /*$.ajax({
+        url: 'localhost/LoginServlet',
         data: {
             username: "timo",
             password: "Omit",
@@ -53,7 +53,7 @@ $(document).on('ready', function () {
         dataType: "text"
 
 
-    });
+    });*/
 
 });
 $(document).on("contextmenu", function () {
@@ -67,8 +67,6 @@ $("#login").on("click", function () {
 
     $("#authenticationScreen").fadeOut("fast", function () {
         $("#play").fadeIn("fast");
-
-
     });
 
 });
@@ -1061,14 +1059,6 @@ $("#cardField").on("contextmenu", "img.cardInHand", function () {
     return false;
 });
 
-
-
-
-
-
-
-
-
 //temp
 $("#cover").on("click", function () {
     fieldCardsToDiscardPile();
@@ -1311,9 +1301,6 @@ function revealCards(cardsToDisplay, fromPlayers, description) {
     $("#revealView").fadeIn();
     thiefPhase = "trashPhase";
 }
-
-
-
 
 
 function addCardToDeck(cardID) {

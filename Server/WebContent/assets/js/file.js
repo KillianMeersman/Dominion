@@ -1,17 +1,29 @@
 //-----------------GLOBALE VARIABELEN-----------------//
-var cards = ["adventurer", "bureaucrat", "gold", "silver", "copper", "cellar", "chancellor", "chapel", "councilroom", "feast", "festival", "gardens", "laboratory", "library", "market", "militia", "mine", "moat", "moneylender", "remodel", "smithy", "spy", "thief", "throneroom", "village", "witch", "woodcutter", "workshop"];
+/*var cards = ["adventurer", "bureaucrat", "gold", "silver", "copper", "cellar", "chancellor", "chapel", "councilroom", "feast", "festival", "gardens", "laboratory", "library", "market", "militia", "mine", "moat", "moneylender", "remodel", "smithy", "spy", "thief", "throneroom", "village", "witch", "woodcutter", "workshop"];*/
 
-var treasureCards = ["copper", "silver", "gold"]
-var firstPageHtml = ""
-var secondPageHtml = ""
-var thirdPageHtml = ""
+var cards;
+
+var treasureCards = ["copper", "silver", "gold"];
+var firstPageHtml = "";
+var secondPageHtml = "";
+var thirdPageHtml = "";
+
+var bigMoney = ["adventurer", "bureaucrat", "chancellor", "chapel", "feast", "laboratory", "market", "mine", "moneylender", "throneroom"]
 
 //-----------------COMMON FUNCTIONS-----------------//
 
+function getPreBuiltDeck(name) {
+    switch(name.toLowerCase()) {
+        case "big money":
+        	return bigMoney;
+        default:
+        	return null;
+    }
+}
 
-
-
-
+function removeBrackets(string) {
+	return string.slice(1, -1);
+}
 
 //-----------------SHOW/HIDE BIJ OPSTART BROWSER-----------------//
 $(document).on('ready', function () {
@@ -36,11 +48,23 @@ $(document).on('ready', function () {
     $("#playerSelection+div").hide();
     $('#revealView').hide();
 
-
-    cards = ajaxBasicGet({
-        action: "getCards"
+    $.ajax({
+        method: "GET",
+        url: '/GameServlet',
+        data: {action: "getCards"},
+        success: function (response) {
+			response = removeBrackets(response);
+            cards = response.split(', ');
+            console.log(response.split(', '));
+        },
+        error: function (response) {
+            console.log(response);
+        },
     });
 
+    /*cards = ajaxBasicGet({
+        action: "getCards"
+    });*/
 
 });
 $(document).on("contextmenu", function () {
@@ -65,11 +89,11 @@ function ajaxAuthentication(action) {
                     $("#play").fadeIn("fast");
                 })
             } else {
-                alert(response.responseText);
+                alert(response);
             }
         },
         error: function (response) {
-            alert(response.responseText);
+            alert(response);
         },
 
         dataType: "text"
@@ -99,14 +123,12 @@ function ajaxBasicGet(data) {
         url: '/GameServlet',
         data: data,
         success: function (response) {
-            console.log(response.responseText);
+            console.log(response);
             return response;
         },
-        error: function (error) {
-            console.log(error);
+        error: function (response) {
+            console.log(response);
         },
-
-        dataType: "json"
     });
 }
 
@@ -214,10 +236,6 @@ $("#playerSelection+div>div").on("keyup", "input", function () {
 
             allFilled = false;
             break;
-
-
-
-
         } else {
             allFilled = true;
 
@@ -254,18 +272,18 @@ $("#playerSelection+div>div").on("keyup", "input", function () {
 
 $("#playerSelection+div").on("click", "a", function () {
     chosenCards = ["militia", "mine", "moat", "moneylender", "remodel", "smithy", "spy", "thief", "throneroom", "village"];
-
-
-
+    var deck = [];
+    
     for (i = 0; i < amountPlayers; i++) {
-
-
         playerNames[i] = document.getElementById("inputPlayerName" + (i + 1)).value;
-
     }
-
+	var deckNames = getPreBuiltDeck("Big money");	// VERANDEREN!!!
+    for(i = 0; i < 10; i++) {
+        deck[i] = cards.indexOf(deckNames[i])
+    }
+    
     ajaxBasicGet({
-        deck: deckName.replace(" ", ""),
+        deck: JSON.stringify(deck),
         playernames: JSON.stringify(playerNames),
         action: "new"
     });
@@ -277,9 +295,6 @@ $("#playerSelection+div").on("click", "a", function () {
     $("#new").fadeOut(200);
     $("#save").fadeOut(200);
 });
-
-
-
 
 $("#firstGame").on("click", function () {
     chosenCards = ["militia", "mine", "moat", "moneylender", "remodel", "smithy", "spy", "thief", "throneroom", "village"];
@@ -296,7 +311,6 @@ $("#firstGame").on("click", function () {
 
 
 });
-
 
 //-----------------TURORIAL-----------------//
 var tutorialStage = 0
@@ -438,9 +452,6 @@ function changeStageVisual(stage) {
     }
 };
 
-
-
-
 $("#tutorialScreen").bind("keydown", function (event) {
 
     if (event.keyCode == 39) {
@@ -465,9 +476,6 @@ $("#tutorialScreen").on("click", function () {
     changeStageVisual(tutorialStage);
 });
 
-
-
-
 //-----------------DECKBUILDER-----------------//
 var firstTimeDeckBuilder = true;
 
@@ -486,11 +494,6 @@ function initDeckBuilder() {
         thirdPageHtml += "<a id='" + cards[i] + "'  class='buildCard' href='#'><img src='images/ActionCards/" + cards[i] + ".jpg'/></a>";
     }
 };
-
-
-
-
-
 
 $("#new > :last-child").on("click", function () {
     $(".menu").fadeOut("fast");
@@ -538,8 +541,6 @@ $("#nextArrow").on("click", function () {
 
 });
 
-
-
 //-----------------PREVIOUS ARROW FUNCTIE-----------------//
 
 function previousPage() {
@@ -567,8 +568,6 @@ function previousPage() {
 $("#previousArrow").on("click", function () {
     previousPage();
 });
-
-
 
 //-----------------DECK BUILDER ALGORITMES + DYNAMISCHE OPBOUW HTML-----------------//
 
@@ -632,7 +631,6 @@ $("#back").on("click", function () {
 
 
 });
-
 
 //-----------------FUNCTIE VOOR VULLEN VAN BOARD-----------------//
 function initBoard() {
@@ -1016,11 +1014,6 @@ function discardCardFromAny(cardID) {
     zIndexDiscardPile++;
 
 }
-
-
-
-
-
 
 //-------FIELD CARDS ANIMATIONS-------//
 var pxFromLeftField = 450;
