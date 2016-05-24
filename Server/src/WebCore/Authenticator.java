@@ -46,7 +46,7 @@ public class Authenticator {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://78.20.159.253:3306/users?user=administrator&password=thetarun");
+			conn = DriverManager.getConnection("jdbc:mysql://78.20.159.253:3306/Dominion?user=administrator&password=thetarun");
 			String query = "select pwdsalt from users where username = '" + username + "'";
 			String salt = null;
 			
@@ -96,7 +96,7 @@ public class Authenticator {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://192.168.0.250:3306/users?user=administrator&password=thetarun");
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.0.250:3306/Dominion?user=administrator&password=thetarun");
 			
 			// Salt and password hash generation
 			String salt = generateSalt();

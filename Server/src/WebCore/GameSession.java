@@ -5,6 +5,7 @@ import Core.Game;
 import Core.IEngineInterface;
 import Core.Player;
 import Core.PlayerPhase;
+import Core.PlayerPlace;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -87,17 +88,16 @@ public class GameSession implements IEngineInterface {
             for (Player player : game.getPlayers()) {
                 setBackLog("action=nextTurn&player=" + player.getId());
                 while (player.getPhase() == PlayerPhase.PHASE_BUY) {
-                    setBackLog("action=buy&parameters=[" + getParameterString() + "," + getListString(game.getActivePlayer().getHand()) + "]");
+                    setBackLog("action=buy&parameters=" + getParameterString());
                     try {
                         game.buy(Integer.parseInt(response.getParameter("cardId")));
                     } catch (Exception ex) {
                         Logger.getLogger(GameSession.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
                 }
                 
                 while (player.getPhase() == PlayerPhase.PHASE_ACTION) {
-                    setBackLog("action=action&parameters=[" + getParameterString() + "," + getListString(game.getActionCards()) + "]");
+                    setBackLog("action=action&parameters=[" + getParameterString() + "&hand=" + getListString(game.getActivePlayer().getHand()) + "]");
                     try {
                         game.playActionCard(Core.CardRepository.getInstance().getCardById(Integer.parseInt(response.getParameter("cardId"))));
                     } catch (Exception ex) {

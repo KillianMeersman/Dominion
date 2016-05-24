@@ -9,11 +9,12 @@ public class CardRepository {
     private static CardRepository instance = new CardRepository();
     private ArrayList<TreasureCard> treasureCards = new ArrayList<>();
     private ArrayList<VictoryCard> victoryCards = new ArrayList<>();
-    private ArrayList<Card> actionCards = new ArrayList<>();
-    private ArrayList<Card> curseCards = new ArrayList<>();
+    private ArrayList<ActionCard> actionCards = new ArrayList<>();
 
     private CardRepository() {
-        tempFillFunc();
+        treasureCards = CardMapper.getTreasureCards();
+        victoryCards = CardMapper.getVictoryCards();
+        actionCards = CardMapper.getActionCards();
     }
     
     public static CardRepository getInstance() {
@@ -38,12 +39,8 @@ public class CardRepository {
         return victoryCards;
     }
     
-    public ArrayList<Card> getActionCards() {
+    public ArrayList<ActionCard> getActionCards() {
         return actionCards;
-    }
-    
-    public ArrayList<Card> getCurseCards() {
-        return curseCards;
     }
     
     public ArrayList<Card> getAllCards() {
@@ -55,9 +52,6 @@ public class CardRepository {
             out.add(card);
         }
         for (Card card : actionCards) {
-            out.add(card);
-        }
-        for (Card card : curseCards) {
             out.add(card);
         }
         return out;

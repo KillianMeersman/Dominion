@@ -50,37 +50,6 @@ public class Game {
         return players;
     }
 
-    public ArrayList<Card> getBuyableCards() {
-        int coins = activePlayer.getCoins();
-        ArrayList<Card> out = new ArrayList<>();
-        for (Card card : supply.getAllCardsUnique()) {
-            if (card.getCost() <= coins) {
-                out.add(card);
-            }
-        }
-        currentSet = out;
-        return out;
-    }
-    
-    public ArrayList<Card> getTreasureCards() {
-        currentSet = activePlayer.getTreasureCards(PlayerPlace.PLACE_HAND);
-        return currentSet;
-    }
-    
-    public ArrayList<Card> getActionCards() {
-        currentSet = activePlayer.getActionCards(PlayerPlace.PLACE_HAND);
-        return currentSet;
-    }
-
-    private Player getPlayer(int playerId) {
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getId() == playerId) {
-                return players.get(i);
-            }
-        }
-        return null;
-    }
-
     public Game(IEngineInterface view, String[] playerNames) {
         this.view = view;
         for (int i = 0; i < playerNames.length; i++) {
@@ -149,14 +118,6 @@ public class Game {
         //activePlayer = players.get((players.indexOf(activePlayer) + 1) % players.size());
     }
     
-    private int getCardsValue(ArrayList<TreasureCard> cards) {
-        int value = 0;
-        for (TreasureCard treasureCard : cards) {
-            value += treasureCard.getValue();
-        }
-        return value;
-    }
-    
     public void playActionCard(Card actionCard) throws Exception {
         try {
             activePlayer.inActionMode = true;
@@ -164,14 +125,5 @@ public class Game {
         } catch (Exception e) {
             throw new Exception("Invalid input");
         }
-    }
-    
-    
-    
-    private boolean gameDone() {
-        if (supply.getCardAmount(CardRepository.getInstance().getCardByName("Province")) < 1) {
-            return true;
-        }
-        return false;
     }
 }

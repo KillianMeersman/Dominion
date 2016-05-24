@@ -65,7 +65,7 @@ public class Player {
         return phase;
     }
 
-    protected ArrayList<Card> getActionCards(PlayerPlace source) {
+    public ArrayList<Card> getActionCards(PlayerPlace source) {
         ArrayList<Card> cards = resolvePlayerPlace(source);
         ArrayList<Card> out = new ArrayList<>();
         for (Card card : cards) {
@@ -77,7 +77,7 @@ public class Player {
         
     }
 
-    protected ArrayList<Card> getTreasureCards(PlayerPlace source) {
+    public ArrayList<Card> getTreasureCards(PlayerPlace source) {
         ArrayList<Card> cards = resolvePlayerPlace(source);
         ArrayList<Card> out = new ArrayList<>();
         for (Card card : cards) {
@@ -88,7 +88,7 @@ public class Player {
         return out;
     }
 
-    protected ArrayList<Card> getVictoryCards(PlayerPlace source) {
+    public ArrayList<Card> getVictoryCards(PlayerPlace source) {
         ArrayList<Card> cards = resolvePlayerPlace(source);
         ArrayList<Card> out = new ArrayList<>();
         for (Card card : cards) {
