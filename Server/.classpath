@@ -15,6 +15,7 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry exported="true" kind="lib" path="C:/Program Files/Apache Software Foundation/Tomcat 8.0/lib/mysql-connector-java-5.1.39-bin.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Program Files/Apache Software Foundation/Tomcat 8.0/lib/DominionEngine.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Apache Software Foundation/Tomcat 8.0/lib/DominionEngine.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Timo/Documents/GitHub/Dominion/Engine/dist/DominionEngine.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
