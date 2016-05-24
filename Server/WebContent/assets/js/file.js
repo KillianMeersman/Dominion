@@ -1,28 +1,28 @@
 //-----------------GLOBALE VARIABELEN-----------------//
 /*var cards = ["adventurer", "bureaucrat", "gold", "silver", "copper", "cellar", "chancellor", "chapel", "councilroom", "feast", "festival", "gardens", "laboratory", "library", "market", "militia", "mine", "moat", "moneylender", "remodel", "smithy", "spy", "thief", "throneroom", "village", "witch", "woodcutter", "workshop"];*/
 
-var cards;
+var cards = [];
 
 var treasureCards = ["copper", "silver", "gold"];
 var firstPageHtml = "";
 var secondPageHtml = "";
 var thirdPageHtml = "";
 
-var bigMoney = ["adventurer", "bureaucrat", "chancellor", "chapel", "feast", "laboratory", "market", "mine", "moneylender", "throneroom"]
+var bigMoney = ["Adventurer", "bureaucrat", "chancellor", "chapel", "feast", "laboratory", "market", "mine", "moneylender", "throneroom"]
 
 //-----------------COMMON FUNCTIONS-----------------//
 
 function getPreBuiltDeck(name) {
-    switch(name.toLowerCase()) {
-        case "big money":
-        	return bigMoney;
-        default:
-        	return null;
+    switch (name.toLowerCase()) {
+    case "big money":
+        return bigMoney;
+    default:
+        return null;
     }
 }
 
 function removeBrackets(string) {
-	return string.slice(1, -1);
+    return string.slice(1, -1);
 }
 
 //-----------------SHOW/HIDE BIJ OPSTART BROWSER-----------------//
@@ -50,10 +50,13 @@ $(document).on('ready', function () {
 
     $.ajax({
         method: "GET",
-        url: '/GameServlet',
-        data: {action: "getCards"},
+        url: '/Dominion/GameServlet',
+        data: {
+            action: "getCards"
+        },
         success: function (response) {
-			response = removeBrackets(response);
+            console.log(response);
+            response = removeBrackets(response);
             cards = response.split(', ');
             console.log(response.split(', '));
         },
@@ -65,7 +68,7 @@ $(document).on('ready', function () {
     /*cards = ajaxBasicGet({
         action: "getCards"
     });*/
-
+    console.log(cards);
 });
 $(document).on("contextmenu", function () {
     return false;
@@ -171,8 +174,8 @@ $("#tutorial").on("click", function () {
 //player selection
 var deckName
 $("#new a").on("click", function () {
-	
-	deckName = $(this).attr("id");
+
+    deckName = $(this).attr("id");
 
 
 
@@ -269,19 +272,21 @@ $("#playerSelection+div>div").on("keyup", "input", function () {
 
 
 });
-
+var deck = [];
 $("#playerSelection+div").on("click", "a", function () {
-    chosenCards = ["militia", "mine", "moat", "moneylender", "remodel", "smithy", "spy", "thief", "throneroom", "village"];
-    var deck = [];
-    
+    //chosenCards = ["militia", "mine", "moat", "moneylender", "remodel", "smithy", "spy", "thief", "throneroom", "village"];
+
+    console.log(cards);
+
     for (i = 0; i < amountPlayers; i++) {
         playerNames[i] = document.getElementById("inputPlayerName" + (i + 1)).value;
     }
-	var deckNames = getPreBuiltDeck("Big money");	// VERANDEREN!!!
-    for(i = 0; i < 10; i++) {
+    var deckNames = getPreBuiltDeck("Big money"); // VERANDEREN!!!
+    for (i = 0; i < 10; i++) {
         deck[i] = cards.indexOf(deckNames[i])
+        chosenCards[i] = deckNames[i];
     }
-    
+
     ajaxBasicGet({
         deck: JSON.stringify(deck),
         playernames: JSON.stringify(playerNames),
