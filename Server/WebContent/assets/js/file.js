@@ -8,9 +8,19 @@ var firstPageHtml = "";
 var secondPageHtml = "";
 var thirdPageHtml = "";
 
-var bigMoney = ["Adventurer", "bureaucrat", "chancellor", "chapel", "feast", "laboratory", "market", "mine", "moneylender", "throneroom"]
+var bigMoney = ["adventurer", "bureaucrat", "chancellor", "chapel", "feast", "laboratory", "market", "mine", "moneylender", "throneroom"]
 
 //-----------------COMMON FUNCTIONS-----------------//
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    alert(url);
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
 
 function getPreBuiltDeck(name) {
     switch (name.toLowerCase()) {
@@ -24,6 +34,28 @@ function getPreBuiltDeck(name) {
 function removeBrackets(string) {
     return string.slice(1, -1);
 }
+
+
+/*
+$.ajax({
+    method: "GET",
+    url: '/Dominion/GameServlet',
+    data: {
+        action: "test"
+    },
+    success: function (request) {
+
+        alert(getParameterByName('action', request));
+    },
+    error: function (response) {
+        console.log(response);
+    },
+});
+
+*/
+
+
+var strin = "action=buy&parameters=[4,1,1]&hand=[1,4,12,34,2]";
 
 //-----------------SHOW/HIDE BIJ OPSTART BROWSER-----------------//
 $(document).on('ready', function () {
@@ -616,11 +648,10 @@ $("#viewDeck").on("click", "a.deckCard", function () {
 
 
 $("#next").on("click", function () {
-    console.log(chosenCards);
-    $("#blackscreen").fadeIn(500, function () {
-        $(".start").fadeOut(500, initBoard())
-    });
 
+    $("#playerSelection").fadeIn();
+
+    console.log(chosenCards);
 
 });
 
@@ -706,12 +737,12 @@ function fillNames() {
 
 function refreshNames(newPlayer) {
     $('#turnIndicator p').fadeOut(500, function () {
-        $('#turnIndicator p').html(playerNames[newPlayer]);
+        $('#turnIndicator p').html(newPlayer);
         $('#turnIndicator p').fadeIn();
     });
 
     for (i = 1; i < amountPlayers; i++) {
-        if ($("#p" + i).html() == playerNames[newPlayer]) {
+        if ($("#p" + i).html() == newPlayer) {
             $("#p" + i).html($('#turnIndicator p').html());
             return $("#p" + i + "+img").attr("id");
         }
@@ -804,59 +835,123 @@ function generateBuyCard(el) {
 
 //permission BUY card
 $("#gameTable").on("click", "a.buttonBuyDesign", function () {
-    if (ajaxBasicGet({
-            action: "buy",
-            card: cards.indexOf($(this).attr("id").replace("BuyButton", ""))
-        }) == "true") {
-        generateBuyCard($(this));
-        var card = {
-            name: $(this).attr("id").replace("BuyButton", ""),
-            id: overalCardID
+    alert($(this).attr("id").replace("BuyButton", ""));
+    console.log(cards);
+    $.ajax({
+        method: "GET",
+        url: '/Dominion/GameServlet',
+        data: {
+            action: "play",
+            cardId: cards.indexOf($(this).attr("id").replace("BuyButton", ""))
+        },
+        success: function (response) {
+            changeMessage(response);
+            generateBuyCard($(this));
+            var card = {
+                name: $(this).attr("id").replace("BuyButton", ""),
+                id: overalCardID
+            };
+            if (cardBuyDestination == "discard") {
 
-        };
+                $("#b" + zIndexDiscardPile).animate({
+                    width: '60px',
+                    bottom: '192px',
+                    left: '10px'
+                }).css("z-index", zIndexDiscardPile);
+                $("#b" + zIndexDiscardPile).addClass("discarted")
+
+
+            } else if (cardBuyDestination == "hand") {
+
+                var card = {
+                    name: $(this).attr("id").replace("BuyButton", ""),
+                    id: overalCardID
+
+                };
+
+                playerHand.push(card);
+                overalCardID++;
+
+                $("#b" + zIndexDiscardPile).addClass("cardInHand").attr("id", card.id);
+                cardBuyDestination = "discard";
+
+                pxFromLeftHand += 20;
+                $("#" + card.id).animate({
+                    bottom: '-65px',
+                    left: pxFromLeftHand + 'px',
+                    width: '160px'
+
+                });
+
+                reformHand();
+                cardBuyDestination = "discarted";
+            }
+
+            zIndexDiscardPile++;
+
+        }
+
+        ,
+        error: function (response) {
+            console.log(response)
+        }
+    })
+});
+
+/*
+if (ajaxBasicGet({
+        action: "buy",
+        card: cards.indexOf($(this).attr("id").replace("BuyButton", ""))
+    }) == "true") {
+    generateBuyCard($(this));
+    var card = {
+        name: $(this).attr("id").replace("BuyButton", ""),
+        id: overalCardID
+
+    };
+};
+
+
+
+
+if (cardBuyDestination == "discard") {
+
+    $("#b" + zIndexDiscardPile).animate({
+        width: '60px',
+        bottom: '192px',
+        left: '10px'
+    }).css("z-index", zIndexDiscardPile);
+    $("#b" + zIndexDiscardPile).addClass("discarted")
+
+
+} else if (cardBuyDestination == "hand") {
+
+    var card = {
+        name: $(this).attr("id").replace("BuyButton", ""),
+        id: overalCardID
+
     };
 
+    playerHand.push(card);
+    overalCardID++;
 
+    $("#b" + zIndexDiscardPile).addClass("cardInHand").attr("id", card.id);
+    cardBuyDestination = "discard";
 
+    pxFromLeftHand += 20;
+    $("#" + card.id).animate({
+        bottom: '-65px',
+        left: pxFromLeftHand + 'px',
+        width: '160px'
 
-    if (cardBuyDestination == "discard") {
+    });
 
-        $("#b" + zIndexDiscardPile).animate({
-            width: '60px',
-            bottom: '192px',
-            left: '10px'
-        }).css("z-index", zIndexDiscardPile);
-        $("#b" + zIndexDiscardPile).addClass("discarted")
+    reformHand();
+}
 
+zIndexDiscardPile++;
+*/
 
-    } else if (cardBuyDestination == "hand") {
-
-        var card = {
-            name: $(this).attr("id").replace("BuyButton", ""),
-            id: overalCardID
-
-        };
-
-        playerHand.push(card);
-        overalCardID++;
-
-        $("#b" + zIndexDiscardPile).addClass("cardInHand").attr("id", card.id);
-        cardBuyDestination = "discard";
-
-        pxFromLeftHand += 20;
-        $("#" + card.id).animate({
-            bottom: '-65px',
-            left: pxFromLeftHand + 'px',
-            width: '160px'
-
-        });
-
-        reformHand();
-    }
-
-    zIndexDiscardPile++;
-
-});
 
 
 //-----------------ESCAPE MENU----------------//
@@ -1092,32 +1187,75 @@ function searchCardsInHand(idToSearch) {
 
 
 
-
-//-------FIELD EVENST-------//
+var selectedCards = []
+    //-------FIELD EVENST-------//
 var twice = false;
 var destinationCardInHand = "field";
 $("#cardField").on("click", "img.cardInHand", function () {
 
     //hand-click events
 
-
+    cardId = cards.indexOf($(this).attr('src').replace('images/ActionCards/', '').replace('.jpg', ''));
     switch (destinationCardInHand) {
 
     case "field":
+
+        $.ajax({
+            method: "GET",
+            url: '/Dominion/GameServlet',
+            data: {
+                action: "play",
+                cardId: cardId
+            },
+            success: function (response) {
+                if (response == "invalid_card") {
+                    changeMessage(response);
+
+                } else {
+
+
+                    addCardToPlayField($(this).attr("id"));
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            },
+        });
+
 
         if (twice != true) {
             addCardToPlayField($(this).attr("id"));
 
 
-        } else {
+            $.ajax({
+                method: "GET",
+                url: '/Dominion/GameServlet',
+                data: {
+                    action: "play",
+                    cardId: cardId
+                },
+                success: function (response) {
+                    if (response == "invalid_card") {
+                        changeMessage(response);
 
-            //TODO add ajax call playTwice(addCardToPlayField($(this).attr("id")));
-            twice = false;
+                    } else {
+
+
+                        playTwice($(this).attr("id"));
+                        twice = false;
+                    }
+                },
+                error: function (response) {
+                    console.log(response);
+                },
+            });
+
+
         }
-        break;
 
 
     case "trash":
+        selectedCards.push(cardId);
         cardToTrash($(this).attr("id"));
         cardsClicked++;
         if (maxAmountClick == cardsClicked) {
@@ -1128,6 +1266,7 @@ $("#cardField").on("click", "img.cardInHand", function () {
         break;
 
     case "discard":
+        selectedCards.push(cardId);
         discardCard($(this).attr("id"));
         cardsClicked++;
         if (maxAmountClick == cardsClicked) {
@@ -1274,11 +1413,94 @@ function handDiscardModudesOn() {
 var clickedCards = 0;
 var pickableCards = [];
 
+
+function checkHandCards(NewHand) {
+
+
+    for (i = (playerHand.length - 1); i < NewHand.length; i++) {
+
+        addCardToHand(cards[NewHand[i]]);
+    }
+}
+
+
+var parameters = [];
+
+function updateParams(params) {
+
+    $("#amountActions").html(params[0]);
+    $("#amountBuys").html(params[1]);
+    $("#amountCoins").html(params[2]);
+
+
+
+}
+var firstTurn = true;
+
+function handleAction(parameterString) {
+
+
+    switch (getParameterByName('action', parameterString)) {
+
+
+
+    case "player":
+
+        if (firstTurn == false) {
+            endTurn(getParameterByName('playerName', parameterString));
+
+
+        } else {
+            firstTurn = false;
+        }
+
+        checkHandCards(getParameterByName('hand', parameterString));
+        break;
+
+    case "buy":
+        $(".amountActionCards").fadeOut(300, function () {
+            fillSupply(JSON.parse(getParameterByName('playerName', parameterString)))
+            $(".amountActionCards").fadeIn(300);
+
+        });
+        updateParams(JSON.parse(getParameterByName('parameters', parameterString)));
+
+
+        //params a b c hand
+
+
+        break;
+
+
+
+    case "action":
+        updateParams(JSON.parse(getParameterByName('parameters', parameterString)));
+
+
+        checkHandCards(getParameterByName('hand', parameterString));
+        break;
+
+    case "promptCards":
+        promtCards(getParameterByName('description', parameterString), JSON.parse(getParameterByName('cards'), parameterString), getParameterByName('minAmount', parameterString), getParameterByName('maxAmount', parameterString), getParameterByName('canExit', parameterString), getParameterByName('visual', parameterString));
+
+        break;
+
+
+
+
+
+
+    }
+
+
+
+}
+
+
+
 function promtCards(description, cards, minAmount, maxAmount, canExit, visual) {
-    $('#notificationBar p').fadeOut('slow', function () {
-        $('#notificationBar p').html(description);
-        $('#notificationBar p').fadeIn('slow');
-    });
+    changeMessage(description);
+
 
     if (canExit == true) {
         $("#endTurn").html("End Action");
@@ -1313,7 +1535,8 @@ function promtCards(description, cards, minAmount, maxAmount, canExit, visual) {
         minAmountClick = minAmount;
 
         break;
-
+    default:
+        revealCards(cards, description, true);
 
     case "trash":
         handTrashModudesOn(cards);
@@ -1335,6 +1558,8 @@ function promtCards(description, cards, minAmount, maxAmount, canExit, visual) {
 
 
 }
+
+
 
 
 function handleAjaxCall(obj) {
@@ -1430,10 +1655,31 @@ function handTrashModudesOn(wich) {
 }
 
 function removeColorEffects() {
+    $.ajax({
+        method: "GET",
+        url: '/Dominion/GameServlet',
+        data: {
+            action: "play",
+            cardId: JSON.stringify(selectedCards)
+        },
+        success: function (response) {
+            if (response == "error") {
+                changeMessage(response);
+
+            } else {
+
+            }
+        },
+        error: function (response) {
+            console.log(response);
+        },
+    });
+    selectedCards = [];
     for (i = 0; i < playerHand.length; i++) {
 
         $("#" + playerHand[i].id).css("border-color", "").css("box-shadow", "");
     }
+
 }
 
 function handToTrash(cardID) {
@@ -1488,7 +1734,7 @@ function endTurn(nextPlayer) {
     $(".cardInHand").animate({
         bottom: "-=200px"
 
-    }, 300)
+    }, 300);
     fieldCardsToDiscardPile();
 
     $(".discarted").fadeOut();
@@ -1758,3 +2004,20 @@ $("#revealView").on("click", "img.imgCardReaveal", function () {
 
 
 });
+
+function changeMessage(mes) {
+    $('#notificationBar p').fadeOut('slow', function () {
+        $('#notificationBar p').html(mes);
+        $('#notificationBar p').fadeIn('slow');
+    });
+
+}
+
+function fillSupply(stashArray) {
+
+    for (i = 0; i < stashArray.length; i++) {
+
+        $("#" + cards[i] + "BuyAmount").html(stashArray[i]);
+
+    }
+}
