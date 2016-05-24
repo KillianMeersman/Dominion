@@ -13,7 +13,6 @@ var bigMoney = ["adventurer", "bureaucrat", "chancellor", "chapel", "feast", "la
 //-----------------COMMON FUNCTIONS-----------------//
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
-    alert(url);
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
@@ -87,20 +86,17 @@ $(document).on('ready', function () {
             action: "getCards"
         },
         success: function (response) {
-            console.log(response);
             response = removeBrackets(response);
             cards = response.split(', ');
-            console.log(response.split(', '));
+            console.log(cards);
         },
         error: function (response) {
             console.log(response);
         },
     });
-
     /*cards = ajaxBasicGet({
         action: "getCards"
     });*/
-    console.log(cards);
 });
 $(document).on("contextmenu", function () {
     return false;
@@ -305,6 +301,7 @@ $("#playerSelection+div>div").on("keyup", "input", function () {
 
 });
 var deck = [];
+var deckNames = [];
 $("#playerSelection+div").on("click", "a", function () {
     //chosenCards = ["militia", "mine", "moat", "moneylender", "remodel", "smithy", "spy", "thief", "throneroom", "village"];
 
@@ -313,8 +310,10 @@ $("#playerSelection+div").on("click", "a", function () {
     for (i = 0; i < amountPlayers; i++) {
         playerNames[i] = document.getElementById("inputPlayerName" + (i + 1)).value;
     }
-    var deckNames = getPreBuiltDeck("Big money"); // VERANDEREN!!!
-    for (i = 0; i < 10; i++) {
+    deckNames = getPreBuiltDeck("Big money"); // VERANDEREN!!!
+    console.log(deckNames[i]);
+    for (i = 0; i < deckNames.length; i++) {
+        console.log(cards.indexOf(deckNames[i]));
         deck[i] = cards.indexOf(deckNames[i])
         chosenCards[i] = deckNames[i];
     }
@@ -1481,7 +1480,8 @@ function handleAction(parameterString) {
         break;
 
     case "promptCards":
-        promtCards(getParameterByName('description', parameterString), JSON.parse(getParameterByName('cards'), parameterString), getParameterByName('minAmount', parameterString), getParameterByName('maxAmount', parameterString), getParameterByName('canExit', parameterString), getParameterByName('visual', parameterString));
+        tempArray = getParameterByName('cards').split(',');
+        promtCards(getParameterByName('description', parameterString), tempArray, parameterString), getParameterByName('minAmount', parameterString), getParameterByName('maxAmount', parameterString), getParameterByName('canExit', parameterString), getParameterByName('visual', parameterString);
 
         break;
 
