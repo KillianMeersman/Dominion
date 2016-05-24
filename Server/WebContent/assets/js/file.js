@@ -71,12 +71,11 @@ $(document).on("contextmenu", function () {
     return false;
 });
 
-
 //-----------------LOGIN SCREEN-----------------//
 function ajaxAuthentication(action) {
     $.ajax({
         method: "POST",
-        url: '/LoginServlet',
+        url: '/Dominion/LoginServlet',
         data: {
             username: $("#username").val(),
             password: $("#password").val(),
@@ -120,7 +119,7 @@ $("#login+a").on("click", function () {
 function ajaxBasicGet(data) {
     $.ajax({
         method: "GET",
-        url: '/GameServlet',
+        url: '/Dominion/GameServlet',
         data: data,
         success: function (response) {
             console.log(response);
@@ -172,7 +171,8 @@ $("#tutorial").on("click", function () {
 //player selection
 var deckName
 $("#new a").on("click", function () {
-    deckName = $(this).html();
+	
+	deckName = $(this).attr("id");
 
 
 
