@@ -62,9 +62,12 @@ class ActionCard extends Card {
         //      If you do, you are unaffected by that Attack
     }
     
-    public static void chancellor(Player player) {
+    public static void chancellor(Game game, Player player) {
         player.addCoins(2);
-        //TODO  You may immediately put your deck into your discard pile.
+        if (game.view.promptPlayerBoolean(game, "Would you like to put your deck in the discard pile?", "yes", "no")){
+            Card.transferCards(player.deck, player.discard, true);
+        }
+        //TODO  REVISE
     }
     
     public static void village(Player player) {
@@ -95,9 +98,16 @@ class ActionCard extends Card {
         //TODO  Worth 1 Victory for every 10 cards in your deck (rounded down).
     }
     
-    public static void militia(Player player){
+    public static void militia(Player player, Game game){  //REVISE
         player.addCoins(2);
-        //TODO  Each other player discards down to 3 cards in his hand.
+        for (Player otherplayer : game.getPlayers()){   // Loop om elke andere speler te overlopen
+            if (otherplayer.equals(player)){}           // Checked of de andere speler niet de speler is die de kaart heeft gelegd
+            else{
+                while(otherplayer.hand.size()<3){       // Loop zolang de hand meer als 3 kaarten heeft
+                    Card.transferCard(otherplayer.hand.get(otherplayer.hand.size() - 1), otherplayer.hand, otherplayer.discard, true, true);   ;
+                }   // ^ neemt telkens de laatste kaart van de hand naar discard
+            }
+        }
     }
     
     public static void moneylender(){
