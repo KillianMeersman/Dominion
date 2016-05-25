@@ -1,20 +1,25 @@
  package Core;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-// Holds instance of each card once
+ 
+/**
+ * Holds an instance of each card once, should be the only place where card instances live
+ */
 public class CardRepository {
-    private static CardRepository instance = new CardRepository();
+    private static final CardRepository instance = new CardRepository();
     private ArrayList<TreasureCard> treasureCards = new ArrayList<>();
     private ArrayList<VictoryCard> victoryCards = new ArrayList<>();
     private ArrayList<ActionCard> actionCards = new ArrayList<>();
 
     private CardRepository() {
-        treasureCards = CardMapper.getTreasureCards();
-        victoryCards = CardMapper.getVictoryCards();
-        actionCards = CardMapper.getActionCards();
+        try {
+            treasureCards = CardMapper.getTreasureCards();
+            victoryCards = CardMapper.getVictoryCards();
+            actionCards = CardMapper.getActionCards();
+        }
+        catch (Exception e) {
+            
+        }
     }
     
     public static CardRepository getInstance() {

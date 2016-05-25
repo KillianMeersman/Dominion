@@ -7,8 +7,8 @@ var treasureCards = ["copper", "silver", "gold"];
 var firstPageHtml = "";
 var secondPageHtml = "";
 var thirdPageHtml = "";
-var loginServlet = "/Dominion/LoginServlet";
-var gameServlet = "/Dominion/GameServlet";
+var loginServlet = "/LoginServlet";
+var gameServlet = "/GameServlet";
 
 var bigMoney = ["adventurer", "bureaucrat", "chancellor", "chapel", "feast", "laboratory", "market", "mine", "moneylender", "throneroom"];
 

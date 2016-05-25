@@ -1,4 +1,4 @@
-package WebCore;
+package Users;
 
 import java.sql.*;
 import java.util.Random;

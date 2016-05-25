@@ -5,14 +5,10 @@ import Core.Game;
 import Core.IEngineInterface;
 import Core.Player;
 import Core.PlayerPhase;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class GameSession implements IEngineInterface, Runnable {
@@ -90,9 +86,7 @@ public class GameSession implements IEngineInterface, Runnable {
     private void gameLoop() {
         while (gameRunning) {
             Player player = game.getActivePlayer();
-            if (game.getTurn() > 1) {
-                setBackLog("action=player&player=" + player.getId() + "&hand=" + player.getId());
-            }
+                setBackLog("action=player&player=" + player.getId() + "&hand=" + player.getId() + "&supply=" + game.getSupply().getAllCards());
                 while (player.getPhase() == PlayerPhase.PHASE_BUY) {
                     setBackLog("action=buy&parameters=" + getParameterString());
                     try {

@@ -19,12 +19,6 @@ import java.math.BigInteger;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private static List<User> authorizedUsers = new ArrayList<User>();
-	
-	public static List<User> getAuthorizedUsers() {
-		return authorizedUsers;
-	}
-	
 	private String generateSessionCode() {	// Generates a session code for cookies - NOT CURRENTLY USED
 		SecureRandom random = new SecureRandom();
 		
@@ -67,10 +61,8 @@ public class LoginServlet extends HttpServlet {
 		String sessionId = request.getRequestedSessionId();	// Content of JSESSIONID cookie (auto-generated cookie, contains a session specific code)
 			if (request.getParameter("action").equals("login")) {
 				try {
-					if (Authenticator.authenticate(username, password)) { // Good password
+					if (Users.Authenticator.authenticate(username, password)) { // Good password
 						
-						User user = new User(sessionId, username);
-						authorizedUsers.add(user);	// Currently not used - leave in
 						session.setAttribute("username", username);	// Set a session variable
 						response.getWriter().print("200_good_login");
 						//request.getRequestDispatcher("/welcome.jsp").forward(request, response); // Send welcome.jsp
@@ -93,7 +85,7 @@ public class LoginServlet extends HttpServlet {
 			}
 			else {
 				try {
-					Authenticator.register(username, password); // Register user
+					Users.Authenticator.register(username, password); // Register user
 					response.getWriter().print("user_registered"); // Send "user_registered" message
 				} catch (Exception e) {
 					if (e.getMessage() == "user_already_exists") {
