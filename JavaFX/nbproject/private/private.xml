@@ -4,9 +4,18 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Core/Main.java</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Json/Read.java</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Core/AlertBox.java</file>
             <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Database/Register.java</file>
-            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Database/Login.java</file>
             <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Core/Styling.css</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Controller/Menu.java</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Interface/IKeyDetection.java</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Controller/Credentials.java</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Controller/DeckCreation.java</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Database/Login.java</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Controller/Game.java</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Json/Variables.json</file>
+            <file>file:/D:/Development/GitHub/Dominion/JavaFX/src/Json/Write.java</file>
         </group>
     </open-files>
 </project-private>
