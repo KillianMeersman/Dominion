@@ -16,6 +16,10 @@ public class Game {
     private ArrayList<Card> playArea = new ArrayList<>();
     private boolean running = true;
     
+    public void stop() {
+        running = false;
+    }
+    
     public boolean isRunning() {
         return running;
     }
@@ -101,8 +105,7 @@ public class Game {
         Card.transferCards(activePlayer.hand, activePlayer.discard, true);
         Card.transferCards(playArea, activePlayer.discard, true);
         activePlayer.drawFromDeck(5);
-        activePlayer.addBuy(1);
-        activePlayer.addAction(1);
+        activePlayer.resetParameters();
         activePlayer.nextPhase();
         nextPlayer();
     }

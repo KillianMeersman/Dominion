@@ -15,12 +15,15 @@ var bigMoney = ["adventurer", "bureaucrat", "chancellor", "chapel", "feast", "la
 
 //-----------------COMMON FUNCTIONS-----------------//
 function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
+    if (!url)
+        url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
+    if (!results)
+        return null;
+    if (!results[2])
+        return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
@@ -37,24 +40,29 @@ function removeBrackets(string) {
     return string.slice(1, -1);
 }
 
+function getArrayFromString(string) {
+    string = removeBrackets(string);
+    return string.split(', ');
+}
+
 
 /*
-$.ajax({
-    method: "GET",
-    url: '/Dominion/GameServlet',
-    data: {
-        action: "test"
-    },
-    success: function (request) {
-
-        alert(getParameterByName('action', request));
-    },
-    error: function (response) {
-        console.log(response);
-    },
-});
-
-*/
+ $.ajax({
+ method: "GET",
+ url: '/Dominion/GameServlet',
+ data: {
+ action: "test"
+ },
+ success: function (request) {
+ 
+ alert(getParameterByName('action', request));
+ },
+ error: function (response) {
+ console.log(response);
+ },
+ });
+ 
+ */
 
 
 var strin = "action=buy&parameters=[4,1,1]&hand=[1,4,12,34,2]";
@@ -128,7 +136,6 @@ function ajaxAuthentication(action) {
         error: function (response) {
             alert(response);
         },
-
         dataType: "text"
 
 
@@ -706,8 +713,8 @@ function initBoard() {
 
     //todo
     /*startingHand = ajaxBasicGet({
-        action:
-    });*/
+     action:
+     });*/
 
 }
 
@@ -905,58 +912,58 @@ $("#gameTable").on("click", "a.buttonBuyDesign", function () {
 });
 
 /*
-if (ajaxBasicGet({
-        action: "buy",
-        card: cards.indexOf($(this).attr("id").replace("BuyButton", ""))
-    }) == "true") {
-    generateBuyCard($(this));
-    var card = {
-        name: $(this).attr("id").replace("BuyButton", ""),
-        id: overalCardID
-
-    };
-};
-
-
-
-
-if (cardBuyDestination == "discard") {
-
-    $("#b" + zIndexDiscardPile).animate({
-        width: '60px',
-        bottom: '192px',
-        left: '10px'
-    }).css("z-index", zIndexDiscardPile);
-    $("#b" + zIndexDiscardPile).addClass("discarted")
-
-
-} else if (cardBuyDestination == "hand") {
-
-    var card = {
-        name: $(this).attr("id").replace("BuyButton", ""),
-        id: overalCardID
-
-    };
-
-    playerHand.push(card);
-    overalCardID++;
-
-    $("#b" + zIndexDiscardPile).addClass("cardInHand").attr("id", card.id);
-    cardBuyDestination = "discard";
-
-    pxFromLeftHand += 20;
-    $("#" + card.id).animate({
-        bottom: '-65px',
-        left: pxFromLeftHand + 'px',
-        width: '160px'
-
-    });
-
-    reformHand();
-}
-
-zIndexDiscardPile++;
-*/
+ if (ajaxBasicGet({
+ action: "buy",
+ card: cards.indexOf($(this).attr("id").replace("BuyButton", ""))
+ }) == "true") {
+ generateBuyCard($(this));
+ var card = {
+ name: $(this).attr("id").replace("BuyButton", ""),
+ id: overalCardID
+ 
+ };
+ };
+ 
+ 
+ 
+ 
+ if (cardBuyDestination == "discard") {
+ 
+ $("#b" + zIndexDiscardPile).animate({
+ width: '60px',
+ bottom: '192px',
+ left: '10px'
+ }).css("z-index", zIndexDiscardPile);
+ $("#b" + zIndexDiscardPile).addClass("discarted")
+ 
+ 
+ } else if (cardBuyDestination == "hand") {
+ 
+ var card = {
+ name: $(this).attr("id").replace("BuyButton", ""),
+ id: overalCardID
+ 
+ };
+ 
+ playerHand.push(card);
+ overalCardID++;
+ 
+ $("#b" + zIndexDiscardPile).addClass("cardInHand").attr("id", card.id);
+ cardBuyDestination = "discard";
+ 
+ pxFromLeftHand += 20;
+ $("#" + card.id).animate({
+ bottom: '-65px',
+ left: pxFromLeftHand + 'px',
+ width: '160px'
+ 
+ });
+ 
+ reformHand();
+ }
+ 
+ zIndexDiscardPile++;
+ */
 
 
 
@@ -1377,25 +1384,25 @@ $("#trashCardsView").on("click", function () {
 
 //-------PLAYER STATS-------//
 /*var state = "up"
-$("#playerStats").on("click", function () {
-    if (state == "resting") {
-        state = "down";
-
-    } else if (state == "up") {
-        $(this).animate({
-            top: '-236px'
-        });
-        state = "down";
-
-    } else if (state == "down") {
-        $(this).animate({
-            top: '-464px'
-        });
-        state = "up";
-
-    }
-
-});*/
+ $("#playerStats").on("click", function () {
+ if (state == "resting") {
+ state = "down";
+ 
+ } else if (state == "up") {
+ $(this).animate({
+ top: '-236px'
+ });
+ state = "down";
+ 
+ } else if (state == "down") {
+ $(this).animate({
+ top: '-464px'
+ });
+ state = "up";
+ 
+ }
+ 
+ });*/
 
 $("h3+img").on("click", function () {
     state = "resting";
@@ -1478,10 +1485,6 @@ function updateParams(params) {
 }
 var firstTurn = true;
 
-
-
-
-
 function promtCards(description, cards, minAmount, maxAmount, canExit, visual) {
     changeMessage(description);
 
@@ -1516,26 +1519,20 @@ function promtCards(description, cards, minAmount, maxAmount, canExit, visual) {
         revealCards(cards, description, true);
         break;
 
-
     case "discard":
         handDiscardModudesOn();
         maxAmountClick = maxAmount;
         minAmountClick = minAmount;
-
         break;
-
 
     case "trash":
         handTrashModudesOn(cards);
         maxAmountClick = maxAmount;
         minAmountClick = minAmount;
 
-
         break;
     default:
         revealCards(cards, description, true);
-
-
     }
 
 
@@ -1553,66 +1550,66 @@ function promtCards(description, cards, minAmount, maxAmount, canExit, visual) {
 
 
 /*
-function handleAjaxCall(obj) {
-    if (obj.action == "animation") {
-        switch (obj.action) {
-        case obj.action == "addCardToHand":
-            addCardToHand(cards[obj.cardID]);
-            break;
-
-        case obj.action == "deckToDiscard":
-            completeDeckToDiscardPile();
-
-            break;
-        case obj.action == "giveCurseCard":
-            giveCurseCard();
-
-            break;
-        case obj.action == "addSilverToDeck":
-            addSilverToDeck();
-            break;
-
-        case obj.action == "fieldCardsToDiscard":
-            fieldCardsToDiscardPile();
-
-            break;
-
-        }
-    }
-
-    switch (obj.action) {
-    case obj.action == "showSpy":
-        showSpy(obj.cardsToDisplay);
-        break;
-
-    case obj.action == "showThief":
-        showThief(obj.cardsToDisplay, obj.fromPlayers);
-        break;
-
-    case obj.action == "revealCards":
-        revealCards(obj.cardsToDisplay, obj.fromPlayers, obj.description);
-        break;
-    case obj.action == "doAdventureCard":
-        loopAdventure(obj.cards)
-        break;
-
-    case obj.action == "discardCardsFromHand":
-        amountToClick = obj.amountCards;
-        handDiscardModudesOn();
-
-        break;
-    case obj.action == "trashCardsFromHand":
-
-        break;
-
-    case obj.action == "playCardTwice":
-        twice = true;
-        break;
-    }
-
-
-}
-*/
+ function handleAjaxCall(obj) {
+ if (obj.action == "animation") {
+ switch (obj.action) {
+ case obj.action == "addCardToHand":
+ addCardToHand(cards[obj.cardID]);
+ break;
+ 
+ case obj.action == "deckToDiscard":
+ completeDeckToDiscardPile();
+ 
+ break;
+ case obj.action == "giveCurseCard":
+ giveCurseCard();
+ 
+ break;
+ case obj.action == "addSilverToDeck":
+ addSilverToDeck();
+ break;
+ 
+ case obj.action == "fieldCardsToDiscard":
+ fieldCardsToDiscardPile();
+ 
+ break;
+ 
+ }
+ }
+ 
+ switch (obj.action) {
+ case obj.action == "showSpy":
+ showSpy(obj.cardsToDisplay);
+ break;
+ 
+ case obj.action == "showThief":
+ showThief(obj.cardsToDisplay, obj.fromPlayers);
+ break;
+ 
+ case obj.action == "revealCards":
+ revealCards(obj.cardsToDisplay, obj.fromPlayers, obj.description);
+ break;
+ case obj.action == "doAdventureCard":
+ loopAdventure(obj.cards)
+ break;
+ 
+ case obj.action == "discardCardsFromHand":
+ amountToClick = obj.amountCards;
+ handDiscardModudesOn();
+ 
+ break;
+ case obj.action == "trashCardsFromHand":
+ 
+ break;
+ 
+ case obj.action == "playCardTwice":
+ twice = true;
+ break;
+ }
+ 
+ 
+ }
+ */
 function handTrashModudesOn(wich) {
     destinationCardInHand = "trash";
     switch (wich) {
@@ -1703,7 +1700,6 @@ function playTwice(cardID) {
 
 function completeDeckToDiscardPile() {
     $("#deckPile>:first-child+img").animate({
-
         width: '60px',
         bottom: '194px',
         left: '10px',
@@ -1795,7 +1791,6 @@ function revealCards(cardsToDisplay, fromPlayers, description) {
 function addCardToDeck(cardID) {
 
     $("#" + cardID).animate({
-
         width: '69px',
         left: '6px',
         bottom: '75px'
