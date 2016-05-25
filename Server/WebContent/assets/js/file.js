@@ -8,7 +8,7 @@ var firstPageHtml = "";
 var secondPageHtml = "";
 var thirdPageHtml = "";
 
-var bigMoney = ["adventurer", "bureaucrat", "chancellor", "chapel", "feast", "laboratory", "market", "mine", "moneylender", "throneroom"]
+var bigMoney = ["adventurer", "bureaucrat", "chancellor", "chapel", "feast", "laboratory", "market", "mine", "moneylender", "throneroom"];
 
 //-----------------COMMON FUNCTIONS-----------------//
 function getParameterByName(name, url) {
@@ -82,15 +82,14 @@ $(document).on('ready', function () {
 
     $.ajax({
         method: "GET",
-        url: '/Dominion/GameServlet',
+        url: '/GameServlet',
         data: {
             action: "getCards"
         },
         success: function (response) {
-            console.log(response);
             response = removeBrackets(response);
             cards = response.split(', ');
-            console.log(response.split(', '));
+            alert(cards);
         },
         error: function (response) {
             console.log(response);
@@ -110,7 +109,7 @@ $(document).on("contextmenu", function () {
 function ajaxAuthentication(action) {
     $.ajax({
         method: "POST",
-        url: '/Dominion/LoginServlet',
+        url: '/LoginServlet',
         data: {
             username: $("#username").val(),
             password: $("#password").val(),
@@ -154,7 +153,7 @@ $("#login+a").on("click", function () {
 function ajaxBasicGet(data) {
     $.ajax({
         method: "GET",
-        url: '/Dominion/GameServlet',
+        url: '/GameServlet',
         data: data,
         success: function (response) {
             console.log(response);
@@ -839,7 +838,7 @@ $("#gameTable").on("click", "a.buttonBuyDesign", function () {
     console.log(cards);
     $.ajax({
         method: "GET",
-        url: '/Dominion/GameServlet',
+        url: '/GameServlet',
         data: {
             action: "play",
             cardId: cards.indexOf($(this).attr("id").replace("BuyButton", ""))
@@ -1202,7 +1201,7 @@ $("#cardField").on("click", "img.cardInHand", function () {
 
         $.ajax({
             method: "GET",
-            url: '/Dominion/GameServlet',
+            url: '/GameServlet',
             data: {
                 action: "play",
                 cardId: cardId
@@ -1229,7 +1228,7 @@ $("#cardField").on("click", "img.cardInHand", function () {
 
             $.ajax({
                 method: "GET",
-                url: '/Dominion/GameServlet',
+                url: '/GameServlet',
                 data: {
                     action: "play",
                     cardId: cardId
@@ -1657,7 +1656,7 @@ function handTrashModudesOn(wich) {
 function removeColorEffects() {
     $.ajax({
         method: "GET",
-        url: '/Dominion/GameServlet',
+        url: '/GameServlet',
         data: {
             action: "play",
             cardId: JSON.stringify(selectedCards)

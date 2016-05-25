@@ -12,7 +12,7 @@ class CardMapper {
         try {
             while (rs.next()) {
                 try {
-                    TreasureCard card = new TreasureCard(rs.getInt("id"), rs.getInt("amount"), rs.getInt("cost"), rs.getString("name"), rs.getString("description"), rs.getInt("startingAmount"), rs.getInt("value"));
+                    TreasureCard card = new TreasureCard(rs.getInt("cardid"), rs.getInt("amount"), rs.getInt("cost"), rs.getString("cardname"), rs.getString("description"), rs.getInt("startingAmount"), rs.getInt("value"));
                     out.add(card);
                 } catch (Exception e) {
                     System.out.println("ERROR: card field could not be read -- " + e.getMessage());
@@ -31,7 +31,7 @@ class CardMapper {
         try {
             while (rs.next()) {
                 try {
-                    VictoryCard card = new VictoryCard(rs.getInt("id"), rs.getInt("amount"), rs.getInt("cost"), rs.getString("name"), rs.getString("description"), rs.getInt("startingAmount"), rs.getInt("value"));
+                    VictoryCard card = new VictoryCard(rs.getInt("cardid"), rs.getInt("amount"), rs.getInt("cost"), rs.getString("cardname"), rs.getString("description"), rs.getInt("startingAmount"), rs.getInt("value"));
                     out.add(card);
                 } catch (Exception e) {
                     System.out.println("ERROR: card field could not be read -- " + e.getMessage());
@@ -50,7 +50,7 @@ class CardMapper {
         try {
             while (rs.next()) {
                 try {
-                    ActionCard card = new ActionCard(rs.getInt("id"), rs.getInt("amount"),rs.getInt("cost"), rs.getString("name"), rs.getString("description"), rs.getInt("startingAmount"));
+                    ActionCard card = new ActionCard(rs.getInt("cardid"), rs.getInt("amount"),rs.getInt("cost"), rs.getString("cardname"), rs.getString("description"), rs.getInt("startingAmount"));
                     out.add(card);
                 } catch (Exception e) {
                     System.out.println("ERROR: card field could not be read -- " + e.getMessage());
@@ -68,13 +68,13 @@ class CardMapper {
         PreparedStatement pst = null;
         ResultSet rs = null;
 
-        String url = "jdbc:mysql://localhost:3306/dominion";
-        String user = "root";
+        String url = "jdbc:mysql://localhost:3306/Dominion";
+        String user = "administrator";
         String password = "thetarun";
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://192.168.0.250:3306/Dominion?user=root&password=thetarun");
+            con = DriverManager.getConnection("jdbc:mysql://192.168.0.250:3306/Dominion?user=administrator&password=thetarun");
             pst = con.prepareStatement("SELECT * FROM " + table);
             rs = pst.executeQuery();
 
@@ -82,21 +82,6 @@ class CardMapper {
             System.out.println("FATAL ERROR: could not connect to card database");
         } catch (Exception e) {
             System.out.println("FATAL ERROR: could not connect to card database");
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (pst != null) {
-                    pst.close();
-                }
-                if (con != null) {
-                    con.close();
-                }
-
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
         }
         return rs;
     }

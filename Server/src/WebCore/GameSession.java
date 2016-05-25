@@ -83,7 +83,7 @@ public class GameSession implements IEngineInterface {
         return out;
     }
     
-    public void gameLoop() {
+    private void gameLoop() {
         while (gameRunning) {
             for (Player player : game.getPlayers()) {
                 setBackLog("action=nextTurn&player=" + player.getId());
@@ -137,6 +137,11 @@ public class GameSession implements IEngineInterface {
     public void messagePlayer(Game game, String message) {
         backLog = "action=message&parameters=[" + message + "]";
         waitForResponse();
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean promptPlayerBoolean(Game game, String prompt, String yes, String no) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
