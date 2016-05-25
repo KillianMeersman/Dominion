@@ -710,7 +710,7 @@ function initBoard() {
 
     $("#blackscreen").fadeOut(500);
 
-    //promptCards("Oi cheeky, this is a test ya dafty", ["copper", "gold"], 1, 2, false, "thief");
+    //promptCards("Oi cheeky, this is a test ya dafty", ["1", "2", "3", "5", "6", "7"], 1, 2, false, "adventurer");
     //todo
     /*startingHand = ajaxBasicGet({
      action:
@@ -1506,12 +1506,12 @@ function promptCards(description, cards, minAmount, maxAmount, canExit, visual) 
         break;
 
 
-    case "bureaucrat":
+    case "bureaucrat": //ayy workz
         addSilverToDeck();
         revealCards(cards, description, false);
         break;
 
-    case "adventurer":
+    case "adventurer": //not enoug info
 
         loopAdventure(cards);
 
@@ -1776,13 +1776,13 @@ function revealCards(cardsToDisplay, description) {
     $("#revealView .cardReveal").empty();
 
     htmlCardsAndPlayerNames = "<h3>" + description + "</h3>";
-    for (i = 0; i < fromPlayers.length; i++) {
+    for (i = 0; i < cardsToDisplay.length; i++) {
 
-        htmlCardsAndPlayerNames += '<div> <h4></h4><section> <img class="imgRegCardReaveal" src="images/ActionCards/' + cardsToDisplay[i] + '.jpg"></section></div>'
+        htmlCardsAndPlayerNames += '<div> <h4></h4><section> <img class="imgRegCardReaveal" src="images/ActionCards/' + cards[cardsToDisplay[i]] + '.jpg"></section></div>'
 
     }
 
-    $("#revealView .gameWindow").css("width", (fromPlayers.length * 320) + "px");
+    $("#revealView .gameWindow").css("width", (cardsToDisplay.length * 320) + "px");
     htmlCardsAndPlayerNames += '<section id="doneRegular" class="done"><p>Done</p></section>';
     $("#revealView .cardReveal").append(htmlCardsAndPlayerNames);
     $("#revealView").fadeIn();
