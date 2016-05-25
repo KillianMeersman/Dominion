@@ -7,6 +7,8 @@ var treasureCards = ["copper", "silver", "gold"];
 var firstPageHtml = "";
 var secondPageHtml = "";
 var thirdPageHtml = "";
+var loginServlet = "/Dominion/LoginServlet";
+var gameServlet = "/Dominion/GameServlet";
 
 var bigMoney = ["adventurer", "bureaucrat", "chancellor", "chapel", "feast", "laboratory", "market", "mine", "moneylender", "throneroom"];
 
@@ -79,9 +81,11 @@ $(document).on('ready', function () {
     $("#playerSelection+div").hide();
     $('#revealView').hide();
 
+
+    console.log("Ajax getCards");
     $.ajax({
         method: "GET",
-        url: '/GameServlet',
+        url: gameServlet,
         data: {
             action: "getCards"
         },
@@ -94,9 +98,7 @@ $(document).on('ready', function () {
             console.log(response);
         },
     });
-    /*cards = ajaxBasicGet({
-        action: "getCards"
-    });*/
+
 });
 $(document).on("contextmenu", function () {
     return false;
@@ -106,7 +108,7 @@ $(document).on("contextmenu", function () {
 function ajaxAuthentication(action) {
     $.ajax({
         method: "POST",
-        url: '/LoginServlet',
+        url: loginServlet,
         data: {
             username: $("#username").val(),
             password: $("#password").val(),
@@ -136,10 +138,12 @@ function ajaxAuthentication(action) {
 
 
 $("#login").on("click", function () {
+    console.log("login");
     ajaxAuthentication("login");
 
 });
 $("#login+a").on("click", function () {
+    console.log("register");
     $("#authenticationScreen").fadeOut("fast", function () {
         $("#play").fadeIn("fast");
     })
@@ -150,7 +154,7 @@ $("#login+a").on("click", function () {
 function ajaxBasicGet(data) {
     $.ajax({
         method: "GET",
-        url: '/GameServlet',
+        url: gameServlet,
         data: data,
         success: function (response) {
             console.log(response);
@@ -305,7 +309,7 @@ var deckNames = [];
 $("#playerSelection+div").on("click", "a", function () {
     //chosenCards = ["militia", "mine", "moat", "moneylender", "remodel", "smithy", "spy", "thief", "throneroom", "village"];
 
-    console.log(cards);
+    console.log("Ajax give deckName and playernames to server");
 
     for (i = 0; i < amountPlayers; i++) {
         playerNames[i] = document.getElementById("inputPlayerName" + (i + 1)).value;
@@ -839,7 +843,7 @@ $("#gameTable").on("click", "a.buttonBuyDesign", function () {
     console.log(cards);
     $.ajax({
         method: "GET",
-        url: '/GameServlet',
+        url: gameServlet,
         data: {
             action: "play",
             cardId: cards.indexOf($(this).attr("id").replace("BuyButton", ""))
@@ -1199,7 +1203,7 @@ $("#cardField").on("click", "img.cardInHand", function () {
 
         $.ajax({
             method: "GET",
-            url: '/GameServlet',
+            url: gameServlet,
             data: {
                 action: "play",
                 cardId: cardId
@@ -1226,7 +1230,7 @@ $("#cardField").on("click", "img.cardInHand", function () {
 
             $.ajax({
                 method: "GET",
-                url: '/GameServlet',
+                url: gameServlet,
                 data: {
                     action: "play",
                     cardId: cardId
@@ -1655,7 +1659,7 @@ function handTrashModudesOn(wich) {
 function removeColorEffects() {
     $.ajax({
         method: "GET",
-        url: '/GameServlet',
+        url: gameServlet,
         data: {
             action: "play",
             cardId: JSON.stringify(selectedCards)
