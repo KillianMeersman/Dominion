@@ -12,7 +12,7 @@ class CardMapper {
         try {
             while (rs.next()) {
                 try {
-                    TreasureCard card = new TreasureCard(rs.getInt("cardid"), rs.getInt("amount"), rs.getInt("cost"), rs.getString("cardname"), rs.getString("description"), rs.getInt("startingAmount"), rs.getInt("value"));
+                    TreasureCard card = new TreasureCard(currentId++, rs.getInt("amount"), rs.getInt("cost"), rs.getString("cardname"), rs.getString("description"), rs.getInt("startingAmount"), rs.getInt("value"));
                     out.add(card);
                 } catch (Exception e) {
                     System.out.println("ERROR: card field could not be read -- " + e.getMessage());
@@ -31,7 +31,7 @@ class CardMapper {
         try {
             while (rs.next()) {
                 try {
-                    VictoryCard card = new VictoryCard(rs.getInt("cardid"), rs.getInt("amount"), rs.getInt("cost"), rs.getString("cardname"), rs.getString("description"), rs.getInt("startingAmount"), rs.getInt("value"));
+                    VictoryCard card = new VictoryCard(currentId++, rs.getInt("amount"), rs.getInt("cost"), rs.getString("cardname"), rs.getString("description"), rs.getInt("startingAmount"), rs.getInt("value"));
                     out.add(card);
                 } catch (Exception e) {
                     System.out.println("ERROR: card field could not be read -- " + e.getMessage());
@@ -50,7 +50,7 @@ class CardMapper {
         try {
             while (rs.next()) {
                 try {
-                    ActionCard card = new ActionCard(rs.getInt("cardid"), rs.getInt("amount"),rs.getInt("cost"), rs.getString("cardname"), rs.getString("description"), rs.getInt("startingAmount"));
+                    ActionCard card = new ActionCard(currentId++, Supply.ACTIONSETAMOUNT,rs.getInt("cost"), rs.getString("cardname"), rs.getString("description"), rs.getInt("startingAmount"));
                     out.add(card);
                 } catch (Exception e) {
                     System.out.println("ERROR: card field could not be read -- " + e.getMessage());

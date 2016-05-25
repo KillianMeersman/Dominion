@@ -63,7 +63,7 @@ public class GameServlet extends HttpServlet {
         ArrayList<Card> cards = Core.CardRepository.getInstance().getAllCards();
         String[] out = new String[cards.size()];
         for (int i = 0; i < cards.size(); i++) {
-            out[cards.get(i).getId() - 1] = cards.get(i).getName();
+            out[cards.get(i).getId()] = cards.get(i).getName();
         }
         return out;
     }

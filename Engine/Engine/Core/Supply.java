@@ -14,8 +14,6 @@ public class Supply {
     protected int[] victoryAmount;
     protected ArrayList<Card> actionSets = new ArrayList<>();
     protected int[] actionAmount;
-    protected ArrayList<Card> curseCards = new ArrayList<>();
-    protected int[] curseAmount = new int[curseCards.size()];
     protected ArrayList<Card> trash = new ArrayList<>();
     
     public int getCardAmount(Card target) {
@@ -54,10 +52,6 @@ public class Supply {
             for (int i2 = 0; i2 < actionAmount[i]; i2++)
             out.add(actionSets.get(i));
         }
-        for (int i = 0; i < curseCards.size(); i++) {
-            for (int i2 = 0; i2 < curseAmount[i]; i2++)
-            out.add(curseCards.get(i));
-        }
         return out;
     }
 
@@ -70,9 +64,6 @@ public class Supply {
             out.add(card);
         }
         for (Card card : actionSets) {
-            out.add(card);
-        }
-        for (Card card : curseCards) {
             out.add(card);
         }
         return out;
@@ -88,10 +79,6 @@ public class Supply {
 
     public ArrayList<Card> getActionCards() {
         return actionSets;
-    }
-
-    public ArrayList<Card> getCurseCards() {
-        return curseCards;
     }
 
     protected Supply(byte playerAmount) {   // Construct with default deck
