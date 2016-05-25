@@ -7,8 +7,8 @@ var treasureCards = ["copper", "silver", "gold"];
 var firstPageHtml = "";
 var secondPageHtml = "";
 var thirdPageHtml = "";
-var loginServlet = "/LoginServlet";
-var gameServlet = "/GameServlet";
+var loginServlet = "/Dominion/LoginServlet";
+var gameServlet = "/Dominion/GameServlet";
 
 var bigMoney = ["adventurer", "bureaucrat", "chancellor", "chapel", "feast", "laboratory", "market", "mine", "moneylender", "throneroom"];
 
@@ -77,7 +77,7 @@ $(document).on('ready', function () {
     $("#introTutorial").hide();
     $("#esc").hide();
     $("#playerSelection").hide();
-
+    $(".buttonBuyDesign").hide();
     $("#playerSelection+div").hide();
     $('#revealView').hide();
 
@@ -844,8 +844,7 @@ function generateBuyCard(el) {
 $("#gameTable").on("click", "a.buttonBuyDesign", function () {
 
 
-    alert($(this).attr("id").replace("BuyButton", ""));
-    console.log(cards);
+    console.log("Buy clicked card");
 
     $.ajax({
         method: "GET",
@@ -1495,6 +1494,23 @@ function procesAjax(parameterString) {
         } else {
             firstTurn = false;
         }
+
+        $.ajax({
+            method: "GET",
+            url: gameServlet,
+            data: {
+                action: "ok",
+            },
+            success: function (response) {
+
+                procesAjax(response);
+
+            },
+            error: function (response) {
+                console.log(response);
+            },
+        });
+
         break;
 
     case "buy":

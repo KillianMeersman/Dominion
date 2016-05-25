@@ -9,7 +9,7 @@ public class Authenticator {
     private Authenticator() {
         // No instancing
     }
-    private static final String URL = "jdbc:mysql://192.168.0.250:3306/Dominion";
+    private static final String URL = "jdbc:mysql://78.20.159.253:3306/Dominion";
     private static final String USER = "administrator";
     private static final String PASSWORD = "thetarun";
 
