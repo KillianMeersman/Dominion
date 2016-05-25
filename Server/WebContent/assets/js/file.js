@@ -709,7 +709,7 @@ function initBoard() {
     $("#actionCardsBuy").append(actionCardsHtml);
 
     $("#blackscreen").fadeOut(500);
-    showBuyableButtons([5]);
+
     promptCards("Oi cheeky, this is a test ya dafty", ["copper", "gold"], 1, 2, false, "thief");
     //todo
     /*startingHand = ajaxBasicGet({
@@ -2012,7 +2012,6 @@ $("#revealView").on("click", "img.imgCardReaveal", function () {
 function showBuyableButtons(available) {
     //hideBuyAbleButtons();
     for (i = 0; i < available.length; i++) {
-        alert(cards[available[i]] + "BuyButton");
         if ($("#" + cards[available[i]] + "BuyButton").css("visibility") == "hidden") {
             $("#" + cards[available[i]] + "BuyButton").css("visibility", "visible");
         }
@@ -2059,7 +2058,7 @@ function procesAjax(parameterString) {
 
 
     case "player":
-    console.log("received player directive");
+        console.log("received player directive");
         if (firstTurn == false) {
             endTurn(getParameterByName('playerName', parameterString));
 
