@@ -6,6 +6,7 @@ class ActionCard extends Card {
 
     private java.lang.reflect.Method method;
     boolean canEnd = false;
+    
 
     protected ActionCard(int id, int amount, int cost, String name, String description) {
         super(id, amount, cost, name, description);
@@ -39,11 +40,11 @@ class ActionCard extends Card {
     
     // Card-specific functions
     
-    public static void cellar(Game game, Player player) {
+    public static void cellar(Game game, Player player) { //Revision
         while(player.inActionMode) {
             Card.transferCard(game.view.promptPlayerCards(game, "Which card do you wish to discard?", Card.listToArray(player.hand), 1, player.getHand().size(), true, "none")
                     , player.hand, player.discard, true, true);
-            // player.gain()
+            player.drawFromDeck(1);
         }
     }
     
@@ -80,7 +81,14 @@ class ActionCard extends Card {
         player.addCoins(2);
     }
     
-    public static void workshop(){
+    public static void workshop(Player player, Game game){
+        ArrayList<Card> promptCards = new ArrayList<>();
+        for (Card card : game.getSupply().getAllCardsUnique()){
+            if(card.getCost() <= 4){
+            promptCards.add(card);
+            }
+        }
+        Card[] cards = game.view.promptPlayerCards(game,("You can gain a card up to " + 4 + " coins."), Card.listToArray(promptCards), 1, 1, false, "none");
         //TODO  Gain a card costing up to 4 Coins.
     }
     
@@ -110,11 +118,37 @@ class ActionCard extends Card {
         }
     }
     
-    public static void moneylender(){
-        //TODO  Trash a Copper from your hand. If you do, +3 Coins.
+    public static void moneylender(Player player, Game game){
+        if (player.hand.contains(CardRepository.getInstance().getCardByName("copper"))){
+            if (game.view.promptPlayerBoolean(game, "Would you like to trash a copper?", "yes", "no")){
+                Card.transferCard(CardRepository.getInstance().getCardByName("copper"), player.hand, game.getSupply().trash, true, true);
+                player.addCoins(3);
+            }
+        }
+            
+        //TODO  Revision
     }
     
-    public static void remodel(){
+    public static void remodel(Player player, Game game){
+        if (player.hand.size() > 0){
+            int newcost = 0;
+            Card[] cards = game.view.promptPlayerCards(game, "Which card do you wish to trash?", Card.listToArray(player.hand), 1, 1, false, "none");
+            newcost = (cards[0].getCost() + 2);
+            Card.transferCard(cards, player.hand, game.getSupply().trash, true, true);
+            
+            ArrayList<Card> promptCards = new ArrayList<>();
+            for (Card card : game.getSupply().getAllCardsUnique()){
+                if(card.getCost() <= newcost){
+                    promptCards.add(card);
+                }
+            }
+            cards = game.view.promptPlayerCards(game,("You can gain a card up to " + newcost + " coins."), Card.listToArray(promptCards), 1, 1, false, "none");
+            Card.transferCard(cards, game.getSupply().getAllCards(), player.discard, true, true);
+            for (Card card : cards){
+                game.getSupply().reduceAmount(card);
+            }
+        }
+        
         //TODO  Trash a card from your hand. Gain a card costing up to 2 Coins more than the trashed card.
     }
     
@@ -137,10 +171,16 @@ class ActionCard extends Card {
         //TODO  Choose an Action card in your hand. Play it twice.
     }
     
-    public static void councilroom(Player player){
+    public static void councilroom(Player player, Game game){
         player.drawFromDeck(4);
         player.addBuy(1);
-        //TODO  Each other player draws a card.
+        for (Player otherplayer : game.getPlayers()){
+            if (otherplayer.equals(player)){
+            }else{
+                otherplayer.drawFromDeck(1);
+            }
+        }
+        //TODO  Revise
     }
     
     public static void festival(Player player){
@@ -176,6 +216,9 @@ class ActionCard extends Card {
     }
     
     public static void adventurer(){
+        
+
+
         //TODO  Reveal cards from your deck until you reveal 2 Treasure cards. 
         //      Put those Treasure cards into your hand and discard the other revealed cards.
     }
