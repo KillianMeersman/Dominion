@@ -7,8 +7,8 @@ var treasureCards = ["copper", "silver", "gold"];
 var firstPageHtml = "";
 var secondPageHtml = "";
 var thirdPageHtml = "";
-var loginServlet = "/Dominion/LoginServlet";
-var gameServlet = "/Dominion/GameServlet";
+var loginServlet = "/LoginServlet";
+var gameServlet = "/GameServlet";
 
 var bigMoney = ["adventurer", "bureaucrat", "chancellor", "chapel", "feast", "laboratory", "market", "mine", "moneylender", "throneroom"];
 
@@ -77,7 +77,7 @@ $(document).on('ready', function () {
     $("#introTutorial").hide();
     $("#esc").hide();
     $("#playerSelection").hide();
-    $(".buttonBuyDesign").hide();
+
     $("#playerSelection+div").hide();
     $('#revealView').hide();
 
@@ -689,12 +689,12 @@ function initBoard() {
     for (i = 0; i < 10; i++) {
         var cardID = chosenCards[i] + "Buy";
         actionCardsHtml += "<a id='" + cardID + "'  class='buyActionCards' href='#'><img src='images/ActionCardsBuy/" + cardID + ".png'/></a>";
-        buyButtonHtml += "<a id='" + cardID + "Button' class='buttonBuyDesign buttonActionCards' href='#'>+</a>";
+        buyButtonHtml += "<a id='" + cardID + "Button' class='buttonBuyDesign buttonActionCards' href='#' style='visibility: hidden;'>+</a>";
         amountCardsLeft += "<p id='" + cardID + "Amount' class='amountCardsDesign amountActionCards'>50</p>";
 
     }
 
-
+    $(".buttonBuyDesign").css("visibility", "hidden");
     fillNames();
 
     console.log(actionCardsHtml);
@@ -2056,8 +2056,8 @@ $("#revealView").on("click", "img.imgCardReaveal", function () {
 function showBuyableButtons(available) {
     hideBuyAbleButtons();
     for (i = 0; i < available.length; i++) {
-        if ($("#" + available[i] + "BuyButton").css("display") != "none") {
-            $("#" + cards[available[i]] + "BuyButton").fadeIn();
+        if ($("#" + cards[available[i]] + "BuyButton").css("visibility") != "hidden") {
+            $("#" + cards[available[i]] + "BuyButton").css("visibility", "visible");
         }
 
 
