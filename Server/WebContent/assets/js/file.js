@@ -2045,7 +2045,7 @@ function procesAjax(parameterString) {
 
 
     case "player":
-
+    console.log("received player directive");
         if (firstTurn == false) {
             endTurn(getParameterByName('playerName', parameterString));
 
@@ -2073,13 +2073,15 @@ function procesAjax(parameterString) {
         break;
 
     case "buy":
-        showBuyableButtons(JSON.parse(getParameterByName('playerName', parameterString)));
+        console.log("received buy directive");
+        console.log(parameterString);
+        showBuyableButtons(getArrayFromString(getParameterByName('supply', parameterString)));
         if ($("#goldBuyAmount").css("display") == "none") {
-            fillSupply(JSON.parse(getParameterByName('playerName', parameterString)));
+            fillSupply(getArrayFromString(getParameterByName('supplyAmount', parameterString)));
             $(".amountCardsDesign").fadeIn();
         }
-        checkHandCards(JSON.parse(getParameterByName('hand', parameterString)));
-        updateParams(JSON.parse(getParameterByName('parameters', parameterString)));
+        checkHandCards(getArrayFromString(getParameterByName('hand', parameterString)));
+        updateParams(getArrayFromString(getParameterByName('parameters', parameterString)));
         //params a b c hand
         break;
 

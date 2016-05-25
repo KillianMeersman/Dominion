@@ -14,7 +14,7 @@ import org.apache.catalina.tribes.util.Arrays;
 
 public class GameSession implements IEngineInterface, Runnable {
 
-    private int id;
+    private final int id;
     private Thread thread;
 
     private String backLog = null;
@@ -111,7 +111,7 @@ public class GameSession implements IEngineInterface, Runnable {
             Player player = game.getActivePlayer();
             setBackLog("?action=player&player=" + player.getName());
             while (player.getPhase() == PlayerPhase.PHASE_BUY && game.isRunning()) {
-                setBackLog("?action=buy&parameters=" + getParameterString() + "&hand=" + player.getHand().toString() + getSupplyString());
+                setBackLog("?action=buy&parameters=" + getParameterString() + "&hand=" + getListString(player.getHand()) + getSupplyString());
                 try {
                     game.buy(Core.CardRepository.getInstance().getCardById(id));
                 } catch (Exception ex) {
