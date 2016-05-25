@@ -183,4 +183,10 @@ public class Player {
         Collections.shuffle(deck);
         drawFromDeck(5);
     }
+    
+    protected void resetParameters() {
+        buys = 1;
+        actions = 1;
+        coins = 0;
+    }
 }

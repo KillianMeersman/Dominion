@@ -102,6 +102,7 @@ public class GameServlet extends HttpServlet {
                 GameSession s = getSessionBySession(request.getSession());
                 s.setResponse(request);
                 response.getWriter().write(s.getBackLog());
+                
         }
     }
 

@@ -70,6 +70,9 @@ public class GameSession implements IEngineInterface, Runnable {
             }
             i++;
         }
+        if (i > 1000) {
+            game.stop();
+        }
     }
 
     private String getListString(ArrayList<Card> source) {
@@ -106,9 +109,9 @@ public class GameSession implements IEngineInterface, Runnable {
     private void gameLoop() {
         while (game.isRunning()) {
             Player player = game.getActivePlayer();
-            setBackLog("action=player&player=" + player.getName());
+            setBackLog("?action=player&player=" + player.getName());
             while (player.getPhase() == PlayerPhase.PHASE_BUY && game.isRunning()) {
-                setBackLog("action=buy&parameters=" + getParameterString() + "&hand=" + player.getHand().toString() + getSupplyString());
+                setBackLog("?action=buy&parameters=" + getParameterString() + "&hand=" + player.getHand().toString() + getSupplyString());
                 try {
                     game.buy(Core.CardRepository.getInstance().getCardById(id));
                 } catch (Exception ex) {
@@ -117,7 +120,7 @@ public class GameSession implements IEngineInterface, Runnable {
             }
 
             while (player.getPhase() == PlayerPhase.PHASE_ACTION && game.isRunning()) {
-                setBackLog("action=action&parameters=[" + getParameterString() + "&hand=" + getListString(game.getActivePlayer().getHand()) + "]");
+                setBackLog("?action=action&parameters=[" + getParameterString() + "&hand=" + getListString(game.getActivePlayer().getHand()) + "]");
                 try {
                     game.playActionCard(Core.CardRepository.getInstance().getCardById(Integer.parseInt(response.getParameter("cardId"))));
                 } catch (Exception ex) {
@@ -134,12 +137,7 @@ public class GameSession implements IEngineInterface, Runnable {
 
     @Override
     public Card[] promptPlayerCards(Game game, String prompt, Card[] cards, int minAmount, int maxAmount, boolean canExit, String visual) {
-        backLog = "action=promptCards&parameters=" + prompt + ",[";
-        for (Card card : cards) {
-            backLog += card.getId();
-        }
-        backLog += "]," + "," + minAmount + "," + maxAmount + "," + canExit;
-        waitForResponse();
+        setBackLog("?action=promptCards&prompt=" + prompt + "&cards=" + Arrays.toString(cards) + "&min=" + minAmount + "max=" + maxAmount + "&canExit=" + canExit + "&visual=" + visual);
         String[] in = emptyResponse().getParameterValues("cardId");
         Card[] out = new Card[in.length];
         for (int i = 0; i < in.length; i++) {
@@ -155,7 +153,7 @@ public class GameSession implements IEngineInterface, Runnable {
 
     @Override
     public void messagePlayer(Game game, String message) {
-        backLog = "action=message&parameters=[" + message + "]";
+        backLog = "?action=message&parameters=[" + message + "]";
         waitForResponse();
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
