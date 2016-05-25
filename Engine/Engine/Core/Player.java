@@ -16,7 +16,16 @@ public class Player {
     protected ArrayList<Card> hand = new ArrayList<>();
     protected ArrayList<Card> discard = new ArrayList<>();
     public boolean inActionMode = false;
+    private int turns = 0;
 
+    protected void addTurn() {
+        turns++;
+    }
+    
+    protected int getTurns() {
+        return turns;
+    }
+    
     protected void addAction(int amount) {
         actions += amount;
     }

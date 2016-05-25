@@ -10,11 +10,15 @@ public class Game {
     protected IEngineInterface view;
     private List<Player> players = new ArrayList<>();
     private Instant beginTime = null;
-    private int turn = 1;
+    private int turn = 0;
     private Supply supply;
     private Player activePlayer;
     private ArrayList<Card> playArea = new ArrayList<>();
-    private ArrayList<Card> currentSet;
+    private boolean running = true;
+    
+    public boolean isRunning() {
+        return running;
+    }
     
     @Override
     public String toString() {
@@ -28,10 +32,6 @@ public class Game {
 
     public Duration getDuration() {
         return Duration.between(beginTime, Instant.now());
-    }
-    
-    public ArrayList<Card> getCurrentSet() {
-        return currentSet;
     }
     
     public Supply getSupply() {
@@ -80,8 +80,7 @@ public class Game {
         ConsoleController.addGame(this);
     }
     
-    public void buy(int cardIndex) throws Exception {
-        Card card = currentSet.get(cardIndex - 1);
+    public void buy(Card card) throws Exception {
         
         // value check
         if (activePlayer.getCoins() < card.getCost()) {
@@ -95,6 +94,7 @@ public class Game {
         if (activePlayer.getBuys() < 1) {
             activePlayer.nextPhase();
         }
+        checkGameOver();
     }
     
     public void cleanup() {
@@ -120,10 +120,55 @@ public class Game {
     
     public void playActionCard(Card actionCard) throws Exception {
         try {
+            Card.transferCard(actionCard, activePlayer.hand, playArea,  true, false);
             activePlayer.inActionMode = true;
             ((ActionCard)actionCard).execute(this, activePlayer);
         } catch (Exception e) {
             throw new Exception("Invalid input");
         }
+        checkGameOver();
+    }
+    
+    private void checkGameOver() {
+        if (supply.getCardAmount(CardRepository.getInstance().getCardByName("province")) < 1) { // province pile empty?
+            activePlayer = getWinningPlayer();
+        }
+        int emptyPiles = 0;
+        for (Card card : supply.getAllCardsUnique()) {  // 3 or more piles empty?
+            if (supply.getCardAmount(card) < 1) {
+                emptyPiles++;
+            }
+        }
+        if (emptyPiles >= 3) {
+            activePlayer = getWinningPlayer();
+        }
+    }
+    
+    private Player getWinningPlayer() {
+        Player top = players.get(0);
+        for (Player player : players) {
+            if (player.getVictoryCards(PlayerPlace.PLACE_DECK).size() > top.getVictoryCards(PlayerPlace.PLACE_DECK).size()) {
+                top = player;
+            }
+            else if (player.getVictoryCards(PlayerPlace.PLACE_DECK).size() == top.getVictoryCards(PlayerPlace.PLACE_DECK).size()) {
+                if (player.getTurns() > top.getTurns()) {
+                    top = player;
+                }
+            }
+        }
+        return top;
+    }
+    
+    public Card[] getBuyableCards() {
+        ArrayList<Card> out = new ArrayList<Card>();
+        for (Card card : supply.getAllCardsUnique()) {
+            if (activePlayer.getCoins() >= card.getCost()) {
+                out.add(card);
+            }
+        }
+        Card[] outArray = new Card[out.size()];
+        out.toArray(outArray);
+        
+        return outArray;
     }
 }
