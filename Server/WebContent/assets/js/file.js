@@ -75,7 +75,7 @@ $(document).on('ready', function () {
     $("#introTutorial").hide();
     $("#esc").hide();
     $("#playerSelection").hide();
-    $("#khalid").hide();
+
     $("#playerSelection+div").hide();
     $('#revealView').hide();
 
@@ -311,7 +311,8 @@ $("#playerSelection+div").on("click", "a", function () {
         playerNames[i] = document.getElementById("inputPlayerName" + (i + 1)).value;
     }
     deckNames = getPreBuiltDeck("Big money"); // VERANDEREN!!!
-    console.log(deckNames[i]);
+
+
     for (i = 0; i < deckNames.length; i++) {
         console.log(cards.indexOf(deckNames[i]));
         deck[i] = cards.indexOf(deckNames[i])
@@ -319,8 +320,8 @@ $("#playerSelection+div").on("click", "a", function () {
     }
 
     ajaxBasicGet({
-        deck: JSON.stringify(deck),
-        playernames: JSON.stringify(playerNames),
+        deck: JSON.stringify(deck).replace("[", "").replace("]", ""),
+        playernames: JSON.stringify(playerNames).replace("[", "").replace("]", ""),
         action: "new"
     });
     $("#blackscreen").fadeIn(500, function () {
@@ -990,9 +991,6 @@ $(document).keyup(function (e) {
             toggleEscapeMenu();
         }
 
-        break;
-    case 75: //action Cards
-        $("#khalid").fadeToggle(350);
         break;
 
     case 39:
