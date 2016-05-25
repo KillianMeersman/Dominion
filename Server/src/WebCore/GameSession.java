@@ -5,26 +5,30 @@ import Core.Game;
 import Core.IEngineInterface;
 import Core.Player;
 import Core.PlayerPhase;
-import Core.PlayerPlace;
-import static java.lang.Thread.sleep;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class GameSession implements IEngineInterface {
-    private static final int AMOUNT_THREADS = 10;
-    private static final ExecutorService threadpool = Executors.newFixedThreadPool(AMOUNT_THREADS);
-    
+public class GameSession implements IEngineInterface, Runnable {
+    private int id;
+    private Thread thread;
+   
     private String backLog = null;
     private HttpServletRequest response = null;
     
     private final HttpSession httpSession;
     private final Game game;
     private boolean gameRunning = true;
+    
+    public int getId() {
+        return id;
+    }
     
     public synchronized void setResponse(HttpServletRequest response) {
         this.response = response;
@@ -42,10 +46,10 @@ public class GameSession implements IEngineInterface {
         return game;
     }
     
-    public GameSession(HttpSession httpSession, String[] playerNames, Card[] deck) {
+    public GameSession(int id, HttpSession httpSession, String[] playerNames, Card[] deck) {
+        this.id = id;
         this.httpSession = httpSession;
         this.game = new Game(this, playerNames, deck);
-        gameLoop();
     }
 
     private HttpServletRequest emptyResponse() {
@@ -55,7 +59,7 @@ public class GameSession implements IEngineInterface {
     }
     
     private void setBackLog(String backlog) {
-        this.backLog = backLog;
+        this.backLog = backlog;
         waitForResponse();
     }
     
@@ -85,8 +89,10 @@ public class GameSession implements IEngineInterface {
     
     private void gameLoop() {
         while (gameRunning) {
-            for (Player player : game.getPlayers()) {
-                setBackLog("action=nextTurn&player=" + player.getId());
+            Player player = game.getActivePlayer();
+            if (game.getTurn() > 1) {
+                setBackLog("action=player&player=" + player.getId() + "&hand=" + player.getId());
+            }
                 while (player.getPhase() == PlayerPhase.PHASE_BUY) {
                     setBackLog("action=buy&parameters=" + getParameterString());
                     try {
@@ -107,7 +113,6 @@ public class GameSession implements IEngineInterface {
                 
                 if (player.getPhase() == PlayerPhase.PHASE_CLEANUP) {
                     game.cleanup();
-                }
             }
         }
     }
@@ -143,5 +148,17 @@ public class GameSession implements IEngineInterface {
     @Override
     public boolean promptPlayerBoolean(Game game, String prompt, String yes, String no) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void run() {
+        gameLoop();
+    }
+    
+    public void start() {
+        if (thread == null) {
+            thread = new Thread(this, Integer.toString(id));
+            thread.start();
+        }
     }
 }

@@ -51,12 +51,14 @@ public class GameServlet extends HttpServlet {
      * 
      * Takes raw client input and converts it to a game instance
      */
-    private void newGame(HttpSession httpSession, String[] playerNames, String[] deck) {
+    private GameSession newGame(HttpSession httpSession, String[] playerNames, String[] deck) {
         Card[] cards = new Card[deck.length];
         for (int i = 0; i < deck.length; i++) {
             cards[i] = Core.CardRepository.getInstance().getCardById(Integer.parseInt(deck[i]));
         }
-        addSession(new GameSession(httpSession, playerNames, cards));
+        GameSession session = new GameSession(newId(), httpSession, playerNames, cards);
+        addSession(session);
+        return session;
     }
     
     private String[] makeCardArray() {
@@ -89,28 +91,17 @@ public class GameServlet extends HttpServlet {
                 break;
             case "new":
                 request.getSession(true);
-           
-                newGame(request.getSession(true), request.getParameterValues("playernames")[0].split(","), request.getParameterValues("deck")[0].split(","));
-                
- 
-                // new game
-                break;
-            case "test":
-            	response.getWriter().write("?action=buy&parameters=[4,1,1]&hand=[1,4,12,34,2]");
-            	break;
-                
-            case "play":
- 
-            	request.getParameter("cardId");
-            default:
-                GameSession session = getSessionBySession(request.getSession());
-                session.setResponse(request);
+                GameSession session = newGame(request.getSession(true), request.getParameterValues("playernames")[0].split(","), request.getParameterValues("deck")[0].split(","));
+                session.start();
+                while (session.getBackLog() == null) {
+                    
+                }
                 response.getWriter().write(session.getBackLog());
-
-            	
-            	
-            	
-        
+                break;
+            default:
+                GameSession s = getSessionBySession(request.getSession());
+                s.setResponse(request);
+                response.getWriter().write(s.getBackLog());
         }
     }
 

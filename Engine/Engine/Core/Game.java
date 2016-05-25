@@ -10,7 +10,7 @@ public class Game {
     protected IEngineInterface view;
     private List<Player> players = new ArrayList<>();
     private Instant beginTime = null;
-    private int turn = 0;
+    private int turn = 1;
     private Supply supply;
     private Player activePlayer;
     private ArrayList<Card> playArea = new ArrayList<>();

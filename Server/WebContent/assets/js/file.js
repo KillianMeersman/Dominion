@@ -326,7 +326,10 @@ $("#playerSelection+div").on("click", "a", function () {
     ajaxBasicGet({
         deck: JSON.stringify(deck).replace("[", "").replace("]", ""),
         playernames: JSON.stringify(playerNames).replace("[", "").replace("]", ""),
-        action: "new"
+        action: "new",
+        success: function(response) {
+            console.log(response);
+        }
     });
     $("#blackscreen").fadeIn(500, function () {
         $(".start").fadeOut(500, initBoard())
