@@ -158,7 +158,7 @@ function ajaxBasicGet(data) {
         data: data,
         success: function (response) {
             console.log(response);
-            return response;
+            procesAjax(response);
         },
         error: function (response) {
             console.log(response);
@@ -1441,7 +1441,7 @@ function updateParams(params) {
 }
 var firstTurn = true;
 
-function handleAction(parameterString) {
+function procesAjax(parameterString) {
 
 
     switch (getParameterByName('action', parameterString)) {
