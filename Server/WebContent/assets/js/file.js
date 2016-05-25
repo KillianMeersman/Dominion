@@ -2,7 +2,7 @@
 /*var cards = ["adventurer", "bureaucrat", "gold", "silver", "copper", "cellar", "chancellor", "chapel", "councilroom", "feast", "festival", "gardens", "laboratory", "library", "market", "militia", "mine", "moat", "moneylender", "remodel", "smithy", "spy", "thief", "throneroom", "village", "witch", "woodcutter", "workshop"];*/
 
 var cards = [];
-
+var phase = "action";
 var treasureCards = ["copper", "silver", "gold"];
 var firstPageHtml = "";
 var secondPageHtml = "";
@@ -327,7 +327,7 @@ $("#playerSelection+div").on("click", "a", function () {
         deck: JSON.stringify(deck).replace("[", "").replace("]", ""),
         playernames: JSON.stringify(playerNames).replace("[", "").replace("]", ""),
         action: "new",
-        success: function(response) {
+        success: function (response) {
             console.log(response);
         }
     });
@@ -842,8 +842,11 @@ function generateBuyCard(el) {
 
 //permission BUY card
 $("#gameTable").on("click", "a.buttonBuyDesign", function () {
+
+
     alert($(this).attr("id").replace("BuyButton", ""));
     console.log(cards);
+
     $.ajax({
         method: "GET",
         url: gameServlet,
@@ -852,7 +855,7 @@ $("#gameTable").on("click", "a.buttonBuyDesign", function () {
             cardId: cards.indexOf($(this).attr("id").replace("BuyButton", ""))
         },
         success: function (response) {
-            changeMessage(response);
+            procesAjax(response);
             generateBuyCard($(this));
             var card = {
                 name: $(this).attr("id").replace("BuyButton", ""),
@@ -889,20 +892,17 @@ $("#gameTable").on("click", "a.buttonBuyDesign", function () {
                     width: '160px'
 
                 });
-
                 reformHand();
-                cardBuyDestination = "discarted";
+
             }
 
             zIndexDiscardPile++;
 
-        }
-
-        ,
+        },
         error: function (response) {
             console.log(response)
         }
-    })
+    });
 });
 
 /*
@@ -1328,11 +1328,29 @@ $("#endTurn").on("click", function () {
 
         $("#endTurn").html("End Turn");
 
+
+
+
         //todo ajax
 
     } else {
+        $.ajax({
+            method: "GET",
+            url: gameServlet,
+            data: {
+                action: "play",
+                cardId: -1
+            },
+            success: function (response) {
 
-        endTurn()
+
+
+            },
+            error: function (response) {
+                console.log(response);
+            },
+        });
+
     }
 
 
@@ -1419,7 +1437,27 @@ var pickableCards = [];
 
 
 function checkHandCards(NewHand) {
+    if (NewHand != playerHand) {
 
+        for (i = 0; i < playerHand.length; i++) {
+
+            $("#" + playerHand[i].id).fadeOut(200, function () {
+
+                $("#" + playerHand[i].id).remove();
+            });
+
+        }
+
+        for (i = 0; i < NewHand.length; i++) {
+
+            addCardToHand(cards[NewHand[i]]);
+
+
+        }
+
+
+
+    }
 
     for (i = (playerHand.length - 1); i < NewHand.length; i++) {
 
@@ -1457,31 +1495,25 @@ function procesAjax(parameterString) {
         } else {
             firstTurn = false;
         }
-
-        checkHandCards(getParameterByName('hand', parameterString));
         break;
 
     case "buy":
-        $(".amountActionCards").fadeOut(300, function () {
-            fillSupply(JSON.parse(getParameterByName('playerName', parameterString)))
-            $(".amountActionCards").fadeIn(300);
-
-        });
+        showBuyableButtons(JSON.parse(getParameterByName('playerName', parameterString)));
+        if ($("#goldBuyAmount").css("display") == "none") {
+            fillSupply(JSON.parse(getParameterByName('playerName', parameterString)));
+            $(".amountCardsDesign").fadeIn();
+        }
+        checkHandCards(JSON.parse(getParameterByName('hand', parameterString)));
         updateParams(JSON.parse(getParameterByName('parameters', parameterString)));
-
-
         //params a b c hand
-
-
         break;
 
 
 
     case "action":
+        hideBuyAbleButtons();
         updateParams(JSON.parse(getParameterByName('parameters', parameterString)));
-
-
-        checkHandCards(getParameterByName('hand', parameterString));
+        checkHandCards(JSON.parse(getParameterByName('hand', parameterString)));
         break;
 
     case "promptCards":
@@ -1489,11 +1521,6 @@ function procesAjax(parameterString) {
         promtCards(getParameterByName('description', parameterString), tempArray, parameterString), getParameterByName('minAmount', parameterString), getParameterByName('maxAmount', parameterString), getParameterByName('canExit', parameterString), getParameterByName('visual', parameterString);
 
         break;
-
-
-
-
-
 
     }
 
@@ -1566,7 +1593,7 @@ function promtCards(description, cards, minAmount, maxAmount, canExit, visual) {
 
 
 
-
+/*
 function handleAjaxCall(obj) {
     if (obj.action == "animation") {
         switch (obj.action) {
@@ -1626,7 +1653,7 @@ function handleAjaxCall(obj) {
 
 
 }
-
+*/
 function handTrashModudesOn(wich) {
     destinationCardInHand = "trash";
     switch (wich) {
@@ -2009,6 +2036,33 @@ $("#revealView").on("click", "img.imgCardReaveal", function () {
 
 
 });
+
+function showBuyableButtons(available) {
+    hideBuyAbleButtons();
+    for (i = 0; i < available.length; i++) {
+        if ($("#" + available[i] + "BuyButton").css("display") != "none") {
+            $("#" + cards[available[i]] + "BuyButton").fadeIn();
+        }
+
+
+
+    }
+}
+
+function hideBuyAbleButtons() {
+
+    for (i = 0; i < cards.length; i++) {
+        if ($("#" + cards[i] + "BuyButton").css("display") != "none") {
+
+            $("#" + cards[i] + "BuyButton").fadeOut();
+
+        }
+
+    }
+
+
+
+}
 
 function changeMessage(mes) {
     $('#notificationBar p').fadeOut('slow', function () {
