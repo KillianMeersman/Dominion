@@ -89,16 +89,28 @@ public class GameServlet extends HttpServlet {
                 break;
             case "new":
                 request.getSession(true);
-                newGame(request.getSession(), request.getParameterValues("playernames"), request.getParameterValues("deck")); // new game
+           
+                newGame(request.getSession(true), request.getParameterValues("playernames")[0].split(","), request.getParameterValues("deck")[0].split(","));
+                
+ 
+                // new game
                 break;
             case "test":
             	response.getWriter().write("?action=buy&parameters=[4,1,1]&hand=[1,4,12,34,2]");
             	break;
-            
+                
+            case "play":
+ 
+            	request.getParameter("cardId");
             default:
                 GameSession session = getSessionBySession(request.getSession());
                 session.setResponse(request);
                 response.getWriter().write(session.getBackLog());
+
+            	
+            	
+            	
+        
         }
     }
 

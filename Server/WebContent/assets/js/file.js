@@ -13,7 +13,6 @@ var bigMoney = ["adventurer", "bureaucrat", "chancellor", "chapel", "feast", "la
 //-----------------COMMON FUNCTIONS-----------------//
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
-    alert(url);
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
@@ -76,7 +75,7 @@ $(document).on('ready', function () {
     $("#introTutorial").hide();
     $("#esc").hide();
     $("#playerSelection").hide();
-    $("#khalid").hide();
+
     $("#playerSelection+div").hide();
     $('#revealView').hide();
 
@@ -89,17 +88,15 @@ $(document).on('ready', function () {
         success: function (response) {
             response = removeBrackets(response);
             cards = response.split(', ');
-            alert(cards);
+            console.log(cards);
         },
         error: function (response) {
             console.log(response);
         },
     });
-
     /*cards = ajaxBasicGet({
         action: "getCards"
     });*/
-    console.log(cards);
 });
 $(document).on("contextmenu", function () {
     return false;
@@ -304,6 +301,7 @@ $("#playerSelection+div>div").on("keyup", "input", function () {
 
 });
 var deck = [];
+var deckNames = [];
 $("#playerSelection+div").on("click", "a", function () {
     //chosenCards = ["militia", "mine", "moat", "moneylender", "remodel", "smithy", "spy", "thief", "throneroom", "village"];
 
@@ -312,15 +310,18 @@ $("#playerSelection+div").on("click", "a", function () {
     for (i = 0; i < amountPlayers; i++) {
         playerNames[i] = document.getElementById("inputPlayerName" + (i + 1)).value;
     }
-    var deckNames = getPreBuiltDeck("Big money"); // VERANDEREN!!!
-    for (i = 0; i < 10; i++) {
+    deckNames = getPreBuiltDeck("Big money"); // VERANDEREN!!!
+
+
+    for (i = 0; i < deckNames.length; i++) {
+        console.log(cards.indexOf(deckNames[i]));
         deck[i] = cards.indexOf(deckNames[i])
         chosenCards[i] = deckNames[i];
     }
 
     ajaxBasicGet({
-        deck: JSON.stringify(deck),
-        playernames: JSON.stringify(playerNames),
+        deck: JSON.stringify(deck).replace("[", "").replace("]", ""),
+        playernames: JSON.stringify(playerNames).replace("[", "").replace("]", ""),
         action: "new"
     });
     $("#blackscreen").fadeIn(500, function () {
@@ -991,9 +992,6 @@ $(document).keyup(function (e) {
         }
 
         break;
-    case 75: //action Cards
-        $("#khalid").fadeToggle(350);
-        break;
 
     case 39:
         if ($("#cardBook").css("display") != "none") {
@@ -1480,7 +1478,8 @@ function handleAction(parameterString) {
         break;
 
     case "promptCards":
-        promtCards(getParameterByName('description', parameterString), JSON.parse(getParameterByName('cards'), parameterString), getParameterByName('minAmount', parameterString), getParameterByName('maxAmount', parameterString), getParameterByName('canExit', parameterString), getParameterByName('visual', parameterString));
+        tempArray = getParameterByName('cards').split(',');
+        promtCards(getParameterByName('description', parameterString), tempArray, parameterString), getParameterByName('minAmount', parameterString), getParameterByName('maxAmount', parameterString), getParameterByName('canExit', parameterString), getParameterByName('visual', parameterString);
 
         break;
 
