@@ -710,7 +710,7 @@ function initBoard() {
 
     $("#blackscreen").fadeOut(500);
 
-    promptCards("Oi cheeky, this is a test ya dafty", ["copper", "gold"], 1, 2, false, "thief");
+    //promptCards("Oi cheeky, this is a test ya dafty", ["copper", "gold"], 1, 2, false, "thief");
     //todo
     /*startingHand = ajaxBasicGet({
      action:
