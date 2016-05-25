@@ -709,8 +709,8 @@ function initBoard() {
     $("#actionCardsBuy").append(actionCardsHtml);
 
     $("#blackscreen").fadeOut(500);
-
-
+    showBuyableButtons([5]);
+    promptCards("Oi cheeky, this is a test ya dafty", ["copper", "gold"], 1, 2, false, "thief");
     //todo
     /*startingHand = ajaxBasicGet({
      action:
@@ -1485,7 +1485,7 @@ function updateParams(params) {
 }
 var firstTurn = true;
 
-function promtCards(description, cards, minAmount, maxAmount, canExit, visual) {
+function promptCards(description, cards, minAmount, maxAmount, canExit, visual) {
     changeMessage(description);
 
 
@@ -1494,19 +1494,20 @@ function promtCards(description, cards, minAmount, maxAmount, canExit, visual) {
     }
     switch (visual) {
 
-    case "spy":
+    case "spy": //works
 
         showSpy(cards, description);
 
         break;
 
 
-    case "thief":
+    case "thief": // show yes, return no
         showThief(cards, description);
         break;
 
 
     case "bureaucrat":
+        addSilverToDeck();
         revealCards(cards, description, false);
         break;
 
@@ -1769,7 +1770,7 @@ function showSpy(cardsToDisplay, description) {
     thiefPhase = "trashPhase";
 }
 
-function revealCards(cardsToDisplay, fromPlayers, description) {
+function revealCards(cardsToDisplay, description) {
 
 
     $("#revealView .cardReveal").empty();
@@ -1777,7 +1778,7 @@ function revealCards(cardsToDisplay, fromPlayers, description) {
     htmlCardsAndPlayerNames = "<h3>" + description + "</h3>";
     for (i = 0; i < fromPlayers.length; i++) {
 
-        htmlCardsAndPlayerNames += '<div> <h4>' + playerNames[fromPlayers[i]] + '</h4><section> <img class="imgRegCardReaveal" src="images/ActionCards/' + cardsToDisplay[i] + '.jpg"></section></div>'
+        htmlCardsAndPlayerNames += '<div> <h4></h4><section> <img class="imgRegCardReaveal" src="images/ActionCards/' + cardsToDisplay[i] + '.jpg"></section></div>'
 
     }
 
@@ -1928,7 +1929,22 @@ $("section").on("click", '#doneRegular', function () {
 });
 
 $("section").on("click", "#doneSpy", function () {
-
+    console.log("return spy");
+    $.ajax({
+        method: "GET",
+        url: gameServlet,
+        data: {
+            action: "play",
+            cardId: cards.indexOf(spySelectedCard)
+        },
+        success: function (response) {
+            procesAjax(response);
+        },
+        error: function (response) {
+            console.log(response);
+        },
+    });
+    spySelectedCard
     $("#revealView").fadeOut();
 
 
@@ -1977,13 +1993,15 @@ $("#revealView").on("click", "img.imgTwoCardReveal", function () {
 
 
 });
+var spySelectedCard = "";
 $("#revealView").on("click", "img.imgCardReaveal", function () {
 
     if ($(this).css("border-color") == "rgb(139, 0, 0)") {
         $(this).css("border-color", "").css("box-shadow", "none");
+        spySelectedCard = "";
     } else {
 
-
+        spySelectedCard = $(this).attr("src").replace('images/ActionCards/', '').replace('.jpg', '');
         $(this).css("border-color", "darkred").css("box-shadow", "0 0 40px darkred");
 
     }
@@ -1992,9 +2010,10 @@ $("#revealView").on("click", "img.imgCardReaveal", function () {
 });
 
 function showBuyableButtons(available) {
-    hideBuyAbleButtons();
+    //hideBuyAbleButtons();
     for (i = 0; i < available.length; i++) {
-        if ($("#" + cards[available[i]] + "BuyButton").css("visibility") != "hidden") {
+        alert(cards[available[i]] + "BuyButton");
+        if ($("#" + cards[available[i]] + "BuyButton").css("visibility") == "hidden") {
             $("#" + cards[available[i]] + "BuyButton").css("visibility", "visible");
         }
 
@@ -2006,16 +2025,11 @@ function showBuyableButtons(available) {
 function hideBuyAbleButtons() {
 
     for (i = 0; i < cards.length; i++) {
+
         if ($("#" + cards[i] + "BuyButton").css("display") != "none") {
-
             $("#" + cards[i] + "BuyButton").fadeOut();
-
         }
-
     }
-
-
-
 }
 
 function changeMessage(mes) {
@@ -2095,7 +2109,7 @@ function procesAjax(parameterString) {
 
     case "promptCards":
         tempArray = getParameterByName('cards').split(',');
-        promtCards(getParameterByName('description', parameterString), tempArray, parameterString), getParameterByName('minAmount', parameterString), getParameterByName('maxAmount', parameterString), getParameterByName('canExit', parameterString), getParameterByName('visual', parameterString);
+        promptCards(getParameterByName('description', parameterString), tempArray, parameterString), getParameterByName('minAmount', parameterString), getParameterByName('maxAmount', parameterString), getParameterByName('canExit', parameterString), getParameterByName('visual', parameterString);
 
         break;
 
