@@ -9,7 +9,8 @@ var secondPageHtml = "";
 var thirdPageHtml = "";
 var loginServlet = "/LoginServlet";
 var gameServlet = "/GameServlet";
-
+var activeSelectionTab = false;
+var amountPlayers = 0;
 var bigMoney = ["adventurer", "bureaucrat", "chancellor", "chapel", "feast", "laboratory", "market", "mine", "moneylender", "throneroom"];
 
 //-----------------COMMON FUNCTIONS-----------------//
@@ -221,8 +222,7 @@ $("#new a").on("click", function () {
 
 
 
-var activeSelectionTab = false;
-var amountPlayers = 0;
+
 $("#playerSelection a").on("click", function () {
 
     htmlPlayerName = "";
@@ -1478,71 +1478,7 @@ function updateParams(params) {
 }
 var firstTurn = true;
 
-function procesAjax(parameterString) {
 
-
-    switch (getParameterByName('action', parameterString)) {
-
-
-
-    case "player":
-
-        if (firstTurn == false) {
-            endTurn(getParameterByName('playerName', parameterString));
-
-
-        } else {
-            firstTurn = false;
-        }
-
-        $.ajax({
-            method: "GET",
-            url: gameServlet,
-            data: {
-                action: "ok",
-            },
-            success: function (response) {
-
-                procesAjax(response);
-
-            },
-            error: function (response) {
-                console.log(response);
-            },
-        });
-
-        break;
-
-    case "buy":
-        showBuyableButtons(JSON.parse(getParameterByName('playerName', parameterString)));
-        if ($("#goldBuyAmount").css("display") == "none") {
-            fillSupply(JSON.parse(getParameterByName('playerName', parameterString)));
-            $(".amountCardsDesign").fadeIn();
-        }
-        checkHandCards(JSON.parse(getParameterByName('hand', parameterString)));
-        updateParams(JSON.parse(getParameterByName('parameters', parameterString)));
-        //params a b c hand
-        break;
-
-
-
-    case "action":
-        hideBuyAbleButtons();
-        updateParams(JSON.parse(getParameterByName('parameters', parameterString)));
-        checkHandCards(JSON.parse(getParameterByName('hand', parameterString)));
-        break;
-
-    case "promptCards":
-        tempArray = getParameterByName('cards').split(',');
-        promtCards(getParameterByName('description', parameterString), tempArray, parameterString), getParameterByName('minAmount', parameterString), getParameterByName('maxAmount', parameterString), getParameterByName('canExit', parameterString), getParameterByName('visual', parameterString);
-
-        break;
-
-    }
-
-
-
-}
 
 
 
@@ -1571,7 +1507,11 @@ function promtCards(description, cards, minAmount, maxAmount, canExit, visual) {
         revealCards(cards, description, false);
         break;
 
+    case "adventurer":
 
+        loopAdventure(cards);
+
+        break;
     case "militia":
         revealCards(cards, description, true);
         break;
@@ -1583,8 +1523,7 @@ function promtCards(description, cards, minAmount, maxAmount, canExit, visual) {
         minAmountClick = minAmount;
 
         break;
-    default:
-        revealCards(cards, description, true);
+
 
     case "trash":
         handTrashModudesOn(cards);
@@ -1593,6 +1532,10 @@ function promtCards(description, cards, minAmount, maxAmount, canExit, visual) {
 
 
         break;
+    default:
+        revealCards(cards, description, true);
+
+
     }
 
 
@@ -2095,4 +2038,72 @@ function fillSupply(stashArray) {
         $("#" + cards[i] + "BuyAmount").html(stashArray[i]);
 
     }
+}
+
+
+
+function procesAjax(parameterString) {
+
+
+    switch (getParameterByName('action', parameterString)) {
+
+
+
+    case "player":
+
+        if (firstTurn == false) {
+            endTurn(getParameterByName('playerName', parameterString));
+
+
+        } else {
+            firstTurn = false;
+        }
+
+        $.ajax({
+            method: "GET",
+            url: gameServlet,
+            data: {
+                action: "ok",
+            },
+            success: function (response) {
+
+                procesAjax(response);
+
+            },
+            error: function (response) {
+                console.log(response);
+            },
+        });
+
+        break;
+
+    case "buy":
+        showBuyableButtons(JSON.parse(getParameterByName('playerName', parameterString)));
+        if ($("#goldBuyAmount").css("display") == "none") {
+            fillSupply(JSON.parse(getParameterByName('playerName', parameterString)));
+            $(".amountCardsDesign").fadeIn();
+        }
+        checkHandCards(JSON.parse(getParameterByName('hand', parameterString)));
+        updateParams(JSON.parse(getParameterByName('parameters', parameterString)));
+        //params a b c hand
+        break;
+
+
+
+    case "action":
+        hideBuyAbleButtons();
+        updateParams(JSON.parse(getParameterByName('parameters', parameterString)));
+        checkHandCards(JSON.parse(getParameterByName('hand', parameterString)));
+        break;
+
+    case "promptCards":
+        tempArray = getParameterByName('cards').split(',');
+        promtCards(getParameterByName('description', parameterString), tempArray, parameterString), getParameterByName('minAmount', parameterString), getParameterByName('maxAmount', parameterString), getParameterByName('canExit', parameterString), getParameterByName('visual', parameterString);
+
+        break;
+
+    }
+
+
+
 }
