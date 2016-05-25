@@ -37,7 +37,7 @@ public class ConsoleGame implements IEngineInterface {
             System.out.print("Player " + (i + 1) + " name: ");
             playerNames[i] = in.nextLine();
         }
-        game = new Game(0, this, playerNames);
+        game = new Game(this, playerNames);
         gameLoop();
     }
 
@@ -80,7 +80,7 @@ public class ConsoleGame implements IEngineInterface {
         System.out.println("You have these action cards:");
         int i = 0;
 
-        for (Card card : game.getActionCards()) {
+        for (Card card : game.getSupply().getActionCards()) {
             System.out.println(i++ + ". " + card.toString());
         }
     }
@@ -88,6 +88,7 @@ public class ConsoleGame implements IEngineInterface {
     private void actionInput() {
         System.out.print("Which card do you wish to play? > ");
         String input = in.next();
+        
         try {
             if (!processInput(input)) {
                 game.playActionCard(Integer.parseInt(input));
@@ -240,6 +241,26 @@ public class ConsoleGame implements IEngineInterface {
 
     @Override
     public void messagePlayer(String message) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Card[] promptPlayerCards(Game game, String prompt, Card[] cards, int minAmount, int maxAmount, boolean canExit, String visual) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Player promptPlayerPlayer(Game game, String prompt, Player[] players, boolean canExit) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void messagePlayer(Game game, String message) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean promptPlayerBoolean(Game game, String prompt, String yes, String no) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
