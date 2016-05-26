@@ -122,6 +122,7 @@ public class ConsoleGame implements IEngineInterface {
     private void buyPrint() {
         System.out.println("\nBUY PHASE");
         System.out.println("Possible transactions: " + game.getActivePlayer().getBuys());
+        System.out.println("Coins: " + game.getActivePlayer().getCoins());
         System.out.println("You have these treasure cards:");
         int i = 1;
 
@@ -137,12 +138,12 @@ public class ConsoleGame implements IEngineInterface {
         String input = in.next();
         try {
             if (!checkCommand(input)) {
-                System.out.print("Which treasure cards will you use for this? (Cost:" + getCardFromSet(currentSet, Integer.parseInt(input)).getCost() + "): > ");
+                System.out.print("Which treasure cards will you use for this? (Cost:" + getCardFromSet(currentSet, Integer.parseInt(input) - 1).getCost() + "): > ");
                 in.nextLine();
                 char[] cards = in.nextLine().toCharArray();
                 
                 Card[] treasureCards = getCardsFromSet(game.getActivePlayer().getTreasureCards(PlayerPlace.PLACE_HAND), processSpacedInput(cards));
-                game.buy(getCardFromSet(currentSet, Integer.parseInt(input)), treasureCards);
+                game.buy(getCardFromSet(currentSet, Integer.parseInt(input) - 1), treasureCards);
             }
         } 
         catch (NumberFormatException e) {
@@ -156,7 +157,8 @@ public class ConsoleGame implements IEngineInterface {
     private void printBuyableCards() {
         System.out.println("\nYou can buy these cards: ");
         int i = 1;
-        for (Card card : game.getBuyableCards()) {
+        currentSet = game.getBuyableCards();
+        for (Card card : currentSet) {
             System.out.println(i++ + ". " + card.toString() + " - COST: " + card.getCost() + " - " + game.getSupply().getCardAmount(card) + " left");
         }
     }
