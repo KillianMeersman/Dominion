@@ -74,7 +74,7 @@ public class Card {
     }
     
     protected static void transferCard(Card[] cards, List<Card> source, List<Card> destination, boolean removeFromSource, boolean force) {
-        for (Card card : cards) {
+       for (Card card : cards) {
             if (source.contains(card) || force) {
             destination.add(card);
             }

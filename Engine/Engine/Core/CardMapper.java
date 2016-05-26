@@ -7,10 +7,10 @@ import java.util.logging.Logger;
 import com.mysql.jdbc.Driver;
 
 class CardMapper {
-
+    //78.20.159.253
     private static int currentId = 0;
-    private static final String URL = "jdbc:mysql://78.20.159.253:3306/Dominion";
-    private static final String USER = "administrator";
+    private static final String URL = "jdbc:mysql://localhost:3306/Dominion";
+    private static final String USER = "root";
     private static final String PASSWORD = "thetarun";
     
     private static final String ERROR_FIELDREAD = "ERROR: card field could not be read: ";

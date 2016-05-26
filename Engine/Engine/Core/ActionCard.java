@@ -41,8 +41,15 @@ class ActionCard extends Card {
     // Card-specific functions
     
     public static void cellar(Game game, Player player) { //Revision
+        ArrayList<Card> c = new ArrayList<Card>();
         while(player.inActionMode) {
-            Card.transferCard(game.view.promptPlayerCards(game, "Which card do you wish to discard?", Card.listToArray(player.hand), 1, player.getHand().size(), true, "none")
+            for (Card card : player.hand) {
+                if(!card.getName().equals("cellar")) {
+                    c.add(card);
+                }
+            }
+            
+            Card.transferCard(game.view.promptPlayerCards(game, "Which card do you wish to discard?", Card.listToArray(c), 1, player.getHand().size(), true, "none")
                     , player.hand, player.discard, true, true);
             player.drawFromDeck(1);
         }
