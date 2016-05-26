@@ -3,6 +3,7 @@ package Core;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.*;
+import java.util.Arrays;
 
 // Represents an active game - base class
 public class Game {
@@ -64,7 +65,6 @@ public class Game {
 
         activePlayer = players.get(0);
         this.beginTime = Instant.now();
-        ConsoleController.addGame(this);
     }
 
     public Game(IEngineInterface view, String[] playerNames, Card[] actionDeck) {
@@ -81,14 +81,13 @@ public class Game {
 
         activePlayer = players.get(0);
         this.beginTime = Instant.now();
-        ConsoleController.addGame(this);
     }
     
     public void buy(Card card, Card[] treasureCards) throws Exception {
         
         int treasureValue = 0;
         try {
-        treasureValue = TreasureCard.getCombinedValue((TreasureCard[]) treasureCards);
+        treasureValue = TreasureCard.getCombinedValue(Arrays.copyOf(treasureCards, treasureCards.length, TreasureCard[].class));
         }
         catch (Exception e) {
             throw new Exception("TreasureCards contained other types of card");
@@ -170,16 +169,14 @@ public class Game {
         return top;
     }
     
-    public Card[] getBuyableCards() {
+    public ArrayList<Card> getBuyableCards() {
         ArrayList<Card> out = new ArrayList<Card>();
         for (Card card : supply.getAllCardsUnique()) {
-            if (activePlayer.getCoins() >= card.getCost()) {
+            if ((activePlayer.getCoins() + activePlayer.getTreasureWorth(PlayerPlace.PLACE_HAND)) >= card.getCost()) {
                 out.add(card);
             }
         }
-        Card[] outArray = new Card[out.size()];
-        out.toArray(outArray);
         
-        return outArray;
+        return out;
     }
 }

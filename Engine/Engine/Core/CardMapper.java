@@ -2,12 +2,15 @@ package Core;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import com.mysql.jdbc.Driver;
 
 class CardMapper {
-
+    //78.20.159.253
     private static int currentId = 0;
-    private static final String URL = "jdbc:mysql://78.20.159.253:3306/Dominion";
-    private static final String USER = "administrator";
+    private static final String URL = "jdbc:mysql://localhost:3306/Dominion";
+    private static final String USER = "root";
     private static final String PASSWORD = "thetarun";
     
     private static final String ERROR_FIELDREAD = "ERROR: card field could not be read: ";
@@ -71,10 +74,10 @@ class CardMapper {
     }
 
     private static ResultSet retrieve(String table) throws SQLException, ClassNotFoundException {
+        Class.forName("com.mysql.jdbc.Driver");
         Connection con = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
-        Class.forName("com.mysql.jdbc.Driver");
         con = DriverManager.getConnection(URL + "?user=" + USER + "&password=" + PASSWORD);
         pst = con.prepareStatement("SELECT * FROM " + table);
         rs = pst.executeQuery();

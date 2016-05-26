@@ -18,7 +18,7 @@ public class CardRepository {
             actionCards = CardMapper.getActionCards();
         }
         catch (Exception e) {
-            
+            System.out.println(e.getMessage());
         }
     }
     

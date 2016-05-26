@@ -9,6 +9,7 @@ import Core.IEngineInterface;
 import Core.Player;
 import Core.PlayerPlace;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ConsoleGame implements IEngineInterface {
 
@@ -19,18 +20,18 @@ public class ConsoleGame implements IEngineInterface {
     Scanner in = new Scanner(System.in);
     private ArrayList<Card> currentSet = new ArrayList<Card>();
 
-    private Card getCardFromSet(int id) {
-        return currentSet.get(id);
+    private Card getCardFromSet(ArrayList<Card> set, int id) {
+        return set.get(id);
     }
-    
-    private Card[] getCardsFromSet(int[] ids) {
+
+    private Card[] getCardsFromSet(ArrayList<Card> set, int[] ids) {
         Card[] out = new Card[ids.length];
         for (int i = 0; i < ids.length; i++) {
-            out[i] = currentSet.get(i);
+            out[i] = set.get(i);
         }
         return out;
     }
-    
+
     public void init() {
         byte playerAmount;
         String[] playerNames = null;
@@ -94,7 +95,8 @@ public class ConsoleGame implements IEngineInterface {
         System.out.println("You have these action cards:");
         int i = 0;
 
-        for (Card card : game.getSupply().getActionCards()) {
+        ArrayList<Card> set = game.getActivePlayer().getActionCards(PlayerPlace.PLACE_HAND);
+        for (Card card : set) {
             System.out.println(i++ + ". " + card.toString());
         }
     }
@@ -102,24 +104,23 @@ public class ConsoleGame implements IEngineInterface {
     private void actionInput() {
         System.out.print("Which card do you wish to play? > ");
         String input = in.next();
-        
+
         try {
             if (!checkCommand(input)) {
-                game.playActionCard(getCardFromSet(Integer.parseInt(input)));
+                game.playActionCard(getCardFromSet(game.getActivePlayer().getActionCards(PlayerPlace.PLACE_HAND), Integer.parseInt(input)));
             }
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             confirmMessage(INV_INP_MSSG);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             confirmMessage(e.getMessage());
         }
-        
+
     }
 
     private void buyPrint() {
         System.out.println("\nBUY PHASE");
         System.out.println("Possible transactions: " + game.getActivePlayer().getBuys());
+        System.out.println("Coins: " + game.getActivePlayer().getCoins());
         System.out.println("You have these treasure cards:");
         int i = 1;
 
@@ -135,17 +136,16 @@ public class ConsoleGame implements IEngineInterface {
         String input = in.next();
         try {
             if (!checkCommand(input)) {
-                System.out.print("Which treasure cards will you use for this? (Cost:" + getCardFromSet(Integer.parseInt(input)).getCost() + "): > ");
+                System.out.print("Which treasure cards will you use for this? (Cost:" + getCardFromSet(currentSet, Integer.parseInt(input) - 1).getCost() + getCardFromSet(currentSet, Integer.parseInt(input) - 1).getName() + "): > ");
                 in.nextLine();
                 char[] cards = in.nextLine().toCharArray();
-                
-                game.buy(getCardFromSet(Integer.parseInt(input)), getCardsFromSet(processSpacedInput(cards)));
+
+                Card[] treasureCards = getCardsFromSet(game.getActivePlayer().getTreasureCards(PlayerPlace.PLACE_HAND), processSpacedInput(cards));
+                game.buy(getCardFromSet(currentSet, Integer.parseInt(input) - 1), treasureCards);
             }
-        } 
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             confirmMessage(INV_INP_MSSG);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             confirmMessage(e.getMessage());
         }
     }
@@ -153,7 +153,8 @@ public class ConsoleGame implements IEngineInterface {
     private void printBuyableCards() {
         System.out.println("\nYou can buy these cards: ");
         int i = 1;
-        for (Card card : game.getBuyableCards()) {
+        currentSet = game.getBuyableCards();
+        for (Card card : currentSet) {
             System.out.println(i++ + ". " + card.toString() + " - COST: " + card.getCost() + " - " + game.getSupply().getCardAmount(card) + " left");
         }
     }
@@ -246,22 +247,31 @@ public class ConsoleGame implements IEngineInterface {
 
     @Override
     public Card[] promptPlayerCards(Game game, String prompt, Card[] cards, int minAmount, int maxAmount, boolean canExit, String visual) {
+        String append = canExit ? " (press 'end' to end) > " : " > ";
         for (Card card : cards) {
             System.out.println(card.toString());
         }
-        System.out.println(prompt);
+        System.out.print(prompt + append);
+        in.nextLine();
         String input = in.nextLine();
-        int[] spacedInput = processSpacedInput(input.toCharArray());
-        
-        while (spacedInput.length < minAmount || spacedInput.length > maxAmount) {
-            String errorMessage = spacedInput.length < minAmount ? "Not enough cards selected, select a minimum of " + minAmount :
-                    "Too many cards selected, select a maximum of " + maxAmount;
-            System.out.println(errorMessage);
-            System.out.println(prompt);
-            input = in.nextLine();
-            spacedInput = processSpacedInput(input.toCharArray());
+        while (checkCommand(input)) {
+            
         }
-        return getCardsFromSet(spacedInput);
+            int[] spacedInput = processSpacedInput(input.toCharArray());
+
+            while (spacedInput.length < minAmount || spacedInput.length > maxAmount) {
+                String errorMessage = spacedInput.length < minAmount ? "Not enough cards selected, select a minimum of " + minAmount
+                        : "Too many cards selected, select a maximum of " + maxAmount;
+                System.out.println(errorMessage);
+                System.out.println(prompt);
+                input = in.nextLine();
+                spacedInput = processSpacedInput(input.toCharArray());
+            }
+            while (!canExit && input.equals("end")) {
+                System.out.println("You cannot end this card");
+            }
+            
+            return getCardsFromSet(new ArrayList<Card>(Arrays.asList(cards)), spacedInput);
     }
 
     @Override

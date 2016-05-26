@@ -41,8 +41,15 @@ class ActionCard extends Card {
     // Card-specific functions
     
     public static void cellar(Game game, Player player) { //Revision
+        ArrayList<Card> c = new ArrayList<Card>();
         while(player.inActionMode) {
-            Card.transferCard(game.view.promptPlayerCards(game, "Which card do you wish to discard?", Card.listToArray(player.hand), 1, player.getHand().size(), true, "none")
+            for (Card card : player.hand) {
+                if(!card.getName().equals("cellar")) {
+                    c.add(card);
+                }
+            }
+            
+            Card.transferCard(game.view.promptPlayerCards(game, "Which card do you wish to discard?", Card.listToArray(c), 1, player.getHand().size(), true, "none")
                     , player.hand, player.discard, true, true);
             player.drawFromDeck(1);
         }
@@ -57,7 +64,7 @@ class ActionCard extends Card {
         }
     }
     
-    public static void moat(Player player) {
+    public static void moat(Game game, Player player) {
         player.drawFromDeck(2);
         //TODO  When another player plays an Attack card, you may reveal this from your hand. 
         //      If you do, you are unaffected by that Attack
@@ -71,17 +78,17 @@ class ActionCard extends Card {
         //TODO  REVISE
     }
     
-    public static void village(Player player) {
+    public static void village(Game game, Player player) {
         player.drawFromDeck(1);
         player.addAction(2);
     }
     
-    public static void woodcutter(Player player){
+    public static void woodcutter(Game game, Player player){
         player.addBuy(1);
         player.addCoins(2);
     }
     
-    public static void workshop(Player player, Game game){
+    public static void workshop(Game game, Player player){
         ArrayList<Card> promptCards = new ArrayList<>();
         for (Card card : game.getSupply().getAllCardsUnique()){
             if(card.getCost() <= 4){
@@ -92,21 +99,21 @@ class ActionCard extends Card {
         //TODO  Gain a card costing up to 4 Coins.
     }
     
-    public static void bureaucrat(){
+    public static void bureaucrat(Game game, Player player){
         //TODO  Gain a silver card; put it on top of your deck. 
         //      Each other player reveals a Victory card from his hand and puts it on his deck 
         //      (or reveals a hand with no Victory cards).
     }
     
-    public static void feast(){
+    public static void feast(Game game, Player player){
         //TODO  Trash this card. Gain a card costing up to 5 Coins.
     }
     
-    public static void gardens(){
+    public static void gardens(Game game, Player player){
         //TODO  Worth 1 Victory for every 10 cards in your deck (rounded down).
     }
     
-    public static void militia(Player player, Game game){  //REVISE
+    public static void militia(Game game, Player player){  //REVISE
         player.addCoins(2);
         for (Player otherplayer : game.getPlayers()){   // Loop om elke andere speler te overlopen
             if (otherplayer.equals(player)){}           // Checked of de andere speler niet de speler is die de kaart heeft gelegd
@@ -118,7 +125,7 @@ class ActionCard extends Card {
         }
     }
     
-    public static void moneylender(Player player, Game game){
+    public static void moneylender(Game game, Player player){
         if (player.hand.contains(CardRepository.getInstance().getCardByName("copper"))){
             if (game.view.promptPlayerBoolean(game, "Would you like to trash a copper?", "yes", "no")){
                 Card.transferCard(CardRepository.getInstance().getCardByName("copper"), player.hand, game.getSupply().trash, true, true);
@@ -129,7 +136,7 @@ class ActionCard extends Card {
         //TODO  Revision
     }
     
-    public static void remodel(Player player, Game game){
+    public static void remodel(Game game, Player player){
         if (player.hand.size() > 0){
             int newcost = 0;
             Card[] cards = game.view.promptPlayerCards(game, "Which card do you wish to trash?", Card.listToArray(player.hand), 1, 1, false, "none");
@@ -153,26 +160,26 @@ class ActionCard extends Card {
         //TODO  Trash a card from your hand. Gain a card costing up to 2 Coins more than the trashed card.
     }
     
-    public static void smithy(Player player){
+    public static void smithy(Game game, Player player){
         player.drawFromDeck(3);
     }
     
-    public static void spy(Player player){
+    public static void spy(Game game, Player player){
         player.drawFromDeck(1);
         player.addAction(1);
         //TODO  Each player (including you) reveals the top card of his deck and either discards it or puts it back, your choice.                
     }
     
-    public static void thief() {
+    public static void thief(Game game, Player player) {
         //TODO  Each other player reveals the top 2 cards of his deck. If they revealed any Treasure cards, they trash one of them that you choose. 
         //      You may gain any or all of these trashed cards. They discard the other revealed cards.
     }
     
-    public static void throneroom(){
+    public static void throneroom(Game game, Player player){
         //TODO  Choose an Action card in your hand. Play it twice.
     }
     
-    public static void councilroom(Player player, Game game){
+    public static void councilroom(Game game, Player player){
         player.drawFromDeck(4);
         player.addBuy(1);
         for (Player otherplayer : game.getPlayers()){
@@ -184,39 +191,57 @@ class ActionCard extends Card {
         //TODO  Revise
     }
     
-    public static void festival(Player player){
+    public static void festival(Game game, Player player){
         player.addAction(2);
         player.addBuy(1);
         player.addCoins(2);
     }
     
-    public static void laboratory(Player player){
+    public static void laboratory(Game game, Player player){
         player.drawFromDeck(2);
         player.addAction(1);
     }
     
-    public static void library(){
+    public static void library(Game game, Player player){
+        while(player.hand.size()<=7){
+            player.drawFromDeck(1);
+        }
         //TODO  Draw until you have 7 cards in hand. You may set aside any Action cards drawn this way,
         //      as you draw them; discard the set aside cards after you finish drawing.
     }
     
-    public static void market(Player player){
+    public static void market(Game game, Player player){
         player.drawFromDeck(1);
         player.addAction(1);
         player.addBuy(1);
         player.addCoins(1);
     }
     
-    public static void mine(){
+    public static void mine(Game game, Player player){
+        ArrayList<Card> promptCards = new ArrayList<>();
+        for (Card card : player.hand){
+            //NOT DONE
+        }
         //TODO  Trash a Treasure card from your hand. Gain a Treasure card costing up to 3 Coins more; put it into your hand.
     }
     
-    public static void witch(Player player){
+    public static void witch(Game game, Player player){
         player.drawFromDeck(2);
+        Card curse = CardRepository.getInstance().getCardByName("curse");
+        for(Player otherplayer : game.getPlayers()){
+            if (otherplayer.equals(player)){
+            }else{
+                if(game.getSupply().getCardAmount(curse)>0){
+                    Card.transferCard(curse, game.getSupply().getAllCards(), player.discard, false, true);
+                    game.getSupply().reduceAmount(curse);
+                }
+                
+            }
+        }
         //TODO  Each other player gains a Curse card.
     }
     
-    public static void adventurer(){
+    public static void adventurer(Game game, Player player){
         
 
 
