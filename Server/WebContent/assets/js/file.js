@@ -42,7 +42,7 @@ function removeBrackets(string) {
 
 function getArrayFromString(string) {
     string = removeBrackets(string);
-    return string.split(', ');
+    return string.split(',');
 }
 
 
@@ -329,18 +329,10 @@ $("#playerSelection+div").on("click", "a", function () {
         deck[i] = cards.indexOf(deckNames[i])
         chosenCards[i] = deckNames[i];
     }
-
-    ajaxBasicGet({
-        deck: JSON.stringify(deck).replace("[", "").replace("]", ""),
-        playernames: JSON.stringify(playerNames).replace("[", "").replace("]", ""),
-        action: "new",
-        success: function (response) {
-            console.log(response);
-        }
-    });
     $("#blackscreen").fadeIn(500, function () {
         $(".start").fadeOut(500, initBoard())
     });
+
     $(".menu").fadeOut(200);
 
     $("#new").fadeOut(200);
@@ -707,6 +699,15 @@ function initBoard() {
     console.log(actionCardsHtml);
     actionCardsHtml += buyButtonHtml + amountCardsLeft;
     $("#actionCardsBuy").append(actionCardsHtml);
+    ajaxBasicGet({
+        deck: JSON.stringify(deck).replace("[", "").replace("]", ""),
+        playernames: JSON.stringify(playerNames).replace("[", "").replace("]", ""),
+        action: "new",
+        success: function (response) {
+            console.log(response);
+        }
+    });
+
 
     $("#blackscreen").fadeOut(500);
 
@@ -843,14 +844,16 @@ var cardBuyDestination = "discard";
 
 function generateBuyCard(el) {
     htmlBoughtCard = '<img id="b' + zIndexDiscardPile + '"class="boughtCard" style="bottom: ' + (($(window).height() - el.offset().top - el.height())) + 'px; left: ' + el.position().left + 'px;" src="images/ActionCards/' + el.attr("id").replace("BuyButton", ".jpg") + '">';
-    $("#cardField").append(htmlBoughtCard);
+    return htmlBoughtCard
+        //$("#cardField").append(htmlBoughtCard);
+
 }
 
 
 //permission BUY card
 $("#gameTable").on("click", "a.buttonBuyDesign", function () {
-
-
+    htmlBoughtCard = generateBuyCard($(this));
+    id = $(this).attr("id");
     console.log("Buy clicked card");
 
     $.ajax({
@@ -862,9 +865,10 @@ $("#gameTable").on("click", "a.buttonBuyDesign", function () {
         },
         success: function (response) {
             procesAjax(response);
-            generateBuyCard($(this));
+
+            $("#cardField").append(htmlBoughtCard);
             var card = {
-                name: $(this).attr("id").replace("BuyButton", ""),
+                name: $("#" + id).attr("id").replace("BuyButton", ""),
                 id: overalCardID
             };
             if (cardBuyDestination == "discard") {
@@ -1363,14 +1367,6 @@ $("#endTurn").on("click", function () {
     discardCard(6);
 });
 
-var cardPick = 0;
-$("a.buttonBuyDesign").on("click", function () {
-
-    addCardToHand(cards[cardPick]);
-    cardPick += 1;
-
-
-});
 $("#firstOnPile").on("click", function () {
     $("#trashCardsView").fadeIn();
 
@@ -1410,11 +1406,6 @@ $("h3+img").on("click", function () {
 })
 
 //-------SPECIAL FUNCTIONS-------//
-$("#curseBuyButton").on("click", function () {
-
-    giveCurseCard();
-
-});
 
 //TRASH FUNCTIONS
 function cardToTrash(cardID) {
@@ -1475,10 +1466,10 @@ function checkHandCards(NewHand) {
 var parameters = [];
 
 function updateParams(params) {
-
-    $("#amountActions").html(params[0]);
-    $("#amountBuys").html(params[1]);
-    $("#amountCoins").html(params[2]);
+    ar = getArrayFromString(params)
+    $("#amountActions").html(ar[0]);
+    $("#amountBuys").html(ar[1]);
+    $("#amountCoins").html(ar[2]);
 
 
 
@@ -2010,7 +2001,8 @@ $("#revealView").on("click", "img.imgCardReaveal", function () {
 });
 
 function showBuyableButtons(available) {
-    //hideBuyAbleButtons();
+    hideBuyAbleButtons();
+    available = removeValuesFromArray(available, "null");
     for (i = 0; i < available.length; i++) {
         if ($("#" + cards[available[i]] + "BuyButton").css("visibility") == "hidden") {
             $("#" + cards[available[i]] + "BuyButton").css("visibility", "visible");
@@ -2025,8 +2017,8 @@ function hideBuyAbleButtons() {
 
     for (i = 0; i < cards.length; i++) {
 
-        if ($("#" + cards[i] + "BuyButton").css("display") != "none") {
-            $("#" + cards[i] + "BuyButton").fadeOut();
+        if ($("#" + cards[i] + "BuyButton").css("visibility") == "visible") {
+            $("#" + cards[i] + "BuyButton").css("visibility", "hidden");
         }
     }
 }
@@ -2117,3 +2109,14 @@ function procesAjax(parameterString) {
 
 
 }
+
+
+function removeValuesFromArray(arrayToDo, valueToRemove) {
+    for (var i = 0; i < arrayToDo.length; i++) {
+        if (arrayToDo[i] == valueToRemove) {
+            arrayToDo.splice(i, 1);
+            i--;
+        }
+    }
+    return arrayToDo;
+};
