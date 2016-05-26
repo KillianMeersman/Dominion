@@ -40,9 +40,9 @@ function removeBrackets(string) {
     return string.slice(1, -1);
 }
 
-function getArrayFromString(string) {
-    string = removeBrackets(string);
-    return string.split(',');
+function getArrayFromString(str) {
+    str = removeBrackets(str);
+    return str.split(', ');
 }
 
 
@@ -215,7 +215,7 @@ $("#tutorial").on("click", function () {
 var deckName
 $("#new a").on("click", function () {
 
-    deckName = $(this).attr("id");
+    deckName = $(this).html();
 
 
 
@@ -321,9 +321,13 @@ $("#playerSelection+div").on("click", "a", function () {
     for (i = 0; i < amountPlayers; i++) {
         playerNames[i] = document.getElementById("inputPlayerName" + (i + 1)).value;
     }
-    deckNames = getPreBuiltDeck("Big money"); // VERANDEREN!!!
+    if (deckName == "Custom Deck") {
+        deckNames = chosenCards;
 
+    } else {
+        deckNames = getPreBuiltDeck(deckName); // VERANDEREN!!!
 
+    }
     for (i = 0; i < deckNames.length; i++) {
         console.log(cards.indexOf(deckNames[i]));
         deck[i] = cards.indexOf(deckNames[i])
@@ -523,17 +527,17 @@ $("#tutorialScreen").on("click", function () {
 var firstTimeDeckBuilder = true;
 
 function initDeckBuilder() {
-    for (i = 0; i < 10; i++) {
+    for (i = 7; i < 17; i++) {
         firstPageHtml += "<a id='" + cards[i] + "'  class='buildCard' href='#'><img src='images/ActionCards/" + cards[i] + ".jpg'/></a>";
     }
 
     $("#viewCards").append(firstPageHtml);
-    for (i = 10; i < 20; i++) {
+    for (i = 17; i < 27; i++) {
         secondPageHtml += "<a id='" + cards[i] + "' class='buildCard' href='#'><img src='images/ActionCards/" + cards[i] + ".jpg'/></a>";
     }
 
 
-    for (i = 20; i < 25; i++) {
+    for (i = 27; i < cards.length; i++) {
         thirdPageHtml += "<a id='" + cards[i] + "'  class='buildCard' href='#'><img src='images/ActionCards/" + cards[i] + ".jpg'/></a>";
     }
 };
@@ -853,7 +857,7 @@ function generateBuyCard(el) {
 //permission BUY card
 $("#gameTable").on("click", "a.buttonBuyDesign", function () {
     htmlBoughtCard = generateBuyCard($(this));
-    id = $(this).attr("id");
+    name = $(this).attr("id").replace("BuyButton", "");
     console.log("Buy clicked card");
 
     $.ajax({
@@ -861,14 +865,14 @@ $("#gameTable").on("click", "a.buttonBuyDesign", function () {
         url: gameServlet,
         data: {
             action: "play",
-            cardId: cards.indexOf($(this).attr("id").replace("BuyButton", ""))
+            cardId: cards.indexOf(name)
         },
         success: function (response) {
             procesAjax(response);
 
             $("#cardField").append(htmlBoughtCard);
             var card = {
-                name: $("#" + id).attr("id").replace("BuyButton", ""),
+                name: name,
                 id: overalCardID
             };
             if (cardBuyDestination == "discard") {
@@ -879,12 +883,12 @@ $("#gameTable").on("click", "a.buttonBuyDesign", function () {
                     left: '10px'
                 }).css("z-index", zIndexDiscardPile);
                 $("#b" + zIndexDiscardPile).addClass("discarted")
-
+                reformHand();
 
             } else if (cardBuyDestination == "hand") {
 
                 var card = {
-                    name: $(this).attr("id").replace("BuyButton", ""),
+                    name: name,
                     id: overalCardID
 
                 };
@@ -1134,9 +1138,6 @@ var pxFromLeftField = 450;
 var zindex = 1;
 
 function addCardToPlayField(cardID) {
-
-
-
     pxFromLeftField += 65;
     $("#" + cardID).animate({
         bottom: '320px',
@@ -1151,7 +1152,7 @@ function addCardToPlayField(cardID) {
     console.log(playerHand)
     $("#" + cardID).removeClass("cardInHand").css("border-color", "").css("box-shadow", "");
     fieldCards.push($("#" + cardID).attr("id"));
-
+    reformFieldCards();
 };
 
 
@@ -1199,7 +1200,7 @@ function searchCardsInHand(idToSearch) {
 
 
 
-
+var cardsClicked = 0;
 
 var selectedCards = []
     //-------FIELD EVENST-------//
@@ -1210,6 +1211,7 @@ $("#cardField").on("click", "img.cardInHand", function () {
     //hand-click events
 
     cardId = cards.indexOf($(this).attr('src').replace('images/ActionCards/', '').replace('.jpg', ''));
+    id = $(this).attr('id')
     switch (destinationCardInHand) {
 
     case "field":
@@ -1228,7 +1230,11 @@ $("#cardField").on("click", "img.cardInHand", function () {
                 } else {
 
 
-                    addCardToPlayField($(this).attr("id"));
+                    addCardToPlayField(id);
+                    pxOldCardsLeft = 950;
+                    pxFromLeftHand = 875;
+                    reformHand();
+                    console.log(playerHand);
                 }
             },
             error: function (response) {
@@ -1236,38 +1242,39 @@ $("#cardField").on("click", "img.cardInHand", function () {
             },
         });
 
-
-        if (twice != true) {
-            addCardToPlayField($(this).attr("id"));
-
-
-            $.ajax({
-                method: "GET",
-                url: gameServlet,
-                data: {
-                    action: "play",
-                    cardId: cardId
-                },
-                success: function (response) {
-                    if (response == "invalid_card") {
-                        changeMessage(response);
-
-                    } else {
+        /*
+                if (twice != true) {
+                    addCardToPlayField($(this).attr("id"));
 
 
-                        playTwice($(this).attr("id"));
-                        twice = false;
-                    }
-                },
-                error: function (response) {
-                    console.log(response);
-                },
-            });
+                    $.ajax({
+                        method: "GET",
+                        url: gameServlet,
+                        data: {
+                            action: "play",
+                            cardId: cardId
+                        },
+                        success: function (response) {
+                            if (response == "invalid_card") {
+                                changeMessage(response);
+
+                            } else {
 
 
-        }
+                                playTwice($(this).attr("id"));
+                                twice = false;
+                            }
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        },
+                    });
 
 
+                }
+
+        */
+        break;
     case "trash":
         selectedCards.push(cardId);
         cardToTrash($(this).attr("id"));
@@ -1293,8 +1300,7 @@ $("#cardField").on("click", "img.cardInHand", function () {
 
     }
     //reformFieldCards();
-    pxOldCardsLeft = 950;
-    pxFromLeftHand = 875;
+
     reformHand();
 
 
@@ -1317,7 +1323,6 @@ $("#cardField").on("contextmenu", "img.cardInHand", function () {
 
 //temp
 $("#cover").on("click", function () {
-    fieldCardsToDiscardPile();
 
 });
 $("#playXXX").on("click", function () {
@@ -1434,17 +1439,15 @@ var pickableCards = [];
 
 
 function checkHandCards(NewHand) {
+    NewHand = NewHand[0].split(",");
     if (NewHand != playerHand) {
 
         for (i = 0; i < playerHand.length; i++) {
 
-            $("#" + playerHand[i].id).fadeOut(200, function () {
-
-                $("#" + playerHand[i].id).remove();
-            });
+            $("#" + playerHand[i].id).fadeOut(200);
 
         }
-
+        playerHand = [];
         for (i = 0; i < NewHand.length; i++) {
 
             addCardToHand(cards[NewHand[i]]);
@@ -1456,20 +1459,20 @@ function checkHandCards(NewHand) {
 
     }
 
-    for (i = (playerHand.length - 1); i < NewHand.length; i++) {
-
-        addCardToHand(cards[NewHand[i]]);
-    }
+    pxOldCardsLeft = 950;
+    pxFromLeftHand = 875;
 }
 
 
 var parameters = [];
 
+
 function updateParams(params) {
-    ar = getArrayFromString(params)
-    $("#amountActions").html(ar[0]);
-    $("#amountBuys").html(ar[1]);
-    $("#amountCoins").html(ar[2]);
+
+    parameters = params[0].split(",");
+    $("#amountActions").html(parameters[0]);
+    $("#amountBuys").html(parameters[1]);
+    $("#amountCoins").html(parameters[2]);
 
 
 
