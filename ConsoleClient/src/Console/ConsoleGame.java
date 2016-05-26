@@ -4,10 +4,11 @@ package Console;
 import Core.Card;
 import Core.Game;
 import Core.PlayerPhase;
-import Core.PlayerPlace;
 import java.util.Scanner;
 import Core.IEngineInterface;
 import Core.Player;
+import Core.PlayerPlace;
+import java.util.ArrayList;
 
 public class ConsoleGame implements IEngineInterface {
 
@@ -16,7 +17,20 @@ public class ConsoleGame implements IEngineInterface {
     private boolean gameRunning = true;
     private Game game;
     Scanner in = new Scanner(System.in);
+    private ArrayList<Card> currentSet = new ArrayList<Card>();
 
+    private Card getCardFromSet(int id) {
+        return currentSet.get(id);
+    }
+    
+    private Card[] getCardsFromSet(int[] ids) {
+        Card[] out = new Card[ids.length];
+        for (int i = 0; i < ids.length; i++) {
+            out[i] = currentSet.get(i);
+        }
+        return out;
+    }
+    
     public void init() {
         byte playerAmount;
         String[] playerNames = null;
@@ -90,8 +104,8 @@ public class ConsoleGame implements IEngineInterface {
         String input = in.next();
         
         try {
-            if (!processInput(input)) {
-                game.playActionCard(Integer.parseInt(input));
+            if (!checkCommand(input)) {
+                game.playActionCard(getCardFromSet(Integer.parseInt(input)));
             }
         }
         catch (NumberFormatException e) {
@@ -109,7 +123,7 @@ public class ConsoleGame implements IEngineInterface {
         System.out.println("You have these treasure cards:");
         int i = 1;
 
-        for (Card card : game.getTreasureCards()) {
+        for (Card card : game.getActivePlayer().getTreasureCards(PlayerPlace.PLACE_HAND)) {
             System.out.println(i++ + ". " + card.toString());
         }
 
@@ -120,11 +134,12 @@ public class ConsoleGame implements IEngineInterface {
         System.out.print("What do you wish to buy? > ");
         String input = in.next();
         try {
-            if (!processInput(input)) {
-                System.out.print("Which treasure cards will you use for this? (Cost:" + game.getCurrentSet().get(Integer.parseInt(input) - 1).getCost() + "): > ");
+            if (!checkCommand(input)) {
+                System.out.print("Which treasure cards will you use for this? (Cost:" + getCardFromSet(Integer.parseInt(input)).getCost() + "): > ");
                 in.nextLine();
                 char[] cards = in.nextLine().toCharArray();
-                game.buy(Integer.parseInt(input), processSpacedInput(cards));
+                
+                game.buy(getCardFromSet(Integer.parseInt(input)), getCardsFromSet(processSpacedInput(cards)));
             }
         } 
         catch (NumberFormatException e) {
@@ -171,7 +186,7 @@ public class ConsoleGame implements IEngineInterface {
         System.out.println("skip - Go to next stage / player\n");
     }
 
-    private boolean processInput(String input) { // false = keep current command; true = go to gameloop
+    private boolean checkCommand(String input) { // false = keep current command; true = go to gameloop
         switch (input) {
             case "supply":
                 printSupply();
@@ -230,23 +245,23 @@ public class ConsoleGame implements IEngineInterface {
     }
 
     @Override
-    public Card promptPlayerCards(String prompt, Card[] cards, boolean canExit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Player promptPlayerPlayer(String prompt, Player[] players, boolean canExit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void messagePlayer(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public Card[] promptPlayerCards(Game game, String prompt, Card[] cards, int minAmount, int maxAmount, boolean canExit, String visual) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Card card : cards) {
+            System.out.println(card.toString());
+        }
+        System.out.println(prompt);
+        String input = in.nextLine();
+        int[] spacedInput = processSpacedInput(input.toCharArray());
+        
+        while (spacedInput.length < minAmount || spacedInput.length > maxAmount) {
+            String errorMessage = spacedInput.length < minAmount ? "Not enough cards selected, select a minimum of " + minAmount :
+                    "Too many cards selected, select a maximum of " + maxAmount;
+            System.out.println(errorMessage);
+            System.out.println(prompt);
+            input = in.nextLine();
+            spacedInput = processSpacedInput(input.toCharArray());
+        }
+        return getCardsFromSet(spacedInput);
     }
 
     @Override

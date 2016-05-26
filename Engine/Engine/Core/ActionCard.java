@@ -142,8 +142,9 @@ class ActionCard extends Card {
                     promptCards.add(card);
                 }
             }
+            
             cards = game.view.promptPlayerCards(game,("You can gain a card up to " + newcost + " coins."), Card.listToArray(promptCards), 1, 1, false, "none");
-            Card.transferCard(cards, game.getSupply().getAllCards(), player.discard, true, true);
+            Card.transferCard(cards, game.getSupply().getAllCards(), player.discard, false, true);
             for (Card card : cards){
                 game.getSupply().reduceAmount(card);
             }

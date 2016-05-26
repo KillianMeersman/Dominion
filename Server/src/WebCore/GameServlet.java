@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -93,14 +95,25 @@ public class GameServlet extends HttpServlet {
                 request.getSession(true);
                 GameSession session = newGame(request.getSession(true), request.getParameterValues("playernames")[0].split(","), request.getParameterValues("deck")[0].split(","));
                 session.start();
-                while (session.getBackLog() == null) {
-                    
-                }
+                while (session.getBackLog() == null) {try {
+                    Thread.sleep(10);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+}
+                System.out.println("sending: " + session.getBackLog());
                 response.getWriter().write(session.getBackLog());
                 break;
             default:
                 GameSession s = getSessionBySession(request.getSession());
                 s.setResponse(request);
+                while (s.getBackLog() == null) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                }
                 response.getWriter().write(s.getBackLog());
         }
     }

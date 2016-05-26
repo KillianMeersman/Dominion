@@ -84,10 +84,18 @@ public class Game {
         ConsoleController.addGame(this);
     }
     
-    public void buy(Card card) throws Exception {
+    public void buy(Card card, Card[] treasureCards) throws Exception {
+        
+        int treasureValue = 0;
+        try {
+        treasureValue = TreasureCard.getCombinedValue((TreasureCard[]) treasureCards);
+        }
+        catch (Exception e) {
+            throw new Exception("TreasureCards contained other types of card");
+        }
         
         // value check
-        if (activePlayer.getCoins() < card.getCost()) {
+        if ((activePlayer.getCoins() + treasureValue) < card.getCost()) {
             throw new Exception("Not enough money");
         }
         

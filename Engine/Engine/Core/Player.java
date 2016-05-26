@@ -51,8 +51,16 @@ public class Player {
     }
     
     public int getCoins() {
-        return coins + addTreasureCoins();
+        return coins;
     }
+    
+    public int getTreasureWorth(PlayerPlace source) {
+        int out = 0;
+        for (Card card : getTreasureCards(PlayerPlace.PLACE_HAND)) {
+            out += ((TreasureCard) card).getValue();
+        }
+        return out;
+     }
 
     public String getName() {
         return name;

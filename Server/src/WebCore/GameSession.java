@@ -17,7 +17,7 @@ public class GameSession implements IEngineInterface, Runnable {
     private final int id;
     private Thread thread;
 
-    private String backLog = null;
+    public String backLog = null;
     private HttpServletRequest response = null;
 
     private final HttpSession httpSession;
@@ -31,8 +31,9 @@ public class GameSession implements IEngineInterface, Runnable {
         this.response = response;
     }
 
-    public String getBackLog() {
-        return backLog;
+    public String getBackLog() { 
+        String b = backLog;
+        return b;
     }
 
     public HttpSession getHttpSession() {
@@ -56,23 +57,27 @@ public class GameSession implements IEngineInterface, Runnable {
     }
 
     private void setBackLog(String backlog) {
+        System.out.println(backlog);
         this.backLog = backlog;
         waitForResponse();
     }
 
     private void waitForResponse() {
-        int i = 0;
-        while (response == null & i < 1000) {
+        response = null;
+        //int i = 0;
+        while (response == null) {
             try {
                 Thread.sleep(10);
+                //i++;
             } catch (InterruptedException ex) {
-                System.out.println(ex.getMessage());
+                Logger.getLogger(GameSession.class.getName()).log(Level.SEVERE, null, ex);
             }
-            i++;
-        }
+        }/*
         if (i > 1000) {
             game.stop();
+            System.out.println("Game timed out");
         }
+         */
     }
 
     private String getListString(ArrayList<Card> source) {
@@ -92,7 +97,7 @@ public class GameSession implements IEngineInterface, Runnable {
         out += "," + player.getActions() + "]";
         return out;
     }
-    
+
     private String getSupplyString() {
         String[] cardId = new String[game.getSupply().getAllCardsUnique().size()];
         String[] cardAmount = new String[cardId.length];
@@ -110,19 +115,20 @@ public class GameSession implements IEngineInterface, Runnable {
         while (game.isRunning()) {
             Player player = game.getActivePlayer();
             setBackLog("?action=player&player=" + player.getName());
-            while (player.getPhase() == PlayerPhase.PHASE_BUY && game.isRunning()) {
-                setBackLog("?action=buy&parameters=" + getParameterString() + "&hand=" + getListString(player.getHand()) + getSupplyString());
-                try {
-                    game.buy(Core.CardRepository.getInstance().getCardById(id));
-                } catch (Exception ex) {
-                    Logger.getLogger(GameSession.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
 
             while (player.getPhase() == PlayerPhase.PHASE_ACTION && game.isRunning()) {
                 setBackLog("?action=action&parameters=[" + getParameterString() + "&hand=" + getListString(game.getActivePlayer().getHand()) + "]");
                 try {
                     game.playActionCard(Core.CardRepository.getInstance().getCardById(Integer.parseInt(response.getParameter("cardId"))));
+                } catch (Exception ex) {
+                    Logger.getLogger(GameSession.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            while (player.getPhase() == PlayerPhase.PHASE_BUY && game.isRunning()) {
+                setBackLog("?action=buy&parameters=" + getParameterString() + "&hand=" + getListString(player.getHand()) + getSupplyString());
+                try {
+                    game.buy(Core.CardRepository.getInstance().getCardById(Integer.parseInt(response.getParameter("cardId"))));
                 } catch (Exception ex) {
                     Logger.getLogger(GameSession.class.getName()).log(Level.SEVERE, null, ex);
                 }
