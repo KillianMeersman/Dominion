@@ -59,8 +59,8 @@ public class Main extends Application {
         primaryStage.setWidth(1920);
         primaryStage.setHeight(1080);
         primaryStage.setFullScreen(true);        
-        primaryStage.setResizable(true);
-        primaryStage.setScene(gameScreen);
+        primaryStage.setResizable(false);
+        primaryStage.setScene(credentialsScreen);
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
             closeProgram();
