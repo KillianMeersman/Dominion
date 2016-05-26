@@ -2,6 +2,9 @@ package Core;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import com.mysql.jdbc.Driver;
 
 class CardMapper {
 
@@ -71,10 +74,10 @@ class CardMapper {
     }
 
     private static ResultSet retrieve(String table) throws SQLException, ClassNotFoundException {
+        Class.forName("com.mysql.jdbc.Driver");
         Connection con = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
-        Class.forName("com.mysql.jdbc.Driver");
         con = DriverManager.getConnection(URL + "?user=" + USER + "&password=" + PASSWORD);
         pst = con.prepareStatement("SELECT * FROM " + table);
         rs = pst.executeQuery();

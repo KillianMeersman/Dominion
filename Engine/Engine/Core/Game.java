@@ -64,7 +64,6 @@ public class Game {
 
         activePlayer = players.get(0);
         this.beginTime = Instant.now();
-        ConsoleController.addGame(this);
     }
 
     public Game(IEngineInterface view, String[] playerNames, Card[] actionDeck) {
@@ -81,7 +80,6 @@ public class Game {
 
         activePlayer = players.get(0);
         this.beginTime = Instant.now();
-        ConsoleController.addGame(this);
     }
     
     public void buy(Card card, Card[] treasureCards) throws Exception {

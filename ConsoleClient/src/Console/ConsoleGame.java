@@ -9,6 +9,7 @@ import Core.IEngineInterface;
 import Core.Player;
 import Core.PlayerPlace;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ConsoleGame implements IEngineInterface {
 
@@ -19,14 +20,14 @@ public class ConsoleGame implements IEngineInterface {
     Scanner in = new Scanner(System.in);
     private ArrayList<Card> currentSet = new ArrayList<Card>();
 
-    private Card getCardFromSet(int id) {
-        return currentSet.get(id);
+    private Card getCardFromSet(ArrayList<Card> set, int id) {
+        return set.get(id);
     }
     
-    private Card[] getCardsFromSet(int[] ids) {
+    private Card[] getCardsFromSet(ArrayList<Card> set, int[] ids) {
         Card[] out = new Card[ids.length];
         for (int i = 0; i < ids.length; i++) {
-            out[i] = currentSet.get(i);
+            out[i] = set.get(i);
         }
         return out;
     }
@@ -94,7 +95,8 @@ public class ConsoleGame implements IEngineInterface {
         System.out.println("You have these action cards:");
         int i = 0;
 
-        for (Card card : game.getSupply().getActionCards()) {
+        ArrayList<Card> set = game.getSupply().getActionCards();
+        for (Card card : set) {
             System.out.println(i++ + ". " + card.toString());
         }
     }
@@ -105,7 +107,7 @@ public class ConsoleGame implements IEngineInterface {
         
         try {
             if (!checkCommand(input)) {
-                game.playActionCard(getCardFromSet(Integer.parseInt(input)));
+                game.playActionCard(getCardFromSet(currentSet, Integer.parseInt(input)));
             }
         }
         catch (NumberFormatException e) {
@@ -135,11 +137,12 @@ public class ConsoleGame implements IEngineInterface {
         String input = in.next();
         try {
             if (!checkCommand(input)) {
-                System.out.print("Which treasure cards will you use for this? (Cost:" + getCardFromSet(Integer.parseInt(input)).getCost() + "): > ");
+                System.out.print("Which treasure cards will you use for this? (Cost:" + getCardFromSet(currentSet, Integer.parseInt(input)).getCost() + "): > ");
                 in.nextLine();
                 char[] cards = in.nextLine().toCharArray();
                 
-                game.buy(getCardFromSet(Integer.parseInt(input)), getCardsFromSet(processSpacedInput(cards)));
+                Card[] treasureCards = getCardsFromSet(game.getActivePlayer().getTreasureCards(PlayerPlace.PLACE_HAND), processSpacedInput(cards));
+                game.buy(getCardFromSet(currentSet, Integer.parseInt(input)), treasureCards);
             }
         } 
         catch (NumberFormatException e) {
@@ -261,7 +264,7 @@ public class ConsoleGame implements IEngineInterface {
             input = in.nextLine();
             spacedInput = processSpacedInput(input.toCharArray());
         }
-        return getCardsFromSet(spacedInput);
+        return getCardsFromSet(new ArrayList<Card>(Arrays.asList(cards)), spacedInput);
     }
 
     @Override
